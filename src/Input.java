@@ -15,7 +15,7 @@ public class Input
             {
                 num = sc.nextInt();
                 invalid = false;
-            }//test
+            }
             catch (Exception exc)
             {
                 sc.nextLine();
