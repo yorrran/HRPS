@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class GuestDaoImpl implements GuestDao
 {
-
     ArrayList<Guest> guestList;
     private static final String fileName = "File/Guest.dat";
 
@@ -54,6 +53,7 @@ public class GuestDaoImpl implements GuestDao
                         "Credit Card Number : " + guestList.get(i).getCredit_no());
             }
         }
+
         System.out.println("Customer is not found");
     }
 
@@ -82,4 +82,3 @@ public class GuestDaoImpl implements GuestDao
         DataIO.Write(fileName, guestList);
     }
 }
-

@@ -50,8 +50,7 @@ public class Input
 
     public static String GetString()
     {
-        String str = " ";
-        str = sc.next();
+        String str = sc.next();
         return str;
     }
 }

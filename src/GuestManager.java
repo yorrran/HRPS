@@ -1,6 +1,11 @@
 public class GuestManager
 {
-    GuestDaoImpl guestDao = new GuestDaoImpl();
+    GuestDao guestDao;
+
+    public GuestManager()
+    {
+        guestDao = new GuestDaoImpl();
+    }
 
     public void displayAllGuest()
     {
@@ -34,6 +39,7 @@ public class GuestManager
                 break;
             }
         }
+
         if (flag == true)
         {
 
@@ -57,7 +63,6 @@ public class GuestManager
 
             guestDao.addGuest(newGuest);
         }
-
     }
 
     public void updateGuest()
@@ -66,6 +71,7 @@ public class GuestManager
 
         System.out.println("Please Enter customer Identity : ");
         String guest_id = Input.GetString();
+
         for (int i = 0; i < guestDao.getAllGuest().size(); i++)
         {
             if (guest_id.equals(guestDao.getAllGuest().get(i).getIdentity()))
@@ -180,5 +186,10 @@ public class GuestManager
     public void WritetoFile()
     {
         guestDao.updateFile();
+    }
+
+    public GuestDao getGuestDao()
+    {
+        return (GuestDaoImpl)guestDao;
     }
 }

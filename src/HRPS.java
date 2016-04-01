@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 class HRPS
 {
     /*------------------------------ Menu Items ------------------------------*/
@@ -13,44 +11,23 @@ class HRPS
     private static int choice;
     
     /*------------------------------ Create system manager ------------------------------*/
-//    private static BookingSystem bookingSystem;
-    private static GuestDao guestDao;
     private static Booking booking;
     private static BookingManager bookingManager;
-    
-    private static RoomDao roomDao;
+    private static GuestManager guestManager;
     private static RoomManager roomManager;
-    private static ReservationDao reservationDao;
     private static ReservationManager reservationManager;
     private static RoomServiceManager roomServiceManager;
-    private static GuestManager guestManager;
-    
-    private static ArrayList<Guest> guestList = null;
-    private static ArrayList<Room> roomList = null;
-	private static ArrayList<RoomType> roomTypeList = null;
-	private static ArrayList<RoomFacing> roomFacingList = null;
-	private static ArrayList<Reservation> reservationList = null;
-	private static ArrayList<Booking> bookingList  = null;
+
 //    private static PaymentManager paymentManager;
 
     public static void main(String[] args)
 	{
         // Initialize system managers
-//        bookingSystem = new BookingSystem();
-    	guestDao=new GuestDaoImpl();
-    	bookingManager=new BookingManager(bookingList ,guestList,guestManager,roomList,reservationList,reservationManager);
-    	roomDao = new RoomDaoImpl();
-    	reservationDao = new ReservationDaoImpl();
-    	roomList = roomDao.getAllRoom();
-		roomTypeList = roomDao.getAllRoomType();
-		roomFacingList = roomDao.getAllRoomFacing();
-    	roomManager = new RoomManager(roomDao,roomList);
-    	reservationList = reservationDao.getAllReservation();
-    	reservationManager = new ReservationManager(reservationDao, roomDao, reservationList, roomList);
-    	
-    	
-        roomServiceManager = new RoomServiceManager();
+    	//bookingManager=new BookingManager(bookingList ,guestList,guestManager,roomList,reservationList,reservationManager);
         guestManager = new GuestManager();
+    	roomManager = new RoomManager();
+        roomServiceManager = new RoomServiceManager();
+        reservationManager = new ReservationManager(roomManager.getRoomDao());
         
 //        paymentManager = new PaymentManager();
 
@@ -86,13 +63,13 @@ class HRPS
     
     	
 //    	roomManager.displayVacantRoom();
-//    	
+//
 //    	reservationManager.displayAllReservation();
 //    	reservationManager.addReservation();
 //    	//reservationManager.makeReservationExpired();
 //    	reservationManager.displayAllReservation();
 //    	//reservationManager.updateReservation();
-//    	
+//
 //    	//reservationManager.displayAllReservation();
 //    	roomManager.displayVacantRoom();
 //    	//reservationManager.removeReservation();

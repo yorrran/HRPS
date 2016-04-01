@@ -109,4 +109,6 @@ public class RoomServiceManager
     {
         roomServiceDao.updateFile();
     }
+
+    public RoomServiceDaoImp getRoomServiceDao() { return (RoomServiceDaoImp)roomServiceDao; }
 }
