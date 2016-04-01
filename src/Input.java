@@ -52,6 +52,6 @@ public class Input
     {
         String str = " ";
         str = sc.next();
-        return str;//TESTETESTETET
+        return str;//TESTETESTETETsss
     }
 }
