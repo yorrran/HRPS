@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Booking {
-	private String identity;
+	private String identity;//for identify customer
 	private Room room;
 	private double price;
 	private Date bookingDatetime;
