@@ -42,7 +42,7 @@ public class Guest implements Serializable {
 	}
 
 	public String getCountry() {
-		return country;
+		return country;//trrrr
 	}
 
 	public void setCountry(String country) {
