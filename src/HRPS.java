@@ -27,8 +27,7 @@ class HRPS
         guestManager = new GuestManager();
     	roomManager = new RoomManager();
         roomServiceManager = new RoomServiceManager();
-        reservationManager = new ReservationManager(roomManager.getRoomDao());
-        
+        reservationManager = new ReservationManager(roomManager);
 //        paymentManager = new PaymentManager();
 
         mainMenu();
@@ -84,7 +83,6 @@ class HRPS
 		{
             clearScreen();
 			displayOutput(bookingSystemMenuMsg);
-
             choice = Input.GetInt();
 
 			switch (choice)
@@ -149,7 +147,6 @@ class HRPS
 		{
             clearScreen();
 			displayOutput(guestManagerMenuMsg);
-
             choice = Input.GetInt();
 
 			switch (choice)
@@ -185,7 +182,6 @@ class HRPS
 		{
             clearScreen();
 			displayOutput(roomServiceMenuMsg);
-
             choice = Input.GetInt();
 
 			switch (choice)
@@ -212,7 +208,6 @@ class HRPS
 		do
 		{
 			displayOutput(paymentMenuMsg);
-
             choice = Input.GetInt();
 
 			switch (choice)
@@ -238,13 +233,14 @@ class HRPS
     {
         clearScreen();
         
-        // Save to file
-        roomManager.WritetoFile();
-        roomServiceManager.WritetoFile();
+        // Save data to file
         guestManager.WritetoFile();
         reservationManager.WritetoFile();
+        roomManager.WritetoFile();
+        roomServiceManager.WritetoFile();
         displayOutput("Program is exiting...\n");
 
+        // Delay the app from shutting down for feedback purposes
         try
         {
             Thread.sleep(500);

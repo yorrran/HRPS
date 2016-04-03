@@ -8,14 +8,14 @@ import java.text.SimpleDateFormat;
 public class ReservationManager
 {
     private ReservationDao reservationDao;
-    private RoomDao roomDao;
+    private RoomManager roomManager;
     private DecimalFormat twoint = new DecimalFormat("00");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
 
-    public ReservationManager(RoomDao roomDao)
+    public ReservationManager(RoomManager roomManager)
     {
         reservationDao = new ReservationDaoImpl();
-        this.roomDao = roomDao;
+        this.roomManager = roomManager;
     }
 
     public void addReservation()
@@ -279,7 +279,7 @@ public class ReservationManager
 
     public Room getRoomByRoomNum(int roomNum)
     {
-        return roomDao.getRoomByRoomNum(roomNum);
+        return roomManager.getRoomDao().getRoomByRoomNum(roomNum);
     }
 
     //make reservation expired if check in date is before current date when then status is not expired
