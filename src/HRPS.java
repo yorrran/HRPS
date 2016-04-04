@@ -23,13 +23,13 @@ class HRPS
     public static void main(String[] args)
 	{
         // Initialize system managers
-    	//bookingManager=new BookingManager(bookingList ,guestList,guestManager,roomList,reservationList,reservationManager);
+    	
         guestManager = new GuestManager();
     	roomManager = new RoomManager();
         roomServiceManager = new RoomServiceManager();
         reservationManager = new ReservationManager(roomManager);
 //        paymentManager = new PaymentManager();
-
+        bookingManager=new BookingManager(guestManager,reservationManager,roomManager);
         mainMenu();
 
         //Email("xxxxx@gmail.com", "HRPS OODP", "Testing 1, 2, 3");
@@ -37,7 +37,7 @@ class HRPS
 
     private static void mainMenu()
     {
-        do
+      do
         {
             displayOutput(mainMenuMsg);
             choice = Input.GetInt();
@@ -61,12 +61,11 @@ class HRPS
         } while (choice != 0);
     
     	
-//    	roomManager.displayVacantRoom();
-//
-//    	reservationManager.displayAllReservation();
-//    	reservationManager.addReservation();
+ 	
+    	//reservationManager.displayAllReservation();
+    	//reservationManager.addReservation();
 //    	//reservationManager.makeReservationExpired();
-//    	reservationManager.displayAllReservation();
+  //reservationManager.displayAllReservation();
 //    	//reservationManager.updateReservation();
 //
 //    	//reservationManager.displayAllReservation();
@@ -77,6 +76,7 @@ class HRPS
     	
     }
 
+
 	private static void bookingMenu()
 	{
 		do
@@ -84,17 +84,24 @@ class HRPS
             clearScreen();
 			displayOutput(bookingSystemMenuMsg);
             choice = Input.GetInt();
-
+            String roomNum;
+            
 			switch (choice)
 			{
-			// 	case 1 : ();
-			// 		break;
-			// 	case 2 : ();
-			// 		break;
-			// 	case 3 : ();
-			// 		break;
-			// 	case 4 : ();
-			// 		break;
+			 	case 1 : bookingManager.add_booking();
+		 		break;
+			 	case 2 :System.out.print("Enter room number: ");
+			 			 int roomNum=Input.GetInt();
+			 			System.out.print("Enter Customer Identity: ");
+			 			String cus_id=Input.GetString();
+			 			bookingManager.update_booking(roomNum, cus_id);
+			 	break;
+			 	case 3 : bookingManager.Remove_booking();
+			 	break;
+		    	case 4 : System.out.print("Enter room number: ");
+	 					 int roomNum=Input.GetInt();
+	 					bookingManager.displaybookingByRoomNum(roomNum);
+				break;
 			// 	case 5 : ();
 			// 		break;
 			    case 0 : mainMenu();

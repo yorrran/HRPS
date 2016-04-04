@@ -174,6 +174,7 @@ public class ReservationManager
                             room = null;
                         }
                     } while (room == null);//selecte the vacant room
+                    
                     diff = reservation.getCheckOutDatetime().getTime() - reservation.getCheckInDatetime().getTime();
                     numOfDays = (int) (diff / (1000 * 60 * 60 * 24));//get difference of days between check out and check in
                     price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type

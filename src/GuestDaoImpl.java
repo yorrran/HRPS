@@ -7,9 +7,9 @@ public class GuestDaoImpl implements GuestDao
 
     public GuestDaoImpl()
     {
-        //guestList = new ArrayList<>();
-        //guestList.add(new Guest("00001", "Mary","SG", "F", "NTU,", "Singaporean", 999,"xxx@gmail.com", 124));
-        //guestList.add(new Guest("00002", "John","MY", "M", "NUS,", "Malaysian", 111,"ggg@gmail.com", 346));
+        guestList = new ArrayList<>();
+        guestList.add(new Guest("00001", "Mary","SG", "F", "NTU,", "Singaporean", 999,"xxx@gmail.com", 124));
+        guestList.add(new Guest("00002", "John","MY", "M", "NUS,", "Malaysian", 111,"ggg@gmail.com", 346));
         guestList = DataIO.Read(fileName);
     }
 
