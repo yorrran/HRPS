@@ -58,6 +58,8 @@ public class Bill implements Serializable
         this.roomServiceCharge = roomServiceCharge;
     }
 
+    public double getTax() { return tax; }
+
     public double getDiscount()
     {
         return discount;

@@ -322,7 +322,7 @@ class HRPS
             switch (choice)
             {
                 case 1:
-                    System.out.println("Enter room number : ");
+                    System.out.print("Enter room number : ");
                     roomNum = Input.GetInt();
                     paymentManager.paybyCreditCard(roomNum);
                     break;

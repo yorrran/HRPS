@@ -15,12 +15,19 @@ public class PaymentManager
         {
             if (billManager.getBillDao().getAllBill().get(i).getRoomNum() == roomNum)
             {
-                double total = billManager.getBillDao().getAllBill().get(i).getRoomCharge() +
-                        billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge();
+                double total = billManager.getBillDao().getAllBill().get(i).getRoomCharge() + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge();
+                double discount = total * billManager.getBillDao().getAllBill().get(i).getDiscount();
+                double taxable = billManager.getBillDao().getAllBill().get(i).getTax() * total;
+                double payable = total - discount + taxable;
 
-                double payable = total - total * billManager.getBillDao().getAllBill().get(i).getDiscount();
-
-                System.out.println("$" + payable + " has been paid for room " + roomNum + "!");
+                System.out.println("Bill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() + "\n" +
+                        "Room Number\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
+                        "Room Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +
+                        "Room Service Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
+                        "Total\t:\t" + total + "\n" +
+                        "Tax\t:\t" +  taxable + "\n" +
+                        "Room Service Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
+                        "$" + payable + " has been paid for room " + roomNum + "!");
 
                 billManager.removeBill(roomNum);
                 orderManager.removeOrder(roomNum);
