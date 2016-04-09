@@ -51,7 +51,7 @@ public class ReservationManager
         {
         System.out.print("Enter check in date(dd/MM/yyyy): ");
         String checkInString = Input.GetString();
-       
+        //checkInString = new StringBuilder().append(" 15:mm:ss");
         try
         {
             checkinDate = dateFormat.parse(checkInString);
@@ -62,7 +62,7 @@ public class ReservationManager
         }//get check in date
 
         System.out.print("Enter check out date(dd/MM/yyyy): ");
-        String checkOutString = Input.GetString();
+        String checkOutString = new StringBuilder().append(Input.GetString()).append(" 15:00:00").toString();
         
         try
         {
@@ -193,7 +193,7 @@ public class ReservationManager
         else
         {
             System.out.println("Reservation Information ");
-            System.out.println("1. Cancle the reservation");
+            System.out.println("1. Cancel the reservation");
             System.out.println("2. Number of adults");
             System.out.println("3. Number of children");
             System.out.println("4. Cancel update");
@@ -325,21 +325,33 @@ public class ReservationManager
     }
 
     //make reservation expired if user not check in after 3pm of the check in date
-    public void makeReservationExpired()
+    @SuppressWarnings("deprecation")
+	public void makeReservationExpired()
     {
         Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();
-        digiClock.set(Calendar.HOUR_OF_DAY,15);
+        digiClock.set(Calendar.HOUR_OF_DAY,12);
         digiClock.set(Calendar.MINUTE,0);
         digiClock.set(Calendar.SECOND,0);
+          
         Date tempCheckInDate = new Date();
+        String strCheckIn = null;
         for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
         {
-        	tempCheckInDate = reservationDao.getAllReservation().get(i).getCheckInDatetime();
-        	tempCheckInDate = digiClock.getTime();
-            if (current.compareTo(tempCheckInDate) >= 0 &&
-                    !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+        	strCheckIn =  dateFormat.format(reservationDao.getAllReservation().get(i).getCheckInDatetime());
+    		try {
+    			tempCheckInDate = dateFormat.parse(strCheckIn);
+    			tempCheckInDate.setHours(digiClock.getTime().getHours());
+    			tempCheckInDate.setMinutes(43);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+        	
+        	//tempCheckInDate = digiClock.getTime();
+        	System.out.println(" "+dateFormat2.format(tempCheckInDate));
+        	System.out.println(" "+dateFormat2.format(current));
+            if (current.compareTo(tempCheckInDate) >= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
             {
                 reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
                 //Room room = this.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber());
