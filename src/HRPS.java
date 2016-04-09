@@ -1,10 +1,11 @@
 class HRPS
 {
     /*------------------------------ Menu Items ------------------------------*/
-    private static final String mainMenuMsg = "---------- Main Menu ----------\n1. Booking System\n2. Room System\n3. Guest System\n4. Room Service System\n5. Order Service System\n6. PaymentManager System\n0. Exit app\nInput : ";
-    private static final String bookingSystemMenuMsg = "---------- Booking System ----------\n1. Add booking\\n2. Update booking\\n3. Remove booking\\n4. Display booking by room number\n0. Back to main menu\nInput : ";
-    private static final String roomManagerMenuMsg = "---------- Room System ----------\n1. Display all rooms\n2. Display empty rooms\n3. Display room by status\n4. Display Room\n5. Update room\n6. Update room price\n7. Add room type\n8. Remove room type\n0. Back to main menu\nInput : ";
-    private static final String guestManagerMenuMsg = "----------Guest Management System ----------\n1. Add guest\n2. Update guest\n3. Remove guest\n4. Search by ID\n5. Search by Name\n6. Show all guests\n0. Back to main menu\nInput : ";
+    private static final String mainMenuMsg = "---------- Main Menu ----------\n1. Booking System\n2. Reservation System \n3. Room System\n4. Guest System\n5. Room Service System\n6. Order Service System\n7. Payment System\n0. Exit app\nInput : ";
+    private static final String bookingMenuMsg = "---------- Booking System ----------\n1. Add booking\n2. Update booking\n3. Remove booking\n4. Display booking by room number\n0. Back to main menu\nInput : ";
+    private static final String reservationMenuMsg = "---------- Reservation System ----------\n1. Add reservation\n2. Update reservation\n3. Remove reservation\n4. Display all reservation\n5. Display Reservation By Code\n6. Check for expiry\n0. Back to main menu\nInput : ";
+    private static final String roomMenuMsg = "---------- Room System ----------\n1. Display all rooms\n2. Display empty rooms\n3. Display room by status\n4. Display room by room number\n5. Update room\n6. Update room price\n7. Add room type\n8. Remove room type\n0. Back to main menu\nInput : ";
+    private static final String guestMenuMsg = "----------Guest Management System ----------\n1. Add guest\n2. Update guest\n3. Remove guest\n4. Show all guests\n5. Search by ID\n6. Search by Name\n0. Back to main menu\nInput : ";
     private static final String roomServiceMenuMsg = "---------- Room Service System ----------\n1. Add room service\n2. Update room service\n3. Remove room service\n4. Show all room services\n0. Back to main menu\nInput : ";
     private static final String orderRoomServiceMenuMsg = "---------- Order Service System ----------\n1. Order room service\n2. Update order\n3. Show all order\n0. Back to main menu\nInput : ";
     private static final String paymentMenuMsg = "---------- PaymentManager System ----------\n1. Pay by credit card\n2. Pay by cash\n0. Back to main menu\nInput : ";
@@ -28,10 +29,9 @@ class HRPS
         guestManager = new GuestManager();
         roomManager = new RoomManager();
         roomServiceManager = new RoomServiceManager();
-
-        //reservationManager = new ReservationManager(roomManager);
+        orderManager = new OrderManager(billManager, roomServiceManager);
+        reservationManager = new ReservationManager(roomManager, guestManager);
 //        bookingManager = new BookingManager(guestManager, reservationManager, roomManager);
-        orderManager = new OrderManager(billManager, roomManager, roomServiceManager);
         paymentManager = new PaymentManager(billManager, orderManager);
         mainMenu();
 
@@ -47,19 +47,29 @@ class HRPS
 
             switch (choice)
             {
-                case 1: bookingMenu();
+                case 1:
+                    bookingMenu();
                     break;
-                case 2: roomMenu();
+                case 2:
+                    reservationMenu();
                     break;
-                case 3: guestMenu();
+                case 3:
+                    roomMenu();
                     break;
-                case 4: roomServiceMenu();
+                case 4:
+                    guestMenu();
                     break;
-                case 5: orderRoomServiceMenu();
+                case 5:
+                    roomServiceMenu();
                     break;
-                case 6: paymentMenu();
+                case 6:
+                    orderRoomServiceMenu();
                     break;
-                case 0: exitApp();
+                case 7:
+                    paymentMenu();
+                    break;
+                case 0:
+                    exitApp();
                     break;
                 default:
                     displayOutput(invalidChoiceMsg);
@@ -83,7 +93,7 @@ class HRPS
     {
         do
         {
-            displayOutput(bookingSystemMenuMsg);
+            displayOutput(bookingMenuMsg);
             choice = Input.GetInt();
             int roomNum;
 
@@ -118,11 +128,48 @@ class HRPS
         } while (choice != 0);
     }
 
+    private static void reservationMenu()
+    {
+        do
+        {
+            displayOutput(reservationMenuMsg);
+            choice = Input.GetInt();
+
+            switch (choice)
+            {
+                case 1:
+                    reservationManager.addReservation();
+                    break;
+                case 2:
+                    reservationManager.updateReservation();
+                    break;
+                case 3:
+                    reservationManager.removeReservation();
+                    break;
+                case 4:
+                    reservationManager.displayAllReservation();
+                    break;
+                case 5:
+                    reservationManager.displayReservationByCode();
+                    break;
+                case 6:
+                    reservationManager.makeReservationExpired();
+                    break;
+                case 0:
+                    mainMenu();
+                    break;
+                default:
+                    displayOutput(invalidChoiceMsg);
+                    break;
+            }
+        } while (choice != 0);
+    }
+
     private static void roomMenu()
     {
         do
         {
-            displayOutput(roomManagerMenuMsg);
+            displayOutput(roomMenuMsg);
             choice = Input.GetInt();
 
             switch (choice)
@@ -167,7 +214,7 @@ class HRPS
     {
         do
         {
-            displayOutput(guestManagerMenuMsg);
+            displayOutput(guestMenuMsg);
             choice = Input.GetInt();
 
             switch (choice)
@@ -181,17 +228,17 @@ class HRPS
                 //case 3 : guestManager.removeGuest();
                 //break;
                 case 4:
+                    guestManager.displayAllGuest();
+                    break;
+                case 5:
                     displayOutput("Enter guest's ID : ");
                     String id = Input.GetString();
                     guestManager.searchGuestbyId(id);
                     break;
-                case 5:
+                case 6:
                     displayOutput("Enter guest's name : ");
                     String name = Input.GetString();
                     guestManager.searchGuestbyName(name);
-                    break;
-                case 6:
-                    guestManager.displayAllGuest();
                     break;
                 case 0:
                     mainMenu();
@@ -211,13 +258,17 @@ class HRPS
 
             switch (choice)
             {
-                case 1 : roomServiceManager.addRoomService();
+                case 1:
+                    roomServiceManager.addRoomService();
                     break;
-                case 2 : roomServiceManager.updateRoomService();
+                case 2:
+                    roomServiceManager.updateRoomService();
                     break;
-                case 3 : roomServiceManager.removeRoomService();
+                case 3:
+                    roomServiceManager.removeRoomService();
                     break;
-                case 4 : roomServiceManager.displayRoomService();
+                case 4:
+                    roomServiceManager.displayRoomService();
                     break;
                 case 0:
                     mainMenu();
@@ -237,13 +288,17 @@ class HRPS
 
             switch (choice)
             {
-				case 1 : orderManager.addOrder();
-					break;
-				case 2 : orderManager.updateOrder();
-					break;
-				case 3 : orderManager.displayAllOrder();
-					break;
-                case 4: orderManager.displayOrderbyRoomNum();
+                case 1:
+                    orderManager.addOrder();
+                    break;
+                case 2:
+                    orderManager.updateOrder();
+                    break;
+                case 3:
+                    orderManager.displayAllOrder();
+                    break;
+                case 4:
+                    orderManager.displayOrderbyRoomNum();
                     break;
                 case 0:
                     mainMenu();
@@ -256,7 +311,6 @@ class HRPS
 
     private static void paymentMenu()
     {
-
         int choice;
         int roomNum;
 

@@ -32,6 +32,25 @@ public class ReservationManager
         System.out.print("Enter your passport or driving license: ");
         String identity = null;
         identity = Input.GetString();
+        boolean flag = false;
+        
+        for (int i = 0; i < guestManager.getGuestDao().getAllGuest().size(); i++)
+        {
+            if (guestManager.getGuestDao().getAllGuest().get(i).getIdentity().equals(identity))
+            {
+            	System.out.println("Customer already exists");
+             	flag=true;
+            	break;
+            }
+                
+        }
+        if (!flag)
+        {
+        	System.out.println("This customer is a new customer");
+            guestManager.addGuest();
+        }
+        
+        
         
         
         
@@ -77,8 +96,8 @@ public class ReservationManager
         
         availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());//make a copy of room list
         this.updateAvailableRoomList(availableRoomList, tempdate, checkOutDate);
-        long diff = checkOutDate.getTime() - checkinDate.getTime();
-        int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));//get difference of days between check out and check in
+        //long diff = checkOutDate.getTime() - checkinDate.getTime();
+        //int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));//get difference of days between check out and check in
         
 
        
@@ -106,7 +125,7 @@ public class ReservationManager
         	            System.out.print("Enter the room number: ");
         	            int roomNum = Input.GetInt(); 
         	            boolean foundAvailableRoom =false;
-        	            room = this.getRoomByRoomNum(roomNum);
+        	            room = roomManager.getRoomByRoomNum(roomNum);
         	            	 for(int i=0;i<availableRoomList.size();i++)
         	                 {
         	                 	if(room.roomNumber == availableRoomList.get(i).getRoomNumber())
@@ -130,8 +149,8 @@ public class ReservationManager
         	                 }          
         	        } while (room == null);//selecte the vacant room
 
-        		 	double price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
-
+        		 	//double price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
+        		 	double price =  room.getRoomType().getPrice() + room.getFacing().getPrice();
         	        Reservation reservation = new Reservation(reservationCode, identity, room, price, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(1));
         	        reservationDao.addReservation(reservation);
         	break;
@@ -169,7 +188,7 @@ public class ReservationManager
         					break;
         				}
         			}
-        			double priceForWaitList = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
+        			double priceForWaitList = room.getRoomType().getPrice() + room.getFacing().getPrice();//get price for room type and facing type
         	        Reservation waitList = new Reservation(reservationCode, identity, room, priceForWaitList, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(2));
         	        reservationDao.addReservation(waitList);
         		}
@@ -268,24 +287,35 @@ public class ReservationManager
         }
     }
 
-    public void displayReservationByCode(String reservationCode)
+    public void displayReservationByCode()
     {
-        Reservation reservation = reservationDao.searchReservationByReservationCode(reservationCode);
-        String identity = reservation.getIdentity();
-        Room room = reservation.getRoom();
-        double price = reservation.getPrice();
-        Date reservationDatetime = reservation.getReservationDatetime();
-        Date checkInDatetime = reservation.getCheckInDatetime();
-        Date checkOutDatetime = reservation.getCheckOutDatetime();
-        int numOfAdult = reservation.getNumOfAdult();
-        int numOfChildren = reservation.getNumOfChildren();
-        ReservationStatus reservationStatus = reservation.getReservationStatus();
+        displayAllReservation();
+        System.out.print("Enter reservation code or 0 to cancel: ");
+        String reservationCode = Input.GetString();
 
-        System.out.println("Reservation Code: " + reservationCode + ", Identity: " + identity + ", Reservation Date: " + dateFormat2.format(reservationDatetime));
-        System.out.println("Room number: " + room.getRoomNumber() + ", Price: " + price + ", Check In Date: " + dateFormat.format(checkInDatetime) + ", Check Out Date: " + dateFormat.format(checkOutDatetime));
-        System.out.println("Number of adult: " + numOfAdult + ", number of children: " + numOfChildren);
-        System.out.println("Reservation Status: " + reservationStatus.toString());
-        System.out.println("---------------------------------------");
+        if (!reservationCode.equals("0"))
+        {
+            Reservation reservation = reservationDao.searchReservationByReservationCode(reservationCode);
+
+            if (reservation != null)
+            {
+                String identity = reservation.getIdentity();
+                Room room = reservation.getRoom();
+                double price = reservation.getPrice();
+                Date reservationDatetime = reservation.getReservationDatetime();
+                Date checkInDatetime = reservation.getCheckInDatetime();
+                Date checkOutDatetime = reservation.getCheckOutDatetime();
+                int numOfAdult = reservation.getNumOfAdult();
+                int numOfChildren = reservation.getNumOfChildren();
+                ReservationStatus reservationStatus = reservation.getReservationStatus();
+
+                System.out.println("Reservation Code: " + reservationCode + ", Identity: " + identity + ", Reservation Date: " + dateFormat2.format(reservationDatetime));
+                System.out.println("Room number: " + room.getRoomNumber() + ", Price: " + price + ", Check In Date: " + dateFormat.format(checkInDatetime) + ", Check Out Date: " + dateFormat.format(checkOutDatetime));
+                System.out.println("Number of adult: " + numOfAdult + ", number of children: " + numOfChildren);
+                System.out.println("Reservation Status: " + reservationStatus.toString());
+                System.out.println("---------------------------------------");
+            }
+        }
     }
 
     public void removeReservation()
@@ -315,13 +345,7 @@ public class ReservationManager
         int year = digiClock.get(Calendar.YEAR);
         String currentDateTime = new StringBuilder().append(year).append(twoint.format(month)).append(twoint.format(day)).append(twoint.format(hour))
                 .append(twoint.format(min)).append(twoint.format(sec)).toString();
-
         return currentDateTime;
-    }
-
-    public Room getRoomByRoomNum(int roomNum)
-    {
-        return roomManager.getRoomDao().getRoomByRoomNum(roomNum);
     }
 
     //make reservation expired if user not check in after 3pm of the check in date
@@ -331,7 +355,7 @@ public class ReservationManager
         Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();
-        digiClock.set(Calendar.HOUR_OF_DAY,12);
+        digiClock.set(Calendar.HOUR_OF_DAY,17);
         digiClock.set(Calendar.MINUTE,0);
         digiClock.set(Calendar.SECOND,0);
           
@@ -343,14 +367,10 @@ public class ReservationManager
     		try {
     			tempCheckInDate = dateFormat.parse(strCheckIn);
     			tempCheckInDate.setHours(digiClock.getTime().getHours());
-    			tempCheckInDate.setMinutes(43);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-        	
-        	//tempCheckInDate = digiClock.getTime();
-        	System.out.println(" "+dateFormat2.format(tempCheckInDate));
-        	System.out.println(" "+dateFormat2.format(current));
+
             if (current.compareTo(tempCheckInDate) >= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
             {
                 reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
@@ -360,12 +380,35 @@ public class ReservationManager
         }
     }
     
-    public void updateStatusBySystem(Room room, RoomStatus roomStatus)
+    public void updateRoomStatusByReservationList()
     {
-        room.setRoomStatus(roomStatus);
+    	Calendar digiClock = Calendar.getInstance();
+        digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        Date current = digiClock.getTime();
+        
+    	for(int i = 0; i < reservationDao.getAllReservation().size(); i++)
+    	{
+    		if(reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay()==current.getDay() && reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+    		{
+    			if(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(3)))
+    			{
+    				roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(1));
+    			}
+    		}
+    		
+    		if(reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay()==current.getDay() && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))
+    		{
+    			if(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(1)))
+    			{
+    				roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(3));
+    			}
+    		}//make the vacant room status to reserved if the check in date is today and the reservation is valid
+    	}
+    	
+        
     }
     
-    private void displayAvailableRoom(ArrayList<Room> availableRoomList)
+    public void displayAvailableRoom(ArrayList<Room> availableRoomList)
     {
     	int noOfVacant = 0, total = 0;
         System.out.println("\nThe following room are available to reserve");

@@ -32,8 +32,11 @@ public class ReservationDaoImpl implements ReservationDao
 
             if (temp == null)
             {
-                System.out.print("Reservation cannot find, please enter a correct reservation code: ");
+                System.out.print("Reservation cannot be found. Please enter a correct reservation code or 0 to cancel : ");
                 reservationCode = Input.GetString();
+
+                if (reservationCode.equals("0"))
+                    break;
             }
         } while (temp == null);
 

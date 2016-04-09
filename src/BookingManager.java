@@ -103,7 +103,7 @@ public class BookingManager
         int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));//get difference of days between check out and check in
         availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());//make a copy of room list
         reservationManager.updateAvailableRoomList(availableRoomList, checkInDate, checkOutDate);
-        reservationManager.displayAvailableRoom(availableRoomList);
+        //reservationManager.displayAvailableRoom(availableRoomList);
         
         System.out.println("Continue to book a room?");
         System.out.println("1. Yes");
@@ -148,7 +148,7 @@ public class BookingManager
         	                 }          
         	        } while (room == null);//selecte the vacant room
         		 
-        		 double price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
+        		 double price = (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
 
      	        Booking booking = new Booking(cus_id, room, price, checkInDate, checkOutDate, numberOfAdults, numberOfChildren);
      	        bookingDao.addbooking(booking);
@@ -266,7 +266,7 @@ public class BookingManager
         break;
                      
         case 2:
-        	reservationManager.displayAvailableRoom(availableRoomList);
+        	//reservationManager.displayAvailableRoom(availableRoomList);
         	System.out.print("Enter the room number: ");
             int newRoomNum = Input.GetInt();
             
