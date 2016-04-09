@@ -29,7 +29,7 @@ class HRPS
         roomManager = new RoomManager();
         roomServiceManager = new RoomServiceManager();
 
-        reservationManager = new ReservationManager(roomManager);
+        //reservationManager = new ReservationManager(roomManager);
 //        bookingManager = new BookingManager(guestManager, reservationManager, roomManager);
         orderManager = new OrderManager(billManager, roomManager, roomServiceManager);
         paymentManager = new PaymentManager(billManager, orderManager);
