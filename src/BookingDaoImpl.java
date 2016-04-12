@@ -17,7 +17,8 @@ public class BookingDaoImpl implements BookingDao
     {
         return this.bookingList;
     }
-
+    
+    
     public Booking searchBookingByRoomNum(int roomNum)
     {
         Booking temp = null;
@@ -59,6 +60,8 @@ public class BookingDaoImpl implements BookingDao
     }
     public void displayBooking()
     {
+    	System.out.println("Booking Information ");
+    	System.out.println("---------------------------------------");
     	for(int i=0;i<bookingList.size();i++)
     	{
          String identity = bookingList.get(i).getIdentity();

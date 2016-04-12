@@ -7,7 +7,6 @@ public class Booking implements Serializable
     private String identity;
     private Room room;
     private double price;
-    private Date bookingDatetime;
     private Date checkInDatetime;
     private Date checkOutDatetime;
     private int numOfAdult;
@@ -17,7 +16,6 @@ public class Booking implements Serializable
     {
         this.identity = identity;
         this.room = room;
-
         this.price = price;
         this.checkInDatetime = checkInDatetime;
         this.checkOutDatetime = checkOutDatetime;
@@ -55,15 +53,6 @@ public class Booking implements Serializable
         this.price = price;
     }
 
-    public Date getBookingDatetime()
-    {
-        return bookingDatetime;
-    }
-
-    public void setBookingDatetime(Date bookingDatetime)
-    {
-        this.bookingDatetime = bookingDatetime;
-    }
 
     public Date getCheckInDatetime()
     {

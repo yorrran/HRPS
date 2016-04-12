@@ -199,6 +199,11 @@ public class ReservationManager
         //this.updateStatusBySystem(room, RoomStatus.returnStatus(3));//update room status to reserved
         //String reportDate = dateFormat.format(checkinDate);
     }
+    public Reservation searchReservationbyReservationCode(String reservationCode)
+    {  
+    	return reservationDao.searchReservationByReservationCode(reservationCode);
+    }
+
 
     public void updateReservation()
     {
@@ -318,6 +323,8 @@ public class ReservationManager
         }
     }
 
+
+    
     public void removeReservation()
     {
         System.out.print("Enter the reservation code to remove reservation: ");
@@ -355,7 +362,7 @@ public class ReservationManager
         Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();
-        digiClock.set(Calendar.HOUR_OF_DAY,17);
+        digiClock.set(Calendar.HOUR_OF_DAY,15);
         digiClock.set(Calendar.MINUTE,0);
         digiClock.set(Calendar.SECOND,0);
           

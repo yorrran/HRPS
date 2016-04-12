@@ -2,6 +2,12 @@ import java.util.ArrayList;
 
 public class DataSetup
 {
+	
+	public static void main(String[] args)
+    {
+		CreateRoom();
+    }
+	
     public static void CreateRoomType()
     {
         String fileName = "File/RoomType.dat";
