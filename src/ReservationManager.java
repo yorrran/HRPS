@@ -21,6 +21,7 @@ public class ReservationManager
         reservationDao = new ReservationDaoImpl();
         this.roomManager = roomManager;
         this.guestManager = guestManager;
+        updateRoomStatusByReservationList();
     }
 
     public void addReservation()
@@ -153,6 +154,7 @@ public class ReservationManager
         		 	double price =  room.getRoomType().getPrice() + room.getFacing().getPrice();
         	        Reservation reservation = new Reservation(reservationCode, identity, room, price, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(1));
         	        reservationDao.addReservation(reservation);
+        	        updateRoomStatusByReservationList();
         	break;
         	
         	case 2:

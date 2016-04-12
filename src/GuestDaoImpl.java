@@ -38,7 +38,9 @@ public class GuestDaoImpl implements GuestDao
     @Override
     public void searchGuestbyId(String Identity)
     {
-        for (int i = 0; i < guestList.size(); i++)
+    	int i;
+    	
+        for (i = 0; i < guestList.size(); i++)
         {
             if (Identity.equals(guestList.get(i).getIdentity()))
             {
@@ -51,10 +53,14 @@ public class GuestDaoImpl implements GuestDao
                         "Phone Number : " + guestList.get(i).getPhoneNum() + "\t" +
                         "Email : " + guestList.get(i).getEmail() + "\t" +
                         "Credit Card Number : " + guestList.get(i).getCredit_no());
+                break;
+                
             }
         }
-
+        if(i==guestList.size())
+        {
         System.out.println("Customer is not found");
+        }
     }
 
     @Override

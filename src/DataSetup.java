@@ -46,7 +46,7 @@ public class DataSetup
         ArrayList<Room> roomList = new ArrayList();
         for (int i = 1; i <= 8; i++)
         {
-            roomList.add(new Room((200 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(0), false, false, RoomStatus.returnStatus(2)));
+            roomList.add(new Room((200 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(0), false, false, RoomStatus.returnStatus(1)));
         }
 
         for (int i = 1; i <= 8; i++)
@@ -71,7 +71,7 @@ public class DataSetup
 
         for (int i = 1; i <= 8; i++)
         {
-            roomList.add(new Room((700 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2), true, true, RoomStatus.returnStatus(4)));
+            roomList.add(new Room((700 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2), true, true, RoomStatus.returnStatus(1)));
         }
 
         DataIO.Write(fileName, roomList);

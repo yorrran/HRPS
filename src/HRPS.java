@@ -85,7 +85,7 @@ class HRPS
 //    	//reservationManager.displayAllReservation();
 //    	roomManager.displayVacantRoom();
 //    	//reservationManager.removeReservation();
-     	exitApp();
+     	//exitApp();
     }
 
     private static void bookingMenu()
