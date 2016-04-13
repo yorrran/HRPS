@@ -169,8 +169,8 @@ public class BookingManager
     	Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();//get booking datetime 
-        digiClock.set(Calendar.HOUR_OF_DAY,19);
-        digiClock.set(Calendar.MINUTE,52);
+        digiClock.set(Calendar.HOUR_OF_DAY,12);
+        digiClock.set(Calendar.MINUTE,0);
         digiClock.set(Calendar.SECOND,0);
          
         Date tempCheckInDate = new Date();
@@ -332,18 +332,26 @@ public class BookingManager
     public void displaybookingByRoomNum(int roomNum)
     {
         Booking booking = bookingDao.searchBookingByRoomNum(roomNum);
-        String identity = booking.getIdentity();
-        Room room = booking.getRoom();
-        double price = booking.getPrice();
-        Date checkInDatetime =  booking.getCheckInDatetime();
-        Date checkOutDatetime =  booking.getCheckOutDatetime();
-        int numOfAdult =  booking.getNumOfAdult();
-        int numOfChildren =booking.getNumOfChildren();
 
-        System.out.println("Customer Identity: " + identity );
-        System.out.println("Room number: " + room.getRoomNumber() + ", Price: " + price + ", Check In Date: " + dateFormat.format(checkInDatetime) + ", Check Out Date: " + dateFormat.format(checkOutDatetime));
-        System.out.println("Number of adult: " + numOfAdult + ", number of children: " + numOfChildren);
-        System.out.println("---------------------------------------");
+        if (booking != null)
+        {
+            String identity = booking.getIdentity();
+            Room room = booking.getRoom();
+            double price = booking.getPrice();
+            Date checkInDatetime = booking.getCheckInDatetime();
+            Date checkOutDatetime = booking.getCheckOutDatetime();
+            int numOfAdult = booking.getNumOfAdult();
+            int numOfChildren = booking.getNumOfChildren();
+
+            System.out.println("Customer Identity: " + identity);
+            System.out.println("Room number: " + room.getRoomNumber() + ", Price: " + price + ", Check In Date: " + dateFormat.format(checkInDatetime) + ", Check Out Date: " + dateFormat.format(checkOutDatetime));
+            System.out.println("Number of adult: " + numOfAdult + ", number of children: " + numOfChildren);
+            System.out.println("---------------------------------------");
+        }
+        else
+        {
+            System.out.println("Booking not found!");
+        }
     }
     public void checkOut()
     {

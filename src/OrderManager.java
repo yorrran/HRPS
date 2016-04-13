@@ -176,19 +176,22 @@ public class OrderManager
 
         for (int i = 0; i < orderDao.getAllOrder().size(); i++)
         {
+            System.out.println("\n------------------------------------------------------------");
             System.out.print("Room Number : " + orderDao.getAllOrder().get(i).getRoomNumber());
 
             if (orderDao.getAllOrder().get(i).getRoomServiceList().size() != 0)
             {
                 for (int j = 0; j < orderDao.getAllOrder().get(i).getStatusList().size(); j++)
                 {
-                    System.out.print("\nDate & Time: " + formatDate.format(orderDao.getAllOrder().get(i).getDateList().get(j)) +
+                    System.out.println("------------------------------------------------------------" + " \n" +
+                            formatDate.format(orderDao.getAllOrder().get(i).getDateList().get(j)) +
                             "\tService Name : " + orderDao.getAllOrder().get(i).getRoomServiceList().get(j).getService() +
                             "\tPrice : " + orderDao.getAllOrder().get(i).getRoomServiceList().get(j).getPrice() +
                             "\tOrder Status : " + orderDao.getAllOrder().get(i).getStatusList().get(j) +
                             "\tOrder Remark : " + orderDao.getAllOrder().get(i).getRemarkList().get(j));
                 }
-                System.out.println();
+
+                System.out.println("------------------------------------------------------------");
             }
             else
                 System.out.println("\t\tOrder list is empty!");

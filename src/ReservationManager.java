@@ -553,7 +553,6 @@ public class ReservationManager
                 }
             }
         }
-        System.out.println("" + availableRoomList.size());
     }
     
     public void WritetoFile()

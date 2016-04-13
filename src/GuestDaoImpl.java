@@ -7,9 +7,6 @@ public class GuestDaoImpl implements GuestDao
 
     public GuestDaoImpl()
     {
-        guestList = new ArrayList<>();
-        guestList.add(new Guest("00001", "Mary","SG", "F", "NTU,", "Singaporean", 999,"xxx@gmail.com", 124));
-        guestList.add(new Guest("00002", "John","MY", "M", "NUS,", "Malaysian", 111,"ggg@gmail.com", 346));
         guestList = DataIO.Read(fileName);
     }
 
@@ -38,49 +35,60 @@ public class GuestDaoImpl implements GuestDao
     @Override
     public void searchGuestbyId(String Identity)
     {
-    	int i;
-    	
-        for (i = 0; i < guestList.size(); i++)
+        boolean found = false;
+
+        for (int i = 0; i < guestList.size(); i++)
         {
             if (Identity.equals(guestList.get(i).getIdentity()))
             {
-                System.out.println("Identity : " + guestList.get(i).getIdentity() + "\t" +
-                        "Name : " + guestList.get(i).getName() + "\t" +
-                        "Country : " + guestList.get(i).getCountry() + "\t" +
-                        "Gender : " + guestList.get(i).getGender() + "\t" +
-                        "Address : " + guestList.get(i).getAddress() + "\t" +
-                        "Nationality : " + guestList.get(i).getNationality() + "\t" +
-                        "Phone Number : " + guestList.get(i).getPhoneNum() + "\t" +
-                        "Email : " + guestList.get(i).getEmail() + "\t" +
-                        "Credit Card Number : " + guestList.get(i).getCredit_no());
+                System.out.println("--------------------------------------------------" + "\n" +
+                        "Identity : " + guestList.get(i).getIdentity() + "\n" +
+                        "Name : " + guestList.get(i).getName() + "\n" +
+                        "Country : " + guestList.get(i).getCountry() + "\n" +
+                        "Gender : " + guestList.get(i).getGender() + "\n" +
+                        "Address : " + guestList.get(i).getAddress() + "\n" +
+                        "Nationality : " + guestList.get(i).getNationality() + "\n" +
+                        "Phone Number : " + guestList.get(i).getPhoneNum() + "\n" +
+                        "Email : " + guestList.get(i).getEmail() + "\n" +
+                        "Credit Card Number : " + guestList.get(i).getCredit_no() + "\n" +
+                        "--------------------------------------------------");
+                found = true;
                 break;
-                
             }
         }
-        if(i==guestList.size())
-        {
-        System.out.println("Customer is not found");
-        }
+
+        if (!found)
+            System.out.println("Customer not found");
     }
 
     @Override
     public void searchGuestbyName(String name)
     {
+        boolean found = false;
+
         for (int i = 0; i < guestList.size(); i++)
         {
             if ((name.toLowerCase()).equals(guestList.get(i).getName().toLowerCase()))
             {
-                System.out.println("Identity : " + guestList.get(i).getIdentity() + "\t" +
-                        "Name : " + guestList.get(i).getName() + "\t" +
-                        "Country : " + guestList.get(i).getCountry() + "\t" +
-                        "Gender : " + guestList.get(i).getGender() + "\t" +
-                        "Address : " + guestList.get(i).getAddress() + "\t" +
-                        "Nationality : " + guestList.get(i).getNationality() + "\t" +
-                        "Phone Number : " + guestList.get(i).getPhoneNum() + "\t" +
-                        "Email : " + guestList.get(i).getEmail() + "\t" +
-                        "Credit Card Number : " + guestList.get(i).getCredit_no());
+                System.out.println("--------------------------------------------------" + "\n" +
+                        "Identity : " + guestList.get(i).getIdentity() + "\n" +
+                        "Name : " + guestList.get(i).getName() + "\n" +
+                        "Country : " + guestList.get(i).getCountry() + "\n" +
+                        "Gender : " + guestList.get(i).getGender() + "\n" +
+                        "Address : " + guestList.get(i).getAddress() + "\n" +
+                        "Nationality : " + guestList.get(i).getNationality() + "\n" +
+                        "Phone Number : " + guestList.get(i).getPhoneNum() + "\n" +
+                        "Email : " + guestList.get(i).getEmail() + "\n" +
+                        "Credit Card Number : " + guestList.get(i).getCredit_no() + "\n" +
+                        "--------------------------------------------------");
+
+                found = true;
+                break;
             }
         }
+
+        if (!found)
+            System.out.println("Customer not found");
     }
 
     public void updateFile()

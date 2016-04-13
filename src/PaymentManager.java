@@ -44,12 +44,12 @@ public class PaymentManager
 
                 for (int j = 0; j < orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().size(); j++)
                 {
-                    orderItems += "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getService() +
-                            "\t$" + "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getPrice() + "\n";
+                    orderItems += "\t" + (i+1) + ". " + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getService() +
+                            "\t$" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getPrice() + "\n";
                 }
 
                 System.out.println("----------------------------------------------------------------------------" + "\n" +
-                        "\n\nBill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() +
+                        "Bill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() +
                         "\tRoom Number : " + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
                         "Days of stay : " + days + "\n" +
                         "Room Charge : " + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +
@@ -85,12 +85,12 @@ public class PaymentManager
 
                 for (int j = 0; j < orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().size(); j++)
                 {
-                    orderItems += "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getService() +
-                            "\t$" + "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getPrice() + "\n";
+                    orderItems += "\t" + (i+1) + ". " + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getService() +
+                            "\t$" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getPrice() + "\n";
                 }
 
                 System.out.println("----------------------------------------------------------------------------" + "\n" +
-                        "\n\nBill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() +
+                        "Bill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() +
                         "\tRoom Number : " + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
                         "Days of stay : " + days + "\n" +
                         "Room Charge : " + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +

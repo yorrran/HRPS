@@ -19,7 +19,7 @@ public class Input
             catch (Exception exc)
             {
                 sc.nextLine();
-                System.out.print("Enter only integer number!\nInput : ");
+                System.out.print("Enter only numbers!\nInput : ");
             }
         } while (invalid);
 
@@ -28,7 +28,7 @@ public class Input
 
     public static double GetDouble()
     {
-        double num = 0.5;
+        double num = 0;
         boolean invalid = true;
 
         do
@@ -41,7 +41,29 @@ public class Input
             catch (Exception exc)
             {
                 sc.nextLine();
-                System.out.print("Enter only double or integer!\nInput : ");
+                System.out.print("Enter only numbers!\nInput : ");
+            }
+        } while (invalid);
+
+        return num;
+    }
+
+    public static long GetLong()
+    {
+        long num = 0;
+        boolean invalid = true;
+
+        do
+        {
+            try
+            {
+                num = sc.nextLong();
+                invalid = false;
+            }
+            catch (Exception exc)
+            {
+                sc.nextLine();
+                System.out.print("Enter only numbers!\nInput : ");
             }
         } while (invalid);
 

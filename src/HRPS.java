@@ -99,7 +99,7 @@ class HRPS
                     roomNum = Input.GetInt();
                     bookingManager.displaybookingByRoomNum(roomNum);
                     break;
-                	case 5:
+                case 5:
                 	break;
                 case 0:
                     mainMenu();

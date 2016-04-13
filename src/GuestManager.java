@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class GuestManager
 {
     GuestDao guestDao;
@@ -11,7 +13,8 @@ public class GuestManager
     {
         for (int i = 0; i < guestDao.getAllGuest().size(); i++)
         {
-            System.out.println("Identity : " + guestDao.getAllGuest().get(i).getIdentity() + "\t" +
+            System.out.println("--------------------------------------------------" + "\n" +
+                    "Identity : " + guestDao.getAllGuest().get(i).getIdentity() + "\t" +
                     "Name : " + guestDao.getAllGuest().get(i).getName() + "\t" +
                     "Country : " + guestDao.getAllGuest().get(i).getCountry() + "\t" +
                     "Gender : " + guestDao.getAllGuest().get(i).getGender() + "\t" +
@@ -19,7 +22,8 @@ public class GuestManager
                     "Nationality : " + guestDao.getAllGuest().get(i).getNationality() + "\t" +
                     "Phone Number : " + guestDao.getAllGuest().get(i).getPhoneNum() + "\t" +
                     "Email : " + guestDao.getAllGuest().get(i).getEmail() + "\t" +
-                    "Credit Card Number : " + guestDao.getAllGuest().get(i).getCredit_no());
+                    "Credit Card Number : " + guestDao.getAllGuest().get(i).getCredit_no() + "\n" +
+                    "--------------------------------------------------");
         }
     }
 
@@ -27,7 +31,7 @@ public class GuestManager
     {
         boolean flag = true;
 
-        System.out.println("Enter customer identity : ");
+        System.out.print("Enter customer identity : ");
         String identity = Input.GetString();
 
         for (int i = 0; i < guestDao.getAllGuest().size(); i++)
@@ -42,23 +46,23 @@ public class GuestManager
 
         if (flag == true)
         {
-
-            System.out.println("Customer name : ");
-            String name = Input.GetString();
-            System.out.println("Country : ");
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Customer name : ");
+            String name = sc.nextLine();
+            System.out.print("Country : ");
             String country = Input.GetString();
-            System.out.println("Gender : ");
+            System.out.print("Gender : ");
             String gender = Input.GetString();
-            System.out.println("Address : ");
-            String address = Input.GetString();
-            System.out.println("Nationality : ");
+            System.out.print("Address : ");
+            String address = sc.nextLine();
+            System.out.print("Nationality : ");
             String nationality = Input.GetString();
-            System.out.println("Phone Number : ");
+            System.out.print("Phone Number : ");
             int phoneNum = Input.GetInt();
-            System.out.println("Email : ");
+            System.out.print("Email : ");
             String email = Input.GetString();
-            System.out.println("Credit Card No. : ");
-            int credit_no = Input.GetInt();
+            System.out.print("Credit Card No. : ");
+            long credit_no = Input.GetLong();
             Guest newGuest = new Guest(identity, name, country, gender, address, nationality, phoneNum, email, credit_no);
 
             guestDao.addGuest(newGuest);

@@ -39,9 +39,13 @@ public class RoomServiceDaoImp implements RoomServiceDao
     @Override
     public void displayRoomService()
     {
+        System.out.println("---------- Room Service List ----------");
         for (int i = 0; i < roomServiceList.size(); i++)
+        {
             System.out.println(roomServiceList.get(i).getId() + ". " + roomServiceList.get(i).getService() + "\t$" +
                     roomServiceList.get(i).getPrice());
+        }
+        System.out.println("------------------------------");
     }
 
     @Override
