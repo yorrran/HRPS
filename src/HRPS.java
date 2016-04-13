@@ -2,8 +2,8 @@ class HRPS
 {
     /*------------------------------ Menu Items ------------------------------*/
     private static final String mainMenuMsg = "---------- Main Menu ----------\n1. Booking System\n2. Reservation System \n3. Room System\n4. Guest System\n5. Room Service System\n6. Order Service System\n0. Exit app\nInput : ";
-    private static final String bookingMenuMsg = "---------- Booking System ----------\n1. Add booking\n2. Update booking\n3. Remove booking\n4. Display booking by room number\n0. Back to main menu\nInput : ";
-    private static final String reservationMenuMsg = "---------- Reservation System ----------\n1. Add reservation\n2. Update reservation\n3. Remove reservation\n4. Display all reservation\n5. Display Reservation By Code\n6. Check for expiry\n0. Back to main menu\nInput : ";
+    private static final String bookingMenuMsg = "---------- Booking System ----------\n1. Check-in\n2. Update booking\n3. Check-out\n4. Display booking by room number\n0. Back to main menu\nInput : ";
+    private static final String reservationMenuMsg = "---------- Reservation System ----------\n1. Add reservation\n2. Update reservation\n3. Remove reservation\n4. Display all reservation\n5. Display Reservation By Code\n6. Update wait-list\n7. Email guest as reminder\n0. Back to main menu\nInput : ";
     private static final String roomMenuMsg = "---------- Room System ----------\n1. Display all rooms\n2. Display empty rooms\n3. Display room by status\n4. Display room by room number\n5. Update room\n6. Update room price\n7. Add room type\n8. Remove room type\n0. Back to main menu\nInput : ";
     private static final String guestMenuMsg = "----------Guest Management System ----------\n1. Add guest\n2. Update guest\n3. Remove guest\n4. Show all guests\n5. Search by ID\n6. Search by Name\n0. Back to main menu\nInput : ";
     private static final String roomServiceMenuMsg = "---------- Room Service System ----------\n1. Add room service\n2. Update room service\n3. Remove room service\n4. Show all room services\n0. Back to main menu\nInput : ";
@@ -33,8 +33,6 @@ class HRPS
         paymentManager = new PaymentManager(billManager, orderManager);
         bookingManager = new BookingManager(guestManager, reservationManager, roomManager, billManager, orderManager, paymentManager);
         mainMenu();
-
-        //Email("xxxxx@gmail.com", "HRPS OODP", "Testing 1, 2, 3");
     }
 
     private static void mainMenu()
@@ -71,21 +69,6 @@ class HRPS
                     displayOutput(invalidChoiceMsg);
             }
         } while (choice != 0);
-
-//        reservationManager.displayAllReservation();
-        //bookingManager.displayBooking();
-//        reservationManager.addReservation();
-//        bookingManager.add_booking();
-        //reservationManager.addReservation();
-//        bookingManager.checkOut();
-//    	//reservationManager.makeReservationExpired();
-        //reservationManager.displayAllReservation();
-//    	//reservationManager.updateReservation();
-//
-//    	//reservationManager.displayAllReservation();
-//    	roomManager.displayVacantRoom();
-//    	//reservationManager.removeReservation();
-     	//exitApp();
     }
 
     private static void bookingMenu()
@@ -152,7 +135,10 @@ class HRPS
                     reservationManager.displayReservationByCode();
                     break;
                 case 6:
-                    reservationManager.makeReservationExpired();
+                    reservationManager.updateWaitList();
+                    break;
+                case 7:
+                    reservationManager.emailGuest();
                     break;
                 case 0:
                     mainMenu();

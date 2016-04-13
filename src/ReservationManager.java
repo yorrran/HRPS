@@ -16,20 +16,51 @@ public class ReservationManager
     private SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
     private ArrayList<Room> availableRoomList = null;
     
-    public ReservationManager(RoomManager roomManager,GuestManager guestManager)
+    public ReservationManager(RoomManager roomManager, GuestManager guestManager)
     {
         reservationDao = new ReservationDaoImpl();
         this.roomManager = roomManager;
         this.guestManager = guestManager;
         updateRoomStatusByReservationList();
+        makeReservationExpired();
+        updateWaitList();
+    }
+
+    public void emailGuest()
+    {
+        Calendar digiClock = Calendar.getInstance();
+        digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        Date current = digiClock.getTime();
+
+        for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
+        {
+            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay() == current.getDay() &&
+                    reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(1)))
+            {
+                for (int j = 0; j < guestManager.getGuestDao().getAllGuest().size(); j++)
+                {
+                    if (guestManager.getGuestDao().getAllGuest().get(j).getIdentity() == reservationDao.getAllReservation().get(i).getIdentity())
+                    {
+                        String subject = "Reminder of Check-in";
+                        String body = "Your reservation is today. Please check-in before 3pm otherwise your reservation will be expired.\n\n" +
+                                "Have a nice day and we hope you will enjoy your stay at our hotel!\n\nWarm regards,\nHRPS Hotel";
+
+                        Notification.Email(guestManager.getGuestDao().getAllGuest().get(i).getEmail(), subject, body);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public void addReservation()
     {
-    	Calendar digiClock = Calendar.getInstance();
+        makeReservationExpired();
+
+        Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date reservationDatetime = digiClock.getTime();//get reservation datetime
-    	
+
         System.out.print("Enter your passport or driving license: ");
         String identity = null;
         identity = Input.GetString();
@@ -39,20 +70,18 @@ public class ReservationManager
         {
             if (guestManager.getGuestDao().getAllGuest().get(i).getIdentity().equals(identity))
             {
-            	System.out.println("Customer already exists");
-             	flag=true;
-            	break;
+                System.out.println("Customer already exists");
+                flag = true;
+                break;
             }
-                
+
         }
+
         if (!flag)
         {
-        	System.out.println("This customer is a new customer");
+            System.out.println("This customer is a new customer");
             guestManager.addGuest();
         }
-        
-        
-        
         
         
         Room room = null;
@@ -69,48 +98,42 @@ public class ReservationManager
         Date checkOutDate = null;
         do
         {
-        System.out.print("Enter check in date(dd/MM/yyyy): ");
-        String checkInString = Input.GetString();
-        //checkInString = new StringBuilder().append(" 15:mm:ss");
-        try
-        {
-            checkinDate = dateFormat.parse(checkInString);
-            tempdate = dateFormat.parse(checkInString);
-        } catch (ParseException e)
-        {
-            e.printStackTrace();
-        }//get check in date
+            System.out.print("Enter check in date(dd/MM/yyyy): ");
+            String checkInString = Input.GetString();
+            //checkInString = new StringBuilder().append(" 15:mm:ss");
+            try
+            {
+                checkinDate = dateFormat.parse(checkInString);
+                tempdate = dateFormat.parse(checkInString);
+            } catch (ParseException e)
+            {
+                e.printStackTrace();
+            }//get check in date
 
-        System.out.print("Enter check out date(dd/MM/yyyy): ");
-        String checkOutString = new StringBuilder().append(Input.GetString()).append(" 15:00:00").toString();
-        
-        try
-        {
-            checkOutDate = dateFormat.parse(checkOutString);
-        } catch (ParseException e)
-        {
-            e.printStackTrace();
-        }//get check out date
-        if(checkinDate.compareTo(checkOutDate)>=0)
-        	System.out.println("Check in date must be eaelier than check out date");
-        }while(checkinDate.compareTo(checkOutDate)>=0);
+            System.out.print("Enter check out date(dd/MM/yyyy): ");
+            String checkOutString = new StringBuilder().append(Input.GetString()).append(" 15:00:00").toString();
+
+            try
+            {
+                checkOutDate = dateFormat.parse(checkOutString);
+            } catch (ParseException e)
+            {
+                e.printStackTrace();
+            }//get check out date
+
+            if (checkinDate.compareTo(checkOutDate) >= 0)
+                System.out.println("Check in date must be eaelier than check out date");
+        } while (checkinDate.compareTo(checkOutDate) >= 0);
         
         availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());//make a copy of room list
         this.updateAvailableRoomList(availableRoomList, tempdate, checkOutDate);
-        //long diff = checkOutDate.getTime() - checkinDate.getTime();
-        //int numOfDays = (int) (diff / (1000 * 60 * 60 * 24));//get difference of days between check out and check in
-        
 
-       
-        
-        
-        //System.out.println(roomManager.getAllRoom().size()+" "+availableRoomList.size());
         this.displayAvailableRoom(availableRoomList);//display the available room within the checkin and checkout date
         System.out.println("Continue to make reservation?");
         System.out.println("1. Yes");
         System.out.println("2. No");
         System.out.println("3. Add wait List");
-        int choice  = Input.GetInt();
+        int choice = Input.GetInt();
         while (choice < 1 || choice > 3)
         {
             System.out.print("Please enter correct choice: ");
@@ -118,92 +141,91 @@ public class ReservationManager
         }
         System.out.println("");
         
-        switch(choice)
+        switch (choice)
         {
-        	case 1:
-        		 do
-        	        {
-        	            System.out.print("Enter the room number: ");
-        	            int roomNum = Input.GetInt(); 
-        	            boolean foundAvailableRoom =false;
-        	            room = roomManager.getRoomByRoomNum(roomNum);
-        	            	 for(int i=0;i<availableRoomList.size();i++)
-        	                 {
-        	                 	if(room.roomNumber == availableRoomList.get(i).getRoomNumber())
-        	                 	{
-        	                 		foundAvailableRoom = true;
-        	                 		break;
-        	                 	}
-        	                 }   
-        	                 if(foundAvailableRoom)
-        	                 {
-        	     	            if (room.getRoomStatus().equals(RoomStatus.returnStatus(4)))//not allow to book if room is under maintain
-        	     	            {
-        	     	                System.out.println("This room is unavailable now, please select another room.");
-        	     	                room = null;
-        	     	            }
-        	                  }
-        	                  else
-        	                 {	
-        	                 	System.out.println("The room is unavailable in that period, please select another room.");
-        	                 	room = null;
-        	                 }          
-        	        } while (room == null);//selecte the vacant room
+            case 1:
+                do
+                {
+                    System.out.print("Enter the room number: ");
+                    int roomNum = Input.GetInt();
+                    boolean foundAvailableRoom = false;
+                    room = roomManager.getRoomByRoomNum(roomNum);
+                    for (int i = 0; i < availableRoomList.size(); i++)
+                    {
+                        if (room.roomNumber == availableRoomList.get(i).getRoomNumber())
+                        {
+                            foundAvailableRoom = true;
+                            break;
+                        }
+                    }
+                    if (foundAvailableRoom)
+                    {
+                        if (room.getRoomStatus().equals(RoomStatus.returnStatus(4)))//not allow to book if room is under maintain
+                        {
+                            System.out.println("This room is unavailable now, please select another room.");
+                            room = null;
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("The room is unavailable in that period, please select another room.");
+                        room = null;
+                    }
+                } while (room == null);//selecte the vacant room
 
-        		 	//double price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
-        		 	double price =  room.getRoomType().getPrice() + room.getFacing().getPrice();
-        	        Reservation reservation = new Reservation(reservationCode, identity, room, price, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(1));
-        	        reservationDao.addReservation(reservation);
-        	        updateRoomStatusByReservationList();
-        	break;
-        	
-        	case 2:
-        		
-        	break;
-        	
-        	case 3:
-        		roomManager.displayRoomType();
-        		System.out.print("Select the room type to make wait list: ");
-        		int choiceOftype = Input.GetInt();
-        		while(choiceOftype<1 || choiceOftype>roomManager.getRoomDao().getAllRoomType().size())
-        		{
-        			System.out.print("Please select correct room type to make wait list: ");
-            		choiceOftype = Input.GetInt();
-        		}
-        		boolean roomUnavailable = false;
-        		for(int i = 0;i<availableRoomList.size(); i++)
-        		{
-        			if(availableRoomList.get(i).getRoomType().getType().equals(roomManager.getRoomDao().getAllRoomType().get(choiceOftype-1).getType())&&!availableRoomList.get(i).getRoomStatus().equals(RoomStatus.returnStatus(4)))
-        			{
-        				System.out.println("The "+roomManager.getRoomDao().getAllRoomType().get(choiceOftype-1).getType() +" room type is available, please do reservation");
-        				roomUnavailable = true;
-        				break;
-        			}	
-        		}
-        		if(!roomUnavailable)
-        		{   
-        			for(int i=0;i<roomManager.getAllRoom().size();i++)
-        			{
-        				if(roomManager.getRoomDao().getAllRoomType().get(choiceOftype-1).getType().equals(roomManager.getAllRoom().get(i).getRoomType().getType()))
-        				{
-        					room = roomManager.getAllRoom().get(i);
-        					break;
-        				}
-        			}
-        			double priceForWaitList = room.getRoomType().getPrice() + room.getFacing().getPrice();//get price for room type and facing type
-        	        Reservation waitList = new Reservation(reservationCode, identity, room, priceForWaitList, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(2));
-        	        reservationDao.addReservation(waitList);
-        		}
-        	break;
+                //double price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
+                double price = room.getRoomType().getPrice() + room.getFacing().getPrice();
+                Reservation reservation = new Reservation(reservationCode, identity, room, price, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(1));
+                reservationDao.addReservation(reservation);
+                updateRoomStatusByReservationList();
+                break;
+
+            case 2:
+
+                break;
+
+            case 3:
+                roomManager.displayRoomType();
+                System.out.print("Select the room type to make wait list: ");
+                int choiceOftype = Input.GetInt();
+                while (choiceOftype < 1 || choiceOftype > roomManager.getRoomDao().getAllRoomType().size())
+                {
+                    System.out.print("Please select correct room type to make wait list: ");
+                    choiceOftype = Input.GetInt();
+                }
+                boolean roomUnavailable = false;
+                for (int i = 0; i < availableRoomList.size(); i++)
+                {
+                    if (availableRoomList.get(i).getRoomType().getType().equals(roomManager.getRoomDao().getAllRoomType().get(choiceOftype - 1).getType()) && !availableRoomList.get(i).getRoomStatus().equals(RoomStatus.returnStatus(4)))
+                    {
+                        System.out.println("The " + roomManager.getRoomDao().getAllRoomType().get(choiceOftype - 1).getType() + " room type is available, please do reservation");
+                        roomUnavailable = true;
+                        break;
+                    }
+                }
+                if (!roomUnavailable)
+                {
+                    for (int i = 0; i < roomManager.getAllRoom().size(); i++)
+                    {
+                        if (roomManager.getRoomDao().getAllRoomType().get(choiceOftype - 1).getType().equals(roomManager.getAllRoom().get(i).getRoomType().getType()))
+                        {
+                            room = roomManager.getAllRoom().get(i);
+                            break;
+                        }
+                    }
+                    double priceForWaitList = room.getRoomType().getPrice() + room.getFacing().getPrice();//get price for room type and facing type
+                    Reservation waitList = new Reservation(reservationCode, identity, room, priceForWaitList, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(2));
+                    reservationDao.addReservation(waitList);
+                }
+                break;
         }
-        
-       
-        //this.updateStatusBySystem(room, RoomStatus.returnStatus(3));//update room status to reserved
-        //String reportDate = dateFormat.format(checkinDate);
+
+        updateRoomStatusByReservationList();
     }
+
     public Reservation searchReservationbyReservationCode(String reservationCode)
-    {  
-    	return reservationDao.searchReservationByReservationCode(reservationCode);
+    {
+        return reservationDao.searchReservationByReservationCode(reservationCode);
     }
 
 
@@ -212,67 +234,73 @@ public class ReservationManager
         System.out.print("Enter the reservation code to update reservation: ");
         String reservationCode = Input.GetString();
         Reservation reservation = reservationDao.searchReservationByReservationCode(reservationCode);
-        if (reservation.getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+
+        if (reservation != null)
         {
-            System.out.println("Reservation is expired, update is not allow");
-        }
-        else
-        {
-            System.out.println("Reservation Information ");
-            System.out.println("1. Cancel the reservation");
-            System.out.println("2. Number of adults");
-            System.out.println("3. Number of children");
-            System.out.println("4. Cancel update");
-            System.out.print("Select which detail you want to update: ");
-            int choice = Input.GetInt();
-            while (choice < 1 || choice > 6)
+            if (reservation.getReservationStatus().equals(ReservationStatus.returnStatus(4)))
             {
-                System.out.print("Please enter correct choice: ");
-                choice = Input.GetInt();
+                System.out.println("Reservation is expired, update is not allow");
             }
-            System.out.println("");
-
-            long diff;
-            int numOfDays;
-            double price;
-            Calendar digiClock = Calendar.getInstance();
-            digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-            Date reservationDatetime = digiClock.getTime();//get reservation datetime
-            switch (choice)
+            else
             {
-                case 1:
-                	for(int i = 0; i < reservationDao.getAllReservation().size(); i++)
-                	{
-                		if(reservationCode.equals(reservationDao.getAllReservation().get(i).getReservationCode()))
-                		{
-                			reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
-                			break;
-                		}
-                	}
-                    break;
-               
-                case 2:
-                    System.out.print("Enter number of adults: ");
-                    int numberOfAdults = Input.GetInt();
-                    reservation.setReservationDatetime(reservationDatetime);
-                    reservation.setNumOfAdult(numberOfAdults);
-                    break;
-                case 3:
-                    System.out.print("Enter number of children: ");
-                    int numberOfChildren = Input.GetInt();
-                    reservation.setReservationDatetime(reservationDatetime);
-                    reservation.setNumOfAdult(numberOfChildren);
-                    break;
-                default:
-                    System.out.println("Update canceled.");
+                System.out.println("Reservation Information ");
+                System.out.println("1. Cancel the reservation");
+                System.out.println("2. Number of adults");
+                System.out.println("3. Number of children");
+                System.out.println("4. Cancel update");
+                System.out.print("Select which detail you want to update: ");
+                int choice = Input.GetInt();
+                while (choice < 1 || choice > 6)
+                {
+                    System.out.print("Please enter correct choice: ");
+                    choice = Input.GetInt();
+                }
+                System.out.println("");
+
+                long diff;
+                int numOfDays;
+                double price;
+                Calendar digiClock = Calendar.getInstance();
+                digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+                Date reservationDatetime = digiClock.getTime();//get reservation datetime
+                switch (choice)
+                {
+                    case 1:
+                        for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
+                        {
+                            if (reservationCode.equals(reservationDao.getAllReservation().get(i).getReservationCode()))
+                            {
+                                reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
+                                break;
+                            }
+                        }
+                        break;
+
+                    case 2:
+                        System.out.print("Enter number of adults: ");
+                        int numberOfAdults = Input.GetInt();
+                        reservation.setReservationDatetime(reservationDatetime);
+                        reservation.setNumOfAdult(numberOfAdults);
+                        break;
+                    case 3:
+                        System.out.print("Enter number of children: ");
+                        int numberOfChildren = Input.GetInt();
+                        reservation.setReservationDatetime(reservationDatetime);
+                        reservation.setNumOfAdult(numberOfChildren);
+                        break;
+                    default:
+                        System.out.println("Update canceled.");
 
 
+                }
             }
         }
     }
 
     public void displayAllReservation()
     {
+        makeReservationExpired();
+
         for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
         {
             String reservationCode = reservationDao.getAllReservation().get(i).getReservationCode();
@@ -296,7 +324,8 @@ public class ReservationManager
 
     public void displayReservationByCode()
     {
-        displayAllReservation();
+        makeReservationExpired();
+
         System.out.print("Enter reservation code or 0 to cancel: ");
         String reservationCode = Input.GetString();
 
@@ -325,20 +354,25 @@ public class ReservationManager
         }
     }
 
-
     
     public void removeReservation()
     {
+        makeReservationExpired();
+
         System.out.print("Enter the reservation code to remove reservation: ");
         String reservationCode = Input.GetString();
         Reservation reservation = reservationDao.searchReservationByReservationCode(reservationCode);
-        if (reservation.getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+
+        if (reservation != null)
         {
-            reservationDao.removeReservation(reservation);//only allow to remove when the status is expired
-        }
-        else
-        {
-            System.out.println("This reservation cannot be removed in this moment");
+            if (reservation.getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+            {
+                reservationDao.removeReservation(reservation);//only allow to remove when the status is expired
+            }
+            else
+            {
+                System.out.println("This reservation cannot be removed in this moment");
+            }
         }
     }
 
@@ -359,26 +393,28 @@ public class ReservationManager
 
     //make reservation expired if user not check in after 3pm of the check in date
     @SuppressWarnings("deprecation")
-	public void makeReservationExpired()
+    public void makeReservationExpired()
     {
         Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();
-        digiClock.set(Calendar.HOUR_OF_DAY,15);
-        digiClock.set(Calendar.MINUTE,0);
-        digiClock.set(Calendar.SECOND,0);
-          
+        digiClock.set(Calendar.HOUR_OF_DAY, 15);
+        digiClock.set(Calendar.MINUTE, 0);
+        digiClock.set(Calendar.SECOND, 0);
+
         Date tempCheckInDate = new Date();
         String strCheckIn = null;
         for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
         {
-        	strCheckIn =  dateFormat.format(reservationDao.getAllReservation().get(i).getCheckInDatetime());
-    		try {
-    			tempCheckInDate = dateFormat.parse(strCheckIn);
-    			tempCheckInDate.setHours(digiClock.getTime().getHours());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+            strCheckIn = dateFormat.format(reservationDao.getAllReservation().get(i).getCheckInDatetime());
+            try
+            {
+                tempCheckInDate = dateFormat.parse(strCheckIn);
+                tempCheckInDate.setHours(digiClock.getTime().getHours());
+            } catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
 
             if (current.compareTo(tempCheckInDate) >= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
             {
@@ -391,35 +427,35 @@ public class ReservationManager
     
     public void updateRoomStatusByReservationList()
     {
-    	Calendar digiClock = Calendar.getInstance();
+        Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();
         
-    	for(int i = 0; i < reservationDao.getAllReservation().size(); i++)
-    	{
-    		if(reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay()==current.getDay() && reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
-    		{
-    			if(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(3)))
-    			{
-    				roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(1));
-    			}
-    		}
-    		
-    		if(reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay()==current.getDay() && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))
-    		{
-    			if(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(1)))
-    			{
-    				roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(3));
-    			}
-    		}//make the vacant room status to reserved if the check in date is today and the reservation is valid
-    	}
-    	
+        for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
+        {
+            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay() == current.getDay() && reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+            {
+                if (roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(3)))
+                {
+                    roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(1));
+                }
+            }
+
+            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay() == current.getDay() && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))
+            {
+                if (roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(1)))
+                {
+                    roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(3));
+                }
+            }//make the vacant room status to reserved if the check in date is today and the reservation is valid
+        }
+
         
     }
     
     public void displayAvailableRoom(ArrayList<Room> availableRoomList)
     {
-    	int noOfVacant = 0, total = 0;
+        int noOfVacant = 0, total = 0;
         System.out.println("\nThe following room are available to reserve");
         for (int i = 0; i < roomManager.getRoomDao().getAllRoomType().size(); i++)
         {
@@ -431,7 +467,7 @@ public class ReservationManager
                 }
             }
             for (int j = 0; j < availableRoomList.size(); j++)
-             {
+            {
                 if (roomManager.getRoomDao().getAllRoomType().get(i).getType().equals(availableRoomList.get(j).getRoomType().getType()) && !availableRoomList.get(j).getRoomStatus().equals(RoomStatus.returnStatus(4)))
                 {
                     noOfVacant++;
@@ -450,72 +486,74 @@ public class ReservationManager
         }
     }
     
-    public void updateAvailableRoomList(ArrayList<Room> availableRoomList, Date checkInDate,Date checkOutDate)
+    public void updateAvailableRoomList(ArrayList<Room> availableRoomList, Date checkInDate, Date checkOutDate)
     {
-    	while(checkInDate.compareTo(checkOutDate)<=0)
-        {	
-          for(int i =0;i<reservationDao.getAllReservation().size();i++)
-          {
-        	  if(checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckInDatetime())>=0 && checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckOutDatetime())<=0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
-        	  {
-        		  for(int j=0;j<availableRoomList.size();j++)
-        		  {
-        			  if(availableRoomList.get(j).getRoomNumber()==reservationDao.getAllReservation().get(i).getRoom().getRoomNumber())
-        			  {
-        				  availableRoomList.remove(j);
-        			  }
-        		  }  
-        	  }
-          }
-        	long time = checkInDate.getTime();
+        while (checkInDate.compareTo(checkOutDate) <= 0)
+        {
+            for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
+            {
+                if (checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckInDatetime()) >= 0 && checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckOutDatetime()) <= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+                {
+                    for (int j = 0; j < availableRoomList.size(); j++)
+                    {
+                        if (availableRoomList.get(j).getRoomNumber() == reservationDao.getAllReservation().get(i).getRoom().getRoomNumber())
+                        {
+                            availableRoomList.remove(j);
+                        }
+                    }
+                }
+            }
+            long time = checkInDate.getTime();
             time += 1000 * 60 * 60 * 24;
-            checkInDate.setTime(time); 
+            checkInDate.setTime(time);
         }//remove the unavailable room within the checkin and checkout date
     }
 
     public void updateWaitList()
     {
-    	ArrayList<Reservation> waitList=new ArrayList<Reservation>();
-    	for(int i = 0; i <reservationDao.getAllReservation().size();i++)
-    	{
-    		if(reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(2)))
-    		{
-    			waitList.add(reservationDao.getAllReservation().get(i));
-    		}
-    	}
-    	availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());
-    	Date checkInDatetime = new Date();
-    	String strCheckIn = null;
-    	for(int i = 0;i<waitList.size();i++)
-    	{
-    		strCheckIn =  dateFormat.format(waitList.get(i).getCheckInDatetime());
-    		try {
-				checkInDatetime = dateFormat.parse(strCheckIn);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-            Date checkOutDatetime = waitList.get(i).getCheckOutDatetime(); 
+        ArrayList<Reservation> waitList = new ArrayList<Reservation>();
+        for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
+        {
+            if (reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(2)))
+            {
+                waitList.add(reservationDao.getAllReservation().get(i));
+            }
+        }
+        availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());
+        Date checkInDatetime = new Date();
+        String strCheckIn = null;
+        for (int i = 0; i < waitList.size(); i++)
+        {
+            strCheckIn = dateFormat.format(waitList.get(i).getCheckInDatetime());
+            try
+            {
+                checkInDatetime = dateFormat.parse(strCheckIn);
+            } catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            Date checkOutDatetime = waitList.get(i).getCheckOutDatetime();
             this.updateAvailableRoomList(availableRoomList, checkInDatetime, checkOutDatetime);
             
             
-            for(int k = 0; k < availableRoomList.size();k++)
+            for (int k = 0; k < availableRoomList.size(); k++)
             {
-            	if(availableRoomList.get(k).getRoomType().getType().equals(waitList.get(i).getRoom().getRoomType().getType()) &&!availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
-            	{
-            		Room room = null;
-            		for(int j=0;j<roomManager.getAllRoom().size();j++)
-            		{
-            			if(availableRoomList.get(k).getRoomNumber()==roomManager.getAllRoom().get(j).getRoomNumber())
-            			{
-            				room = roomManager.getAllRoom().get(j);
-            			}
-            		}
-            		waitList.get(i).setRoom(room);
-            		waitList.get(i).setReservationStatus(ReservationStatus.returnStatus(1));
-            	}
+                if (availableRoomList.get(k).getRoomType().getType().equals(waitList.get(i).getRoom().getRoomType().getType()) && !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
+                {
+                    Room room = null;
+                    for (int j = 0; j < roomManager.getAllRoom().size(); j++)
+                    {
+                        if (availableRoomList.get(k).getRoomNumber() == roomManager.getAllRoom().get(j).getRoomNumber())
+                        {
+                            room = roomManager.getAllRoom().get(j);
+                        }
+                    }
+                    waitList.get(i).setRoom(room);
+                    waitList.get(i).setReservationStatus(ReservationStatus.returnStatus(1));
+                }
             }
-    	}
-    	System.out.println(""+availableRoomList.size());
+        }
+        System.out.println("" + availableRoomList.size());
     }
     
     public void WritetoFile()
@@ -523,5 +561,8 @@ public class ReservationManager
         reservationDao.updateFile();
     }
     
-    public ReservationDaoImpl getReservationDao() { return (ReservationDaoImpl)reservationDao; }
+    public ReservationDaoImpl getReservationDao()
+    {
+        return (ReservationDaoImpl) reservationDao;
+    }
 }

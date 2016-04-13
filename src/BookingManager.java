@@ -149,8 +149,8 @@ public class BookingManager
         	                 	System.out.println("The room is unavailable in that period, please select another room.");
         	                 	room = null;
         	                 }          
-        	        } while (room == null);//selecte the vacant room
-        		 
+        	        } while (room == null);//select the vacant room
+
         		 double price = (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
         		 System.out.println(dateFormat.format(checkInDate));
      	        Booking booking = new Booking(cus_id, room, price, checkInDate, checkOutDate, numberOfAdults, numberOfChildren);
@@ -375,7 +375,7 @@ public class BookingManager
     	                	billManager.getBillDao().updateRoomCharge(roomNum, price);
     	                	bookingDao.removeBooking(booking);
     	                	System.out.println("Customer has alreday checked out" );
-    	                	paymentManager.pay(roomNum);
+    	                	paymentManager.pay(roomNum, numOfDays);
     	            
     	            
     	  break;
@@ -388,7 +388,7 @@ public class BookingManager
 	                	price=booking.getPrice()*numOfDays;
 	                	billManager.getBillDao().updateRoomCharge(roomNum, price);
 	                	bookingDao.removeBooking(booking);
-	                	paymentManager.pay(roomNum);
+	                	paymentManager.pay(roomNum, numOfDays);
 	            
 	           
 	     break;

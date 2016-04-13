@@ -9,7 +9,7 @@ public class PaymentManager
         this.orderManager = orderManager;
     }
 
-    public void pay(int roomNum)
+    public void pay(int roomNum, int days)
     {
         billManager.displayBillbyRoomNum(roomNum);
         System.out.print("1. Pay by credit card\n2. Pay by cash\nInput : ");
@@ -18,10 +18,10 @@ public class PaymentManager
         switch (choice)
         {
             case 1:
-                byCreditCard(roomNum);
+                byCreditCard(roomNum, days);
                 break;
             case 2:
-                byCash(roomNum);
+                byCash(roomNum, days);
                 break;
             default:
                 System.out.print("Invalid input! Enter again : ");
@@ -29,7 +29,7 @@ public class PaymentManager
         }
     }
 
-    public void byCreditCard(int roomNum)
+    public void byCreditCard(int roomNum, int days)
     {
         for (int i = 0; i < billManager.getBillDao().getAllBill().size(); i++)
         {
@@ -40,13 +40,25 @@ public class PaymentManager
                 double taxable = billManager.getBillDao().getAllBill().get(i).getTax() * total;
                 double payable = total - discount + taxable;
 
-                System.out.println("\n\nBill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() + "\n" +
-                        "Room Number\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
-                        "Room Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +
-                        "Room Service Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
-                        "Total\t:\t" + total + "\n" +
-                        "Tax\t:\t" + taxable + "\n" +
-                        "Room Service Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
+                String orderItems = "";
+
+                for (int j = 0; j < orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().size(); j++)
+                {
+                    orderItems += "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getService() +
+                            "\t$" + "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getPrice() + "\n";
+                }
+
+                System.out.println("----------------------------------------------------------------------------" + "\n" +
+                        "\n\nBill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() +
+                        "\tRoom Number : " + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
+                        "Days of stay : " + days + "\n" +
+                        "Room Charge : " + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +
+                        "Room Service Charge : " + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
+                        "\tOrder items : " + "\n" + orderItems +
+                        "Total : " + total + "\n" +
+                        "Tax : " + taxable + "\n" +
+                        "Total amount : " + payable + "\n" +
+                        "----------------------------------------------------------------------------" + "\n" +
                         "$" + payable + " has been paid for room " + roomNum + " through credit card!");
 
                 billManager.removeBill(roomNum);
@@ -55,7 +67,7 @@ public class PaymentManager
         }
     }
 
-    public void byCash(int roomNum)
+    public void byCash(int roomNum, int days)
     {
         for (int i = 0; i < billManager.getBillDao().getAllBill().size(); i++)
         {
@@ -69,13 +81,25 @@ public class PaymentManager
                 System.out.print("Amount : ");
                 int amount = Input.GetInt();
 
-                System.out.println("\n\nBill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() + "\n" +
-                        "Room Number\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
-                        "Room Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +
-                        "Room Service Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
-                        "Total\t:\t" + total + "\n" +
-                        "Tax\t:\t" + taxable + "\n" +
-                        "Room Service Charge\t:\t" + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
+                String orderItems = "";
+
+                for (int j = 0; j < orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().size(); j++)
+                {
+                    orderItems += "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getService() +
+                            "\t$" + "\t\t" + orderManager.getOrderDao().getOrderByRoomNum(roomNum).getRoomServiceList().get(i).getPrice() + "\n";
+                }
+
+                System.out.println("----------------------------------------------------------------------------" + "\n" +
+                        "\n\nBill number : " + billManager.getBillDao().getAllBill().get(i).getBillNum() +
+                        "\tRoom Number : " + billManager.getBillDao().getAllBill().get(i).getRoomNum() + "\n" +
+                        "Days of stay : " + days + "\n" +
+                        "Room Charge : " + billManager.getBillDao().getAllBill().get(i).getRoomCharge() + "\n" +
+                        "Room Service Charge : " + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge() + "\n" +
+                        "\tOrder items : " + "\n" + orderItems +
+                        "Total : " + total + "\n" +
+                        "Tax : " + taxable + "\n" +
+                        "Total amount : " + payable + "\n" +
+                        "----------------------------------------------------------------------------" + "\n" +
                         "$" + payable + " has been paid for room " + roomNum + "!\n" +
                         "Amount : " + amount + "\n" +
                         "Change : " + (amount - total));
