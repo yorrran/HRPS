@@ -50,7 +50,7 @@ public class GuestManager
             System.out.print("Customer name : ");
             String name = sc.nextLine();
             System.out.print("Country : ");
-            String country = Input.GetString();
+            String country = sc.nextLine();
             System.out.print("Gender : ");
             String gender = Input.GetString();
             System.out.print("Address : ");

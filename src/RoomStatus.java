@@ -1,6 +1,6 @@
 public enum RoomStatus
 {
-    Vacant, Occipied, Reserved, UnderMaintenance;
+    Vacant, Occupied, Reserved, UnderMaintenance;
 
     public static void printRoomStatus()
     {
@@ -19,7 +19,7 @@ public enum RoomStatus
             case 1:
                 return Vacant;
             case 2:
-                return Occipied;
+                return Occupied;
             case 3:
                 return Reserved;
             case 4:

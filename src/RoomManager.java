@@ -214,7 +214,7 @@ public class RoomManager
                 System.out.print(roomDao.getAllRoom().get(i).getRoomNumber() + ", ");
         System.out.println("");
 
-        System.out.println("\nOccipied: ");
+        System.out.println("\nOccupied: ");
         System.out.print("Rooms: ");
         for (int i = 0; i < roomDao.getAllRoom().size(); i++)
             if (roomDao.getAllRoom().get(i).getRoomStatus() == RoomStatus.returnStatus(2))

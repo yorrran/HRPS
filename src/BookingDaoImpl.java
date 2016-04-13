@@ -6,7 +6,7 @@ public class BookingDaoImpl implements BookingDao
 {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
     private ArrayList<Booking> bookingList = new ArrayList<Booking>();
-    private static final String filename = "File/booking.dat";
+    private static final String filename = "File/Booking.dat";
 
     public BookingDaoImpl()
     {

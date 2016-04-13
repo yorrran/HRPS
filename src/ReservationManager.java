@@ -449,14 +449,13 @@ public class ReservationManager
                 }
             }//make the vacant room status to reserved if the check in date is today and the reservation is valid
         }
-
-        
     }
     
     public void displayAvailableRoom(ArrayList<Room> availableRoomList)
     {
         int noOfVacant = 0, total = 0;
         System.out.println("\nThe following room are available to reserve");
+
         for (int i = 0; i < roomManager.getRoomDao().getAllRoomType().size(); i++)
         {
             for (int j = 0; j < roomManager.getAllRoom().size(); j++)
@@ -475,11 +474,13 @@ public class ReservationManager
             }
             System.out.println(roomManager.getRoomDao().getAllRoomType().get(i).getType() + ": Number: " + noOfVacant + " out of " + total);
             System.out.print("Rooms: ");
+
             for (int k = 0; k < availableRoomList.size(); k++)
             {
                 if (roomManager.getRoomDao().getAllRoomType().get(i).getType().equals(availableRoomList.get(k).getRoomType().getType()) && !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
                     System.out.print("0" + availableRoomList.get(k).getRoomNumber() + ", ");
             }
+
             System.out.println("");
             noOfVacant = 0;
             total = 0;
@@ -515,9 +516,7 @@ public class ReservationManager
         for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
         {
             if (reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(2)))
-            {
                 waitList.add(reservationDao.getAllReservation().get(i));
-            }
         }
         availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());
         Date checkInDatetime = new Date();
@@ -534,8 +533,7 @@ public class ReservationManager
             }
             Date checkOutDatetime = waitList.get(i).getCheckOutDatetime();
             this.updateAvailableRoomList(availableRoomList, checkInDatetime, checkOutDatetime);
-            
-            
+
             for (int k = 0; k < availableRoomList.size(); k++)
             {
                 if (availableRoomList.get(k).getRoomType().getType().equals(waitList.get(i).getRoom().getRoomType().getType()) && !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))

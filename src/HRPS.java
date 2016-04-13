@@ -85,9 +85,9 @@ class HRPS
                     bookingManager.add_booking();
                     break;
                 case 2:
-                    System.out.print("Enter room number: ");
+                    System.out.print("Enter room number : ");
                     roomNum = Input.GetInt();
-                    System.out.print("Enter Customer Identity: ");
+                    System.out.print("Enter Customer Identity : ");
                     String cus_id = Input.GetString();
                     bookingManager.update_booking(roomNum, cus_id);
                     break;
@@ -95,7 +95,7 @@ class HRPS
                     bookingManager.checkOut();
                     break;
                 case 4:
-                    System.out.print("Enter room number: ");
+                    System.out.print("Enter room number : ");
                     roomNum = Input.GetInt();
                     bookingManager.displaybookingByRoomNum(roomNum);
                     break;
