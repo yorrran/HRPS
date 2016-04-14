@@ -16,6 +16,5 @@ public interface RoomDao
 
     void addRoomFacing(RoomFacing roomFacing);
 
-    //void updateRoom(Room room);
     void updateFile();
 }

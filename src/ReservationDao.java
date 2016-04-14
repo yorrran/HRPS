@@ -10,7 +10,5 @@ public interface ReservationDao
 
     void removeReservation(Reservation reservation);
 
-    //void updateReservation(String reservationCode, Reservation reservation);
-
     void updateFile();
 }

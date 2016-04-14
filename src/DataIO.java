@@ -1,12 +1,19 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class DataIO
 {
-    @SuppressWarnings("rawtypes")
-	public static ArrayList Read(String fileName)
+    /**
+     *
+     * @param fileName
+     * @return
+     */
+    public static ArrayList Read(String fileName)
     {
-    	ArrayList objectList = new ArrayList();
+        ArrayList objectList = new ArrayList();
         FileInputStream fis;
         ObjectInputStream in;
 
@@ -17,22 +24,24 @@ public class DataIO
             objectList = (ArrayList) in.readObject();
             in.close();
             fis.close();
-        }
-        catch (FileNotFoundException ex)
+        } catch (FileNotFoundException ex)
         {
             System.out.println("Data file not found");
-        }
-        catch (ClassNotFoundException ex)
+        } catch (ClassNotFoundException ex)
         {
             ex.printStackTrace();
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             ex.printStackTrace();
         }
         return objectList;
     }
 
+    /**
+     *
+     * @param fileName
+     * @param oList
+     */
     public static void Write(String fileName, ArrayList oList)
     {
         FileOutputStream fos;
@@ -44,12 +53,10 @@ public class DataIO
             out.writeObject(oList);
             out.close();
             fos.close();
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             ex.printStackTrace();
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             ex.printStackTrace();
         }

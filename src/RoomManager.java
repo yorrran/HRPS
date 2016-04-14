@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class RoomManager
 {
     private RoomDao roomDao;
-  
+
     public RoomManager()
     {
         roomDao = new RoomDaoImpl();
@@ -27,7 +27,8 @@ public class RoomManager
 
             String status = roomDao.getAllRoom().get(i).getRoomStatus().toString();
             System.out.println("Room Number: 0" + roomNumber + ", Status: " + status);
-            System.out.println("Room Type: " + roomType + ", Bed Type: " + bedType + " bed" + ", Facing: " + facing + ", WIFI: " + isWifi + ", Smoking: " + isSmoking);
+            System.out.println("Room Type: " + roomType + ", Bed Type: " + bedType + " bed" + ", Facing: " + facing +
+                    ", WIFI: " + isWifi + ", Smoking: " + isSmoking);
             System.out.println("---------------------------------------");
         }
     }
@@ -66,7 +67,7 @@ public class RoomManager
                 updateRoomSmoking(room);
                 break;
             case 4:
-            	updateRoomStatusByStaff(room);
+                updateRoomStatusByStaff(room);
                 break;
             default:
                 System.out.println("Update canceled.");
@@ -94,16 +95,16 @@ public class RoomManager
         System.out.println("2. Disable Wifi");
         System.out.print("Select to enable/disable wifi for the room: ");
         int choiceOfWifi = Input.GetInt();
-        
+
         System.out.println("");
-        
+
         while (choiceOfWifi < 1 || choiceOfWifi > 2)
         {
             System.out.print("Please enter a correct choice:");
             choiceOfWifi = Input.GetInt();
             System.out.println("");
         }
-        
+
         if (choiceOfWifi == 1)
             room.setWifi(true);
         else
@@ -118,7 +119,7 @@ public class RoomManager
         System.out.print("Select to smoking/non-smoking for the room: ");
         int choiceOfSmoking = Input.GetInt();
         System.out.println("");
-        
+
         while (choiceOfSmoking < 1 || choiceOfSmoking > 2)
         {
             System.out.print("Please enter a correct choice:");
@@ -131,13 +132,13 @@ public class RoomManager
         else
             room.setSmoking(false);
     }
-    
+
     public void updateRoomStatusByStaff(Room room)
-    {   
-    	System.out.println("Room status:");
-    	System.out.println("1. set to under maintenance");
-    	System.out.println("2. set to vacant");
-    	System.out.print("Select the status for this room: ");
+    {
+        System.out.println("Room status:");
+        System.out.println("1. set to under maintenance");
+        System.out.println("2. set to vacant");
+        System.out.print("Select the status for this room: ");
         int choiceOfStatus = Input.GetInt();
         System.out.println("");
         while (choiceOfStatus < 1 || choiceOfStatus > 2)
@@ -146,31 +147,29 @@ public class RoomManager
             choiceOfStatus = Input.GetInt();
             System.out.println("");
         }
-        if(room.getRoomStatus().equals(RoomStatus.returnStatus(2)) || room.getRoomStatus().equals(RoomStatus.returnStatus(3)))
+        if (room.getRoomStatus().equals(RoomStatus.returnStatus(2)) || room.getRoomStatus().equals(RoomStatus.returnStatus(3)))
         {
-        	System.out.println("Room status for this roomcannot be updated at this moment\n");
+            System.out.println("Room status for this roomcannot be updated at this moment\n");
         }
         else
         {
-        	if(choiceOfStatus == 1)
-        	{
-        		room.setRoomStatus(RoomStatus.returnStatus(4));
-        	}
-        	else if(choiceOfStatus ==2)
-        	{
-        		room.setRoomStatus(RoomStatus.returnStatus(1));
-        	}
-        	System.out.println("Room status updated\n");
+            if (choiceOfStatus == 1)
+            {
+                room.setRoomStatus(RoomStatus.returnStatus(4));
+            }
+            else if (choiceOfStatus == 2)
+            {
+                room.setRoomStatus(RoomStatus.returnStatus(1));
+            }
+            System.out.println("Room status updated\n");
         }
     }
-    
+
     public void updateStatusBySystem(Room room, RoomStatus roomStatus)
     {
         room.setRoomStatus(roomStatus);
     }
 
-    //public void updateRoomStatus
-    
     public void displayVacantRoom()
     {
         int noOfVacant = 0, total = 0;
@@ -180,33 +179,30 @@ public class RoomManager
             for (int j = 0; j < roomDao.getAllRoom().size(); j++)
             {
                 if (roomDao.getAllRoomType().get(i).getType().equals(roomDao.getAllRoom().get(j).getRoomType().getType()))
-                {
                     total++;
-                }
-                if (roomDao.getAllRoomType().get(i).getType().equals(roomDao.getAllRoom().get(j).getRoomType().getType()) && roomDao.getAllRoom().get(j).getRoomStatus().equals(RoomStatus.returnStatus(1)))
-                {
+
+                if (roomDao.getAllRoomType().get(i).getType().equals(roomDao.getAllRoom().get(j).getRoomType().getType()) &&
+                        roomDao.getAllRoom().get(j).getRoomStatus().equals(RoomStatus.returnStatus(1)))
                     noOfVacant++;
-                }
             }
 
             System.out.println(roomDao.getAllRoomType().get(i).getType() + ": Number: " + noOfVacant + " out of " + total);
             System.out.print("Rooms: ");
             for (int k = 0; k < roomDao.getAllRoom().size(); k++)
             {
-                if (roomDao.getAllRoomType().get(i).getType().equals(roomDao.getAllRoom().get(k).getRoomType().getType()) && roomDao.getAllRoom().get(k).getRoomStatus().equals(RoomStatus.returnStatus(1)))
+                if (roomDao.getAllRoomType().get(i).getType().equals(roomDao.getAllRoom().get(k).getRoomType().getType()) &&
+                        roomDao.getAllRoom().get(k).getRoomStatus().equals(RoomStatus.returnStatus(1)))
                     System.out.print("0" + roomDao.getAllRoom().get(k).getRoomNumber() + ", ");
             }
+
             System.out.println("");
             noOfVacant = 0;
             total = 0;
         }
-
-
     }
 
     public void displayStatusByRoom()
     {
-
         System.out.println("\nVacant: ");
         System.out.print("Rooms: ");
         for (int i = 0; i < roomDao.getAllRoom().size(); i++)
@@ -301,7 +297,7 @@ public class RoomManager
 
     }
 
-    
+
     public void displayRoomFacing()
     {
         for (int i = 0; i < roomDao.getAllRoomFacing().size(); i++)
@@ -354,7 +350,8 @@ public class RoomManager
 
         String status = r.getRoomStatus().toString();
         System.out.println("Room Number: 0" + r.getRoomNumber() + ", Status: " + r.getRoomStatus().toString());
-        System.out.println("Room Type: " + r.getRoomType().getType() + ", Bed Type: " + r.getBedType().toString() + " bed" + ", Facing: " + r.getFacing().getFacingType() +
+        System.out.println("Room Type: " + r.getRoomType().getType() + ", Bed Type: " + r.getBedType().toString() + " bed" +
+                ", Facing: " + r.getFacing().getFacingType() +
                 ", WIFI: " + isWifi + ", Smoking: " + isSmoking);
     }
 
@@ -376,6 +373,6 @@ public class RoomManager
 
     public RoomDaoImpl getRoomDao()
     {
-        return (RoomDaoImpl)roomDao;
+        return (RoomDaoImpl) roomDao;
     }
 }

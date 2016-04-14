@@ -16,8 +16,7 @@ public class RoomDaoImpl implements RoomDao
             roomList = DataIO.Read(filename);
             roomTypeList = DataIO.Read(filename2);
             roomFacingList = DataIO.Read(filename3);
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             ex.printStackTrace();
         }
@@ -82,18 +81,6 @@ public class RoomDaoImpl implements RoomDao
             roomTypeList.get(i).setTypeId(i + 1);
         }
     }
-
-//	public void updateRoom(Room room)
-//	{
-//		 for (int i = 0; i < roomList.size(); i++)
-//	        {
-//	            if (roomList.get(i).getRoomNumber() == room.getRoomNumber())
-//	            {
-//	            	roomList.set(i, room);
-//	            	break;
-//	            }
-//	        }
-//	}
 
     public void updateFile()
     {

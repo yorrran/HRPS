@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class DataSetup
 {
-
     public static void main(String[] args)
     {
         CreateRoomType();
@@ -49,44 +48,43 @@ public class DataSetup
 
         for (int i = 1; i <= 8; i++)
         {
-            if (i < 3)
-                roomList.add(new Room((200 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(0), false, false, RoomStatus.returnStatus(1)));
-            else
-                roomList.add(new Room((200 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(0), false, false, RoomStatus.returnStatus(4)));
+            roomList.add(new Room((200 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(0),
+                    false, false, RoomStatus.returnStatus(1)));
         }
 
         for (int i = 1; i <= 8; i++)
         {
-            roomList.add(new Room((300 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(1), true, false, RoomStatus.returnStatus(4)));
-        }
-
-        for (int i = 1; i <= 8; i++)
-        {
-            if (i < 3)
-                roomList.add(new Room((400 + i), roomTypeList.get(1), RoomBedType.returnRoomBedType(1), roomFacingList.get(2), true, false, RoomStatus.returnStatus(1)));
-            else
-                roomList.add(new Room((400 + i), roomTypeList.get(1), RoomBedType.returnRoomBedType(1), roomFacingList.get(2), true, false, RoomStatus.returnStatus(4)));
+            roomList.add(new Room((300 + i), roomTypeList.get(0), RoomBedType.returnRoomBedType(1), roomFacingList.get(1),
+                    true, false, RoomStatus.returnStatus(1)));
         }
 
         for (int i = 1; i <= 8; i++)
         {
             if (i < 3)
-                roomList.add(new Room((500 + i), roomTypeList.get(2), RoomBedType.returnRoomBedType(2), roomFacingList.get(3), true, false, RoomStatus.returnStatus(1)));
+                roomList.add(new Room((400 + i), roomTypeList.get(1), RoomBedType.returnRoomBedType(1), roomFacingList.get(2),
+                        true, false, RoomStatus.returnStatus(1)));
             else
-                roomList.add(new Room((500 + i), roomTypeList.get(2), RoomBedType.returnRoomBedType(2), roomFacingList.get(3), true, false, RoomStatus.returnStatus(4)));
+                roomList.add(new Room((400 + i), roomTypeList.get(1), RoomBedType.returnRoomBedType(1), roomFacingList.get(2),
+                        true, false, RoomStatus.returnStatus(4)));
+
         }
 
         for (int i = 1; i <= 8; i++)
         {
-            if (i < 3)
-                roomList.add(new Room((600 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2), true, false, RoomStatus.returnStatus(1)));
-            else
-                roomList.add(new Room((700 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2), true, true, RoomStatus.returnStatus(4)));
+            roomList.add(new Room((500 + i), roomTypeList.get(2), RoomBedType.returnRoomBedType(2), roomFacingList.get(3),
+                    true, false, RoomStatus.returnStatus(1)));
         }
 
         for (int i = 1; i <= 8; i++)
         {
-            roomList.add(new Room((700 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2), true, true, RoomStatus.returnStatus(4)));
+            roomList.add(new Room((600 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2),
+                    true, true, RoomStatus.returnStatus(1)));
+        }
+
+        for (int i = 1; i <= 8; i++)
+        {
+            roomList.add(new Room((700 + i), roomTypeList.get(3), RoomBedType.returnRoomBedType(3), roomFacingList.get(2),
+                    true, true, RoomStatus.returnStatus(1)));
         }
 
         DataIO.Write(fileName, roomList);

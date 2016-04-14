@@ -18,19 +18,9 @@ public class RoomFacing implements Serializable
         return facingId;
     }
 
-    public void setFacingId(int facingId)
-    {
-        this.facingId = facingId;
-    }
-
     public String getFacingType()
     {
         return facingType;
-    }
-
-    public void setFacingType(String facingType)
-    {
-        this.facingType = facingType;
     }
 
     public double getPrice()

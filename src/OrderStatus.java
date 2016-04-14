@@ -2,6 +2,9 @@ public enum OrderStatus
 {
     Delivered, Delivering, Preparing, OrderReceived;
 
+    /**
+     *
+     */
     public static void displayOrderStatus()
     {
         int i = 1;
@@ -12,6 +15,11 @@ public enum OrderStatus
         }
     }
 
+    /**
+     *
+     * @param statusNumber
+     * @return
+     */
     public static OrderStatus returnStatus(int statusNumber)
     {
         switch (statusNumber)

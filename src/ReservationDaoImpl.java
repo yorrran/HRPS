@@ -53,15 +53,6 @@ public class ReservationDaoImpl implements ReservationDao
         this.reservationList.remove(reservation);
     }
 
-//	public void updateReservation(String reservationCode, Reservation reservation)
-//	{
-//		for (int i = 0; i < reservationList.size(); i++)
-//        {
-//            if (reservationList.get(i).getReservationCode() == reservationCode)
-//            	reservationList.set(i, reservation);
-//        }
-//	}
-
     public void updateFile()
     {
         DataIO.Write(filename, reservationList);

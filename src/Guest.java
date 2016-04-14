@@ -10,9 +10,9 @@ public class Guest implements Serializable
     private String nationality;
     private int phoneNum;
     private String email;
-    private long credit_no;
+    private long creditNum;
 
-    public Guest(String identity, String name, String country, String gender, String address, String nationality, int phoneNum, String email, long credit_no)
+    public Guest(String identity, String name, String country, String gender, String address, String nationality, int phoneNum, String email, long creditNum)
     {
         this.identity = identity;
         this.name = name;
@@ -22,7 +22,7 @@ public class Guest implements Serializable
         this.nationality = nationality;
         this.phoneNum = phoneNum;
         this.email = email;
-        this.credit_no = credit_no;
+        this.creditNum = creditNum;
     }
 
     public String getIdentity()
@@ -105,13 +105,13 @@ public class Guest implements Serializable
         this.email = email;
     }
 
-    public long getCredit_no()
+    public long getCreditNum()
     {
-        return credit_no;
+        return creditNum;
     }
 
-    public void setCredit_no(int credit_no)
+    public void setCreditNum(long credit_no)
     {
-        this.credit_no = credit_no;
+        this.creditNum = creditNum;
     }
 }

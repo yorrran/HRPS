@@ -2,16 +2,6 @@ public enum RoomStatus
 {
     Vacant, Occupied, Reserved, UnderMaintenance;
 
-    public static void printRoomStatus()
-    {
-        int i = 1;
-        for (RoomStatus status : RoomStatus.values())
-        {
-            System.out.println(i + ". " + status);
-            i++;
-        }
-    }
-
     public static RoomStatus returnStatus(int statusNumber)
     {
         switch (statusNumber)

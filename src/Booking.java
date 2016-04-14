@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Booking implements Serializable
@@ -52,7 +51,6 @@ public class Booking implements Serializable
     {
         this.price = price;
     }
-
 
     public Date getCheckInDatetime()
     {

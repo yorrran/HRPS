@@ -1,19 +1,25 @@
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class RoomServiceDaoImp implements RoomServiceDao
 {
     private static final String fileName = "File/RoomServiceType.dat";
     private static ArrayList<RoomServiceType> roomServiceList = new ArrayList<RoomServiceType>();
 
+    /**
+     *
+     */
     public RoomServiceDaoImp()
     {
-//        roomServiceList.add(new RoomServiceType(1, "Breakfast", 5));
-//        roomServiceList.add(new RoomServiceType(2, "Lunch", 10));
-//        roomServiceList.add(new RoomServiceType(3, "Dinner", 15));
-//        DataIO.Write(fileName, roomServiceList);
         roomServiceList = DataIO.Read(fileName);
     }
 
+    /**
+     *
+     * @param rst
+     */
     @Override
     public void addRoomService(RoomServiceType rst)
     {
@@ -21,39 +27,60 @@ public class RoomServiceDaoImp implements RoomServiceDao
         System.out.println("Room Service Added Successfully! ");
     }
 
+    /**
+     *
+     * @param index
+     * @param rst
+     */
     @Override
-    public void updateRoomService(RoomServiceType rst)
+    public void updateRoomService(int index, RoomServiceType rst)
     {
-        roomServiceList.get(rst.getId() - 1).setService(rst.getService());
-        roomServiceList.get(rst.getId() - 1).setPrice(rst.getPrice());
+        roomServiceList.get(index).setService(rst.getService());
+        roomServiceList.get(index).setPrice(rst.getPrice());
         System.out.println("Room Service updated successfully!");
     }
 
+    /**
+     *
+     * @param rst
+     */
     @Override
     public void removeRoomService(RoomServiceType rst)
     {
-        roomServiceList.remove(rst.getId() - 1);
+        roomServiceList.remove(rst);
         System.out.println("Room service removed!");
     }
 
+    /**
+     *
+     */
     @Override
     public void displayRoomService()
     {
         System.out.println("---------- Room Service List ----------");
+
         for (int i = 0; i < roomServiceList.size(); i++)
         {
-            System.out.println(roomServiceList.get(i).getId() + ". " + roomServiceList.get(i).getService() + "\t$" +
+            System.out.println((i + 1) + ". " + roomServiceList.get(i).getService() + "\t$" +
                     roomServiceList.get(i).getPrice());
         }
+
         System.out.println("------------------------------");
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ArrayList<RoomServiceType> getAllRoomService()
     {
         return roomServiceList;
     }
 
+    /**
+     *
+     */
     @Override
     public void updateFile()
     {

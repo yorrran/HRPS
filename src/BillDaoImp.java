@@ -7,13 +7,6 @@ public class BillDaoImp implements BillDao
 
     public BillDaoImp()
     {
-//        billList = new ArrayList<>();
-//        billList.add(new Bill (1, 201, 200, 0, 0));
-//        billList.add(new Bill (2, 301, 300, 0, 0));
-//        billList.add(new Bill (3, 401, 400, 100, 0));
-//        billList.add(new Bill (4, 501, 500, 200, 0));
-//        DataIO.Write(fileName, billList);
-
         billList = DataIO.Read(fileName);
     }
 

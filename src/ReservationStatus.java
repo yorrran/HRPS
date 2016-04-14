@@ -3,16 +3,6 @@ public enum ReservationStatus
 {
     Confirmed, WaitingList, CheckedIn, Expired;
 
-    public static void printReservationStatus()
-    {
-        int i = 1;
-        for (ReservationStatus status : ReservationStatus.values())
-        {
-            System.out.println(i + ". " + status);
-            i++;
-        }
-    }
-
     public static ReservationStatus returnStatus(int statusNumber)
     {
         switch (statusNumber)

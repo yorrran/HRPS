@@ -50,7 +50,7 @@ public class GuestDaoImpl implements GuestDao
                         "Nationality : " + guestList.get(i).getNationality() + "\n" +
                         "Phone Number : " + guestList.get(i).getPhoneNum() + "\n" +
                         "Email : " + guestList.get(i).getEmail() + "\n" +
-                        "Credit Card Number : " + guestList.get(i).getCredit_no() + "\n" +
+                        "Credit Card Number : " + guestList.get(i).getCreditNum() + "\n" +
                         "--------------------------------------------------");
                 found = true;
                 break;
@@ -79,7 +79,7 @@ public class GuestDaoImpl implements GuestDao
                         "Nationality : " + guestList.get(i).getNationality() + "\n" +
                         "Phone Number : " + guestList.get(i).getPhoneNum() + "\n" +
                         "Email : " + guestList.get(i).getEmail() + "\n" +
-                        "Credit Card Number : " + guestList.get(i).getCredit_no() + "\n" +
+                        "Credit Card Number : " + guestList.get(i).getCreditNum() + "\n" +
                         "--------------------------------------------------");
 
                 found = true;

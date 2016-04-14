@@ -1,3 +1,8 @@
+import java.util.Scanner;
+
+/**
+ *
+ */
 class HRPS
 {
     /*------------------------------ Menu Items ------------------------------*/
@@ -5,12 +10,12 @@ class HRPS
     private static final String bookingMenuMsg = "---------- Booking System ----------\n1. Check-in\n2. Update booking\n3. Check-out\n4. Display booking by room number\n0. Back to main menu\nInput : ";
     private static final String reservationMenuMsg = "---------- Reservation System ----------\n1. Add reservation\n2. Update reservation\n3. Remove reservation\n4. Display all reservation\n5. Display Reservation By Code\n6. Update wait-list\n7. Email guest as reminder\n0. Back to main menu\nInput : ";
     private static final String roomMenuMsg = "---------- Room System ----------\n1. Display all rooms\n2. Display empty rooms\n3. Display room by status\n4. Display room by room number\n5. Update room\n6. Update room price\n7. Add room type\n8. Remove room type\n0. Back to main menu\nInput : ";
-    private static final String guestMenuMsg = "----------Guest Management System ----------\n1. Add guest\n2. Update guest\n3. Remove guest\n4. Show all guests\n5. Search by ID\n6. Search by Name\n0. Back to main menu\nInput : ";
+    private static final String guestMenuMsg = "----------Guest Management System ----------\n1. Add guest\n2. Update guest\n3. Show all guests\n4. Search by ID\n5. Search by Name\n0. Back to main menu\nInput : ";
     private static final String roomServiceMenuMsg = "---------- Room Service System ----------\n1. Add room service\n2. Update room service\n3. Remove room service\n4. Show all room services\n0. Back to main menu\nInput : ";
     private static final String orderRoomServiceMenuMsg = "---------- Order Service System ----------\n1. Order room service\n2. Update order\n3. Show all order\n0. Back to main menu\nInput : ";
     private static final String invalidChoiceMsg = "Invalid option! Enter again!\n";
     private static int choice;
-    
+
     /*------------------------------ Create system manager ------------------------------*/
     private static BillManager billManager;
     private static BookingManager bookingManager;
@@ -21,6 +26,10 @@ class HRPS
     private static OrderManager orderManager;
     private static PaymentManager paymentManager;
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args)
     {
         // Initialize system managers
@@ -35,6 +44,9 @@ class HRPS
         mainMenu();
     }
 
+    /**
+     *
+     */
     private static void mainMenu()
     {
         do
@@ -71,6 +83,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void bookingMenu()
     {
         do
@@ -82,14 +97,14 @@ class HRPS
             switch (choice)
             {
                 case 1:
-                    bookingManager.add_booking();
+                    bookingManager.addBooking();
                     break;
                 case 2:
                     System.out.print("Enter room number : ");
                     roomNum = Input.GetInt();
                     System.out.print("Enter Customer Identity : ");
                     String cus_id = Input.GetString();
-                    bookingManager.update_booking(roomNum, cus_id);
+                    bookingManager.updateBooking(roomNum, cus_id);
                     break;
                 case 3:
                     bookingManager.checkOut();
@@ -100,7 +115,7 @@ class HRPS
                     bookingManager.displaybookingByRoomNum(roomNum);
                     break;
                 case 5:
-                	break;
+                    break;
                 case 0:
                     mainMenu();
                     break;
@@ -110,6 +125,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void reservationMenu()
     {
         do
@@ -150,6 +168,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void roomMenu()
     {
         do
@@ -195,6 +216,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void guestMenu()
     {
         do
@@ -205,25 +229,24 @@ class HRPS
             switch (choice)
             {
                 case 1:
-                	
+
                     guestManager.addGuest();
                     break;
                 case 2:
                     guestManager.updateGuest();
                     break;
-                //case 3 : guestManager.removeGuest();
-                //break;
-                case 4:
+                case 3:
                     guestManager.displayAllGuest();
                     break;
-                case 5:
+                case 4:
                     displayOutput("Enter guest's ID : ");
                     String id = Input.GetString();
                     guestManager.searchGuestbyId(id);
                     break;
-                case 6:
+                case 5:
                     displayOutput("Enter guest's name : ");
-                    String name = Input.GetString();
+                    Scanner sc = new Scanner(System.in);
+                    String name = sc.nextLine();
                     guestManager.searchGuestbyName(name);
                     break;
                 case 0:
@@ -235,6 +258,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void roomServiceMenu()
     {
         do
@@ -265,6 +291,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void orderRoomServiceMenu()
     {
         do
@@ -295,6 +324,9 @@ class HRPS
         } while (choice != 0);
     }
 
+    /**
+     *
+     */
     private static void exitApp()
     {
         // Save data to file
@@ -319,6 +351,10 @@ class HRPS
         System.exit(0);
     }
 
+    /**
+     *
+     * @param s
+     */
     private static void displayOutput(String s)
     {
         System.out.print(s);

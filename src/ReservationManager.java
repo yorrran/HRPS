@@ -15,7 +15,7 @@ public class ReservationManager
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
     private ArrayList<Room> availableRoomList = null;
-    
+
     public ReservationManager(RoomManager roomManager, GuestManager guestManager)
     {
         reservationDao = new ReservationDaoImpl();
@@ -65,7 +65,7 @@ public class ReservationManager
         String identity = null;
         identity = Input.GetString();
         boolean flag = false;
-        
+
         for (int i = 0; i < guestManager.getGuestDao().getAllGuest().size(); i++)
         {
             if (guestManager.getGuestDao().getAllGuest().get(i).getIdentity().equals(identity))
@@ -82,8 +82,8 @@ public class ReservationManager
             System.out.println("This customer is a new customer");
             guestManager.addGuest();
         }
-        
-        
+
+
         Room room = null;
         String reservationCode = new StringBuilder().append(getCurrentDateTime()).append(identity).toString();
         //get reservation code
@@ -92,7 +92,7 @@ public class ReservationManager
 
         System.out.print("Enter number of children: ");
         int numberOfChildren = Input.GetInt();
-        
+
         Date checkinDate = null;
         Date tempdate = null;
         Date checkOutDate = null;
@@ -124,7 +124,7 @@ public class ReservationManager
             if (checkinDate.compareTo(checkOutDate) >= 0)
                 System.out.println("Check in date must be eaelier than check out date");
         } while (checkinDate.compareTo(checkOutDate) >= 0);
-        
+
         availableRoomList = new ArrayList<Room>(roomManager.getAllRoom());//make a copy of room list
         this.updateAvailableRoomList(availableRoomList, tempdate, checkOutDate);
 
@@ -140,7 +140,7 @@ public class ReservationManager
             choice = Input.GetInt();
         }
         System.out.println("");
-        
+
         switch (choice)
         {
             case 1:
@@ -171,13 +171,11 @@ public class ReservationManager
                         System.out.println("The room is unavailable in that period, please select another room.");
                         room = null;
                     }
-                } while (room == null);//selecte the vacant room
+                } while (room == null);//select the vacant room
 
-                //double price = numOfDays * (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
                 double price = room.getRoomType().getPrice() + room.getFacing().getPrice();
                 Reservation reservation = new Reservation(reservationCode, identity, room, price, reservationDatetime, checkinDate, checkOutDate, numberOfAdults, numberOfChildren, ReservationStatus.returnStatus(1));
                 reservationDao.addReservation(reservation);
-                updateRoomStatusByReservationList();
                 break;
 
             case 2:
@@ -271,7 +269,9 @@ public class ReservationManager
                             if (reservationCode.equals(reservationDao.getAllReservation().get(i).getReservationCode()))
                             {
                                 reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
+                                updateWaitList();
                                 break;
+
                             }
                         }
                         break;
@@ -354,7 +354,7 @@ public class ReservationManager
         }
     }
 
-    
+
     public void removeReservation()
     {
         makeReservationExpired();
@@ -416,7 +416,7 @@ public class ReservationManager
                 e.printStackTrace();
             }
 
-            if (current.compareTo(tempCheckInDate) >= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+            if (current.compareTo(tempCheckInDate) >= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))
             {
                 reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
                 //Room room = this.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber());
@@ -424,16 +424,17 @@ public class ReservationManager
             }
         }
     }
-    
+
     public void updateRoomStatusByReservationList()
     {
         Calendar digiClock = Calendar.getInstance();
         digiClock.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         Date current = digiClock.getTime();
-        
+
         for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
         {
-            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay() == current.getDay() && reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay() == current.getDay() &&
+                    reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
             {
                 if (roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(3)))
                 {
@@ -441,16 +442,17 @@ public class ReservationManager
                 }
             }
 
-            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDay() == current.getDay() && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))
+            //make the vacant room status to reserved if the check in date is today and the reservation is valid
+            if (reservationDao.getAllReservation().get(i).getCheckInDatetime().getDate() == current.getDate() &&
+                    !(reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) &&
+                            !(reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))))
             {
                 if (roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()).getRoomStatus().equals(RoomStatus.returnStatus(1)))
-                {
                     roomManager.updateStatusBySystem(roomManager.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber()), RoomStatus.returnStatus(3));
-                }
-            }//make the vacant room status to reserved if the check in date is today and the reservation is valid
+            }
         }
     }
-    
+
     public void displayAvailableRoom(ArrayList<Room> availableRoomList)
     {
         int noOfVacant = 0, total = 0;
@@ -467,17 +469,17 @@ public class ReservationManager
             }
             for (int j = 0; j < availableRoomList.size(); j++)
             {
-                if (roomManager.getRoomDao().getAllRoomType().get(i).getType().equals(availableRoomList.get(j).getRoomType().getType()) && !availableRoomList.get(j).getRoomStatus().equals(RoomStatus.returnStatus(4)))
-                {
+                if (roomManager.getRoomDao().getAllRoomType().get(i).getType().equals(availableRoomList.get(j).getRoomType().getType()) &&
+                        !availableRoomList.get(j).getRoomStatus().equals(RoomStatus.returnStatus(4)))
                     noOfVacant++;
-                }
             }
             System.out.println(roomManager.getRoomDao().getAllRoomType().get(i).getType() + ": Number: " + noOfVacant + " out of " + total);
             System.out.print("Rooms: ");
 
             for (int k = 0; k < availableRoomList.size(); k++)
             {
-                if (roomManager.getRoomDao().getAllRoomType().get(i).getType().equals(availableRoomList.get(k).getRoomType().getType()) && !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
+                if (roomManager.getRoomDao().getAllRoomType().get(i).getType().equals(availableRoomList.get(k).getRoomType().getType()) &&
+                        !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
                     System.out.print("0" + availableRoomList.get(k).getRoomNumber() + ", ");
             }
 
@@ -486,14 +488,17 @@ public class ReservationManager
             total = 0;
         }
     }
-    
+
     public void updateAvailableRoomList(ArrayList<Room> availableRoomList, Date checkInDate, Date checkOutDate)
     {
+        // Remove the unavailable room within the checkin and checkout date
         while (checkInDate.compareTo(checkOutDate) <= 0)
         {
             for (int i = 0; i < reservationDao.getAllReservation().size(); i++)
             {
-                if (checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckInDatetime()) >= 0 && checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckOutDatetime()) <= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
+                if (checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckInDatetime()) >= 0 &&
+                        checkInDate.compareTo(reservationDao.getAllReservation().get(i).getCheckOutDatetime()) <= 0 &&
+                        !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)))
                 {
                     for (int j = 0; j < availableRoomList.size(); j++)
                     {
@@ -507,7 +512,7 @@ public class ReservationManager
             long time = checkInDate.getTime();
             time += 1000 * 60 * 60 * 24;
             checkInDate.setTime(time);
-        }//remove the unavailable room within the checkin and checkout date
+        }
     }
 
     public void updateWaitList()
@@ -536,28 +541,28 @@ public class ReservationManager
 
             for (int k = 0; k < availableRoomList.size(); k++)
             {
-                if (availableRoomList.get(k).getRoomType().getType().equals(waitList.get(i).getRoom().getRoomType().getType()) && !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
+                if (availableRoomList.get(k).getRoomType().getType().equals(waitList.get(i).getRoom().getRoomType().getType()) &&
+                        !availableRoomList.get(k).getRoomStatus().equals(RoomStatus.returnStatus(4)))
                 {
                     Room room = null;
                     for (int j = 0; j < roomManager.getAllRoom().size(); j++)
                     {
                         if (availableRoomList.get(k).getRoomNumber() == roomManager.getAllRoom().get(j).getRoomNumber())
-                        {
                             room = roomManager.getAllRoom().get(j);
-                        }
                     }
+
                     waitList.get(i).setRoom(room);
                     waitList.get(i).setReservationStatus(ReservationStatus.returnStatus(1));
                 }
             }
         }
     }
-    
+
     public void WritetoFile()
     {
         reservationDao.updateFile();
     }
-    
+
     public ReservationDaoImpl getReservationDao()
     {
         return (ReservationDaoImpl) reservationDao;

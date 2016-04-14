@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class GuestManager
 {
     GuestDao guestDao;
+    Scanner sc = new Scanner(System.in);
 
     public GuestManager()
     {
@@ -20,9 +21,9 @@ public class GuestManager
                     "Gender : " + guestDao.getAllGuest().get(i).getGender() + "\t" +
                     "Address : " + guestDao.getAllGuest().get(i).getAddress() + "\t" +
                     "Nationality : " + guestDao.getAllGuest().get(i).getNationality() + "\t" +
-                    "Phone Number : " + guestDao.getAllGuest().get(i).getPhoneNum() + "\t" +
+                    "Phone Number : " + guestDao.getAllGuest().get(i).getPhoneNum() + "\n" +
                     "Email : " + guestDao.getAllGuest().get(i).getEmail() + "\t" +
-                    "Credit Card Number : " + guestDao.getAllGuest().get(i).getCredit_no() + "\n" +
+                    "Credit Card Number : " + guestDao.getAllGuest().get(i).getCreditNum() + "\n" +
                     "--------------------------------------------------");
         }
     }
@@ -36,7 +37,7 @@ public class GuestManager
 
         for (int i = 0; i < guestDao.getAllGuest().size(); i++)
         {
-            if (identity.equals(guestDao.getAllGuest().get(i).getIdentity()) )
+            if (identity.equals(guestDao.getAllGuest().get(i).getIdentity()))
             {
                 System.out.println("Customer already exists!");
                 flag = false;
@@ -46,7 +47,6 @@ public class GuestManager
 
         if (flag == true)
         {
-            Scanner sc = new Scanner(System.in);
             System.out.print("Customer name : ");
             String name = sc.nextLine();
             System.out.print("Country : ");
@@ -98,12 +98,12 @@ public class GuestManager
 
                 do
                 {
-                	System.out.println("Choose customer information to be updated or 0 to end: ");
+                    System.out.println("Choose customer information to be updated or 0 to end: ");
                     choice = Input.GetInt();
-                    
+
                     switch (choice)
                     {
-                        case 1 :
+                        case 1:
                             while (flag == false)
                             {
                                 System.out.print("Enter new identity : ");
@@ -126,49 +126,51 @@ public class GuestManager
 
                             }
                             break;
-                        case 2 :
+                        case 2:
                             System.out.print("Enter new name : ");
-                            String new_name = Input.GetString();
+                            String new_name = sc.nextLine();
                             guest.setName(new_name);
                             break;
-                        case 3 :
+                        case 3:
                             System.out.print("Enter new country : ");
-                            String new_country = Input.GetString();
+                            String new_country = sc.nextLine();
                             guest.setCountry(new_country);
                             break;
-                        case 4 :
+                        case 4:
                             System.out.print("Enter new gender : ");
                             String new_gender = Input.GetString();
                             guest.setGender(new_gender);
                             break;
-                        case 5 :
+                        case 5:
                             System.out.print("Enter new address : ");
-                            String new_address = Input.GetString();
+                            String new_address = sc.nextLine();
+                            ;
                             guest.setAddress(new_address);
                             break;
-                        case 6 :
+                        case 6:
                             System.out.print("Enter new nationality : ");
                             String new_nation = Input.GetString();
                             guest.setNationality(new_nation);
                             break;
-                        case 7 :
+                        case 7:
                             System.out.print("Enter new phone number : ");
                             int new_num = Input.GetInt();
                             guest.setPhoneNum(new_num);
                             break;
-                        case 8 :
+                        case 8:
                             System.out.print("Enter new email: ");
                             String new_email = Input.GetString();
                             guest.setEmail(new_email);
                             break;
-                        case 9 :
+                        case 9:
                             System.out.print("Enter new credit card number : ");
-                            int credit_no = Input.GetInt();
-                            guest.setCredit_no(credit_no);
+                            long credit_no = Input.GetLong();
+                            guest.setCreditNum(credit_no);
                             break;
-                        case 0 :
+                        case 0:
                             break;
-                        default: System.out.println("Invalid option!");
+                        default:
+                            System.out.println("Invalid option!");
                             break;
                     }
                 } while (choice != 0);
@@ -194,6 +196,6 @@ public class GuestManager
 
     public GuestDao getGuestDao()
     {
-        return (GuestDaoImpl)guestDao;
+        return (GuestDaoImpl) guestDao;
     }
 }

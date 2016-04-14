@@ -2,6 +2,9 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Date;
 
+/**
+ *
+ */
 public class OrderManager
 {
     private OrderDao orderDao;
@@ -9,6 +12,11 @@ public class OrderManager
     private RoomServiceManager roomServiceManager;
     private Scanner sc = new Scanner(System.in);
 
+    /**
+     *
+     * @param billManager
+     * @param roomServiceManager
+     */
     public OrderManager(BillManager billManager, RoomServiceManager roomServiceManager)
     {
         orderDao = new OrderDaoImpl();
@@ -16,11 +24,18 @@ public class OrderManager
         this.roomServiceManager = roomServiceManager;
     }
 
+    /**
+     *
+     * @param roomNum
+     */
     public void createOrder(int roomNum)
     {
         orderDao.addOrder(new Order(roomNum));
     }
 
+    /**
+     *
+     */
     public void addOrder()
     {
         System.out.print("Enter room number or press 0 to cancel : ");
@@ -62,6 +77,9 @@ public class OrderManager
         }
     }
 
+    /**
+     *
+     */
     public void updateOrder()
     {
         SimpleDateFormat formatDate = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
@@ -127,6 +145,10 @@ public class OrderManager
         }
     }
 
+    /**
+     *
+     * @param roomNum
+     */
     public void removeOrder(int roomNum)
     {
         for (int i = 0; i < orderDao.getAllOrder().size(); i++)
@@ -136,6 +158,9 @@ public class OrderManager
         }
     }
 
+    /**
+     *
+     */
     public void displayOrderbyRoomNum()
     {
         SimpleDateFormat formatDate = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
@@ -170,6 +195,9 @@ public class OrderManager
         }
     }
 
+    /**
+     *
+     */
     public void displayAllOrder()
     {
         SimpleDateFormat formatDate = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
@@ -183,8 +211,7 @@ public class OrderManager
             {
                 for (int j = 0; j < orderDao.getAllOrder().get(i).getStatusList().size(); j++)
                 {
-                    System.out.println("------------------------------------------------------------" + " \n" +
-                            formatDate.format(orderDao.getAllOrder().get(i).getDateList().get(j)) +
+                    System.out.println(formatDate.format(orderDao.getAllOrder().get(i).getDateList().get(j)) +
                             "\tService Name : " + orderDao.getAllOrder().get(i).getRoomServiceList().get(j).getService() +
                             "\tPrice : " + orderDao.getAllOrder().get(i).getRoomServiceList().get(j).getPrice() +
                             "\tOrder Status : " + orderDao.getAllOrder().get(i).getStatusList().get(j) +
@@ -198,11 +225,18 @@ public class OrderManager
         }
     }
 
+    /**
+     *
+     */
     public void WritetoFile()
     {
         orderDao.updateFile();
     }
 
+    /**
+     *
+     * @return
+     */
     public OrderDaoImpl getOrderDao()
     {
         return (OrderDaoImpl) orderDao;

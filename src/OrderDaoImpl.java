@@ -9,13 +9,6 @@ public class OrderDaoImpl implements OrderDao
 
     public OrderDaoImpl()
     {
-//        orderList = new ArrayList<>();
-//        orderList.add(new Order(201));
-//        orderList.add(new Order(301));
-//        orderList.add(new Order(401));
-//        orderList.add(new Order(501));
-//        DataIO.Write(fileName, orderList);
-
         orderList = DataIO.Read(fileName);
     }
 
@@ -37,9 +30,7 @@ public class OrderDaoImpl implements OrderDao
         for (int i = 0; i < orderList.size(); i++)
         {
             if (orderList.get(i).getRoomNumber() == roomNum)
-            {
                 return orderList.get(i);
-            }
         }
 
         System.out.println("Room does not exists.");
@@ -71,15 +62,5 @@ public class OrderDaoImpl implements OrderDao
     public void removeOrder(Order order)
     {
         orderList.remove(order);
-    }
-
-    @Override
-    public void updateOrder(Order order)
-    {
-        for (int i = 0; i < orderList.size(); i++)
-        {
-            if (orderList.get(i).getRoomNumber() == order.getRoomNumber())
-                orderList.set(i, order);
-        }
     }
 }

@@ -15,7 +15,7 @@ public class RoomServiceManager
         System.out.print("Enter Room Service Price: ");
         int price = Input.GetInt();
 
-        RoomServiceType newService = new RoomServiceType(roomServiceDao.getAllRoomService().size() + 1, service, price);
+        RoomServiceType newService = new RoomServiceType(roomServiceDao.getAllRoomService().size(), service, price);
         roomServiceDao.addRoomService(newService);
     }
 
@@ -25,79 +25,75 @@ public class RoomServiceManager
 
         displayRoomService();
         System.out.print("Enter the Room Service ID to be updated: ");
-        int updateRoomServiceId = Input.GetInt();
+        int id = Input.GetInt();
 
-        for (int i = 0; i < roomServiceDao.getAllRoomService().size(); i++)
+        if (roomServiceDao.getAllRoomService().get(id - 1) != null)
         {
-            if (roomServiceDao.getAllRoomService().get(i).getId() == updateRoomServiceId)
+            System.out.println("Room Service to be updated: \n" +
+                    "Room Service Type: " + roomServiceDao.getAllRoomService().get(id - 1).getService() + "\n" +
+                    "Room Service Price: " + roomServiceDao.getAllRoomService().get(id - 1).getPrice());
+
+            RoomServiceType rst;
+
+            do
             {
-                System.out.println("Room Service to be updated: \n" +
-                        "Room Service Type: " + roomServiceDao.getAllRoomService().get(i).getService() + "\n" +
-                        "Room Service Price: " + roomServiceDao.getAllRoomService().get(i).getPrice());
+                System.out.println("\n\nEnter your choice:\n" +
+                        "1. Update Room Service Type\n" +
+                        "2. Update Room Service Price\n" +
+                        "0. Cancel");
 
-                RoomServiceType rst;
+                choice = Input.GetInt();
 
-                do
+                switch (choice)
                 {
-                    System.out.println("\n\nEnter your choice:\n" +
-                            "1. Update Room Service Type\n" +
-                            "2. Update Room Service Price\n" +
-                            "0. Cancel");
-
-                    choice = Input.GetInt();
-
-                    switch (choice)
-                    {
-                        case 1:
-                            System.out.print("Enter a new Room Service Type: ");
-                            String type = Input.GetString();
-                            rst = roomServiceDao.getAllRoomService().get(i);
-                            rst.setService(type);
-                            roomServiceDao.updateRoomService(rst);
-                            break;
-                        case 2:
-                            System.out.print("Enter a new Room Service Price: ");
-                            int price = Input.GetInt();
-                            rst = roomServiceDao.getAllRoomService().get(i);
-                            rst.setPrice(price);
-                            roomServiceDao.updateRoomService(rst);
-                            break;
-                        default:
-                            System.out.println("Invalid option! Enter again!");
-                            break;
-                    }
-                } while (choice != 0);
-            }
+                    case 1:
+                        System.out.print("Enter a new Room Service Type: ");
+                        String type = Input.GetString();
+                        rst = roomServiceDao.getAllRoomService().get(id - 1);
+                        rst.setService(type);
+                        roomServiceDao.updateRoomService(id - 1, rst);
+                        break;
+                    case 2:
+                        System.out.print("Enter a new Room Service Price: ");
+                        int price = Input.GetInt();
+                        rst = roomServiceDao.getAllRoomService().get(id - 1);
+                        rst.setPrice(price);
+                        roomServiceDao.updateRoomService(id - 1, rst);
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("Invalid option! Enter again!");
+                        break;
+                }
+            } while (choice != 0);
+        }
+        else
+        {
+            System.out.println("Room service not found.");
         }
     }
 
     public void removeRoomService()
     {
         roomServiceDao.displayRoomService();
-        System.out.print("Enter the room ID to be removed or press 0 to cancel : ");
-        int removeServiceId;
+        System.out.print("Enter the room service ID to be removed or press 0 to cancel : ");
+        int id;
 
         do
         {
-            removeServiceId = Input.GetInt();
+            id = Input.GetInt();
 
-            if (removeServiceId > roomServiceDao.getAllRoomService().size())
+            if (id > roomServiceDao.getAllRoomService().size())
                 System.out.print("Room service not found! Enter again : ");
             else
                 break;
-        } while (removeServiceId != 0);
+        } while (id != 0);
 
-        if (removeServiceId == 0)
+        if (id == 0)
             return;
 
-        for (int i = 0; i < roomServiceDao.getAllRoomService().size(); i++)
-        {
-            if (roomServiceDao.getAllRoomService().get(i).getId() == removeServiceId)
-            {
-                roomServiceDao.removeRoomService(roomServiceDao.getAllRoomService().get(i));
-                break;
-            }
-        }
+        roomServiceDao.removeRoomService(roomServiceDao.getAllRoomService().get(id - 1));
     }
 
     public void displayRoomService()
@@ -110,5 +106,8 @@ public class RoomServiceManager
         roomServiceDao.updateFile();
     }
 
-    public RoomServiceDaoImp getRoomServiceDao() { return (RoomServiceDaoImp)roomServiceDao; }
+    public RoomServiceDaoImp getRoomServiceDao()
+    {
+        return (RoomServiceDaoImp) roomServiceDao;
+    }
 }

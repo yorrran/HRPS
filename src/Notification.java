@@ -7,11 +7,20 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+/**
+ *
+ */
 public class Notification
 {
     private static final String user = "hrpsoodp@gmail.com";
     private static final String password = "cz2002oodp";
 
+    /**
+     *
+     * @param recipient
+     * @param subject
+     * @param body
+     */
     public static void Email(String recipient, String subject, String body)
     {
         Properties properties = System.getProperties();
@@ -41,12 +50,10 @@ public class Notification
             transport.connect(host, user, password);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-        }
-        catch (AddressException ae)
+        } catch (AddressException ae)
         {
             ae.printStackTrace();
-        }
-        catch (MessagingException me)
+        } catch (MessagingException me)
         {
             me.printStackTrace();
         }
