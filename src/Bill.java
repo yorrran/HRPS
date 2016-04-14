@@ -1,18 +1,19 @@
 import java.io.Serializable;
 
 /**
- *
+ * Bill is a  class that stores all the details of the room service ordered by a room.
  */
 public class Bill implements Serializable
 {
     private int billNum;
     private int roomNumber;
+    private double discount;
     private double roomCharge;
     private double roomServiceCharge;
-    private double discount;
     private static final double tax = 0.18;
 
     /**
+     * Class constructor specifying the bill number, room number. Room charge, room service charge and discount will be 0 when initialized.
      *
      * @param billNum
      * @param roomNumber
@@ -30,6 +31,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Getter.
      *
      * @return
      */
@@ -39,15 +41,7 @@ public class Bill implements Serializable
     }
 
     /**
-     *
-     * @param billNum
-     */
-    public void setBillNum(int billNum)
-    {
-        this.billNum = billNum;
-    }
-
-    /**
+     * Getter.
      *
      * @return
      */
@@ -57,6 +51,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Setter.
      *
      * @param roomNumber
      */
@@ -66,6 +61,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Getter.
      *
      * @return
      */
@@ -75,6 +71,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Setter.
      *
      * @param roomCharge
      */
@@ -84,6 +81,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Getter.
      *
      * @return
      */
@@ -93,6 +91,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Setter.
      *
      * @param roomServiceCharge
      */
@@ -102,6 +101,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Getter.
      *
      * @return
      */
@@ -112,6 +112,7 @@ public class Bill implements Serializable
 
 
     /**
+     * Getter.
      *
      * @return
      */
@@ -121,6 +122,7 @@ public class Bill implements Serializable
     }
 
     /**
+     * Setter.
      *
      * @param discount
      */

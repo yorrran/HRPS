@@ -1,15 +1,16 @@
 import java.util.Scanner;
 
 /**
- *
+ * A special class to read input from console with error handling.
  */
 public class Input
 {
     private static Scanner sc = new Scanner(System.in);
 
     /**
+     * Gets the integer value from input.
      *
-     * @return
+     * @return the input value of data type int
      */
     public static int GetInt()
     {
@@ -33,8 +34,9 @@ public class Input
     }
 
     /**
+     * Gets the double value from input.
      *
-     * @return
+     * @return the input value of data type double
      */
     public static double GetDouble()
     {
@@ -58,8 +60,9 @@ public class Input
     }
 
     /**
+     * Gets the long value from input.
      *
-     * @return
+     * @return the input value of data type long
      */
     public static long GetLong()
     {
@@ -83,8 +86,9 @@ public class Input
     }
 
     /**
+     * Gets the String value from input.
      *
-     * @return
+     * @return the input value of data type String
      */
     public static String GetString()
     {

@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Date;
 
 /**
- *
+ * OrderManager handles the room service ordering process.
  */
 public class OrderManager
 {
@@ -13,6 +13,7 @@ public class OrderManager
     private Scanner sc = new Scanner(System.in);
 
     /**
+     * Class constructor. Order data object is initialized here.
      *
      * @param billManager
      * @param roomServiceManager
@@ -25,8 +26,9 @@ public class OrderManager
     }
 
     /**
+     * Create a new order when a new guest checks in
      *
-     * @param roomNum
+     * @param roomNum room number of the guest that check-in
      */
     public void createOrder(int roomNum)
     {
@@ -34,7 +36,7 @@ public class OrderManager
     }
 
     /**
-     *
+     * Allows the user to add a new room service when the guest orders it.
      */
     public void addOrder()
     {
@@ -59,7 +61,7 @@ public class OrderManager
                 String newRemark = sc.nextLine();
 
                 Date date = new Date();
-                RoomServiceType newRoomService = roomServiceManager.getRoomServiceDao().getAllRoomService().get(roomServiceId - 1);
+                RoomService newRoomService = roomServiceManager.getRoomServiceDao().getAllRoomService().get(roomServiceId - 1);
                 orderDao.addRoomServicetoOrder(roomNum, date, newRoomService, newRemark, OrderStatus.OrderReceived);
 
                 billManager.updateRoomServiceCharge(roomNum, newRoomService.getPrice());
@@ -78,7 +80,7 @@ public class OrderManager
     }
 
     /**
-     *
+     * Allows the user to update the list of room service ordered.
      */
     public void updateOrder()
     {
@@ -146,8 +148,9 @@ public class OrderManager
     }
 
     /**
+     * Allows payment manager to remove the order when the guest checks out.
      *
-     * @param roomNum
+     * @param roomNum room number of which order is to be removed
      */
     public void removeOrder(int roomNum)
     {
@@ -159,7 +162,7 @@ public class OrderManager
     }
 
     /**
-     *
+     * Display all order of a specific room
      */
     public void displayOrderbyRoomNum()
     {
@@ -196,7 +199,7 @@ public class OrderManager
     }
 
     /**
-     *
+     * Display all order of all occupied room
      */
     public void displayAllOrder()
     {
@@ -226,7 +229,7 @@ public class OrderManager
     }
 
     /**
-     *
+     * Write the current list data to file.
      */
     public void WritetoFile()
     {
@@ -234,8 +237,9 @@ public class OrderManager
     }
 
     /**
+     * Returns the order data access object so that other manager class can access it.
      *
-     * @return
+     * @return order data access object
      */
     public OrderDaoImpl getOrderDao()
     {

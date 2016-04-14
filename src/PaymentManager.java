@@ -1,5 +1,5 @@
 /**
- *
+ * PaymentManager handles the payment process.
  */
 public class PaymentManager
 {
@@ -7,9 +7,10 @@ public class PaymentManager
     private OrderManager orderManager;
 
     /**
+     * Class constructor.
      *
-     * @param billManager
-     * @param orderManager
+     * @param billManager  bill manager to get the amount of charges
+     * @param orderManager to get the list of room service ordered
      */
     public PaymentManager(BillManager billManager, OrderManager orderManager)
     {
@@ -18,9 +19,10 @@ public class PaymentManager
     }
 
     /**
+     * This method is called when a guest check-out and pay for the stay.
      *
-     * @param roomNum
-     * @param days
+     * @param roomNum room number of the guest
+     * @param days    number of days the guest stayed in the room
      */
     public void pay(int roomNum, int days)
     {
@@ -43,9 +45,11 @@ public class PaymentManager
     }
 
     /**
+     * The total amount that the guest should pay is calculated.
+     * If the guest chooses to pay by credit card, the process will be automated.
      *
-     * @param roomNum
-     * @param days
+     * @param roomNum room number of the guest
+     * @param days    number of days the guest stayed in the room
      */
     public void byCreditCard(int roomNum, int days)
     {
@@ -86,9 +90,11 @@ public class PaymentManager
     }
 
     /**
+     * The total amount that the guest should pay is calculated.
+     * If the guest chooses to pay by cash, enter the amount of cash paid by the guest.
      *
-     * @param roomNum
-     * @param days
+     * @param roomNum the room number of the guest
+     * @param days    number of days the guest stayed in the room
      */
     public void byCash(int roomNum, int days)
     {
@@ -96,7 +102,8 @@ public class PaymentManager
         {
             if (billManager.getBillDao().getAllBill().get(i).getRoomNum() == roomNum)
             {
-                double total = billManager.getBillDao().getAllBill().get(i).getRoomCharge() + billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge();
+                double total = billManager.getBillDao().getAllBill().get(i).getRoomCharge() +
+                        billManager.getBillDao().getAllBill().get(i).getRoomServiceCharge();
                 double discount = total * billManager.getBillDao().getAllBill().get(i).getDiscount();
                 double taxable = billManager.getBillDao().getAllBill().get(i).getTax() * total;
                 double payable = total - discount + taxable;

@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- *
+ * Notification class to notify guests if today is their check-in day as a reminder.
  */
 public class Notification
 {
@@ -16,10 +16,11 @@ public class Notification
     private static final String password = "cz2002oodp";
 
     /**
+     * Sends an email to the the recipient email if internet connection is available.
      *
-     * @param recipient
-     * @param subject
-     * @param body
+     * @param recipient email of recipient
+     * @param subject   title of the email
+     * @param body      the body of the email
      */
     public static void Email(String recipient, String subject, String body)
     {

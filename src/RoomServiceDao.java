@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 
 /**
- *
+ * Interface for room service data access object.
  */
 public interface RoomServiceDao
 {
-    ArrayList<RoomServiceType> getAllRoomService();
+    ArrayList<RoomService> getAllRoomService();
 
-    void addRoomService(RoomServiceType rst);
+    void addRoomService(RoomService rst);
 
-    void updateRoomService(int index, RoomServiceType rst);
+    void updateRoomService(int index, RoomService rst);
 
-    void removeRoomService(RoomServiceType rst);
+    void removeRoomService(RoomService rst);
 
     void displayRoomService();
 

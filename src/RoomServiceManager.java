@@ -1,12 +1,21 @@
+/**
+ * RoomServiceManager handles the adding, removing, updating and displaying process of room services.
+ */
 public class RoomServiceManager
 {
     RoomServiceDao roomServiceDao;
 
+    /**
+     * Class constructor. Room service data object is initialized here.
+     */
     public RoomServiceManager()
     {
         roomServiceDao = new RoomServiceDaoImp();
     }
 
+    /**
+     * Allows user to add a new room service.
+     */
     public void addRoomService()
     {
         System.out.print("Enter Room Service Name: ");
@@ -15,10 +24,13 @@ public class RoomServiceManager
         System.out.print("Enter Room Service Price: ");
         int price = Input.GetInt();
 
-        RoomServiceType newService = new RoomServiceType(roomServiceDao.getAllRoomService().size(), service, price);
+        RoomService newService = new RoomService(roomServiceDao.getAllRoomService().size(), service, price);
         roomServiceDao.addRoomService(newService);
     }
 
+    /**
+     * Allow user to update the existing room services.
+     */
     public void updateRoomService()
     {
         int choice;
@@ -33,7 +45,7 @@ public class RoomServiceManager
                     "Room Service Type: " + roomServiceDao.getAllRoomService().get(id - 1).getService() + "\n" +
                     "Room Service Price: " + roomServiceDao.getAllRoomService().get(id - 1).getPrice());
 
-            RoomServiceType rst;
+            RoomService rst;
 
             do
             {
@@ -74,6 +86,9 @@ public class RoomServiceManager
         }
     }
 
+    /**
+     * Allows user to remove room services
+     */
     public void removeRoomService()
     {
         roomServiceDao.displayRoomService();
@@ -96,16 +111,27 @@ public class RoomServiceManager
         roomServiceDao.removeRoomService(roomServiceDao.getAllRoomService().get(id - 1));
     }
 
+    /**
+     * Display all room services available
+     */
     public void displayRoomService()
     {
         roomServiceDao.displayRoomService();
     }
 
+    /**
+     * Write the current list data to file.
+     */
     public void WritetoFile()
     {
         roomServiceDao.updateFile();
     }
 
+    /**
+     * Returns the room service data access object so that other manager class can access it.
+     *
+     * @return room service data access object
+     */
     public RoomServiceDaoImp getRoomServiceDao()
     {
         return (RoomServiceDaoImp) roomServiceDao;

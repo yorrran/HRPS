@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 
 /**
- *
+ * Room service data access object.
  */
 public class RoomServiceDaoImp implements RoomServiceDao
 {
-    private static final String fileName = "File/RoomServiceType.dat";
-    private static ArrayList<RoomServiceType> roomServiceList = new ArrayList<RoomServiceType>();
+    private static final String fileName = "File/RoomService.dat";
+    private static ArrayList<RoomService> roomServiceList = new ArrayList<RoomService>();
 
     /**
-     *
+     * Class constructor. Room service is loaded from data file.
      */
     public RoomServiceDaoImp()
     {
@@ -17,42 +17,45 @@ public class RoomServiceDaoImp implements RoomServiceDao
     }
 
     /**
+     * Add a new room service to the existing list.
      *
-     * @param rst
+     * @param roomService new room service
      */
     @Override
-    public void addRoomService(RoomServiceType rst)
+    public void addRoomService(RoomService roomService)
     {
-        roomServiceList.add(rst);
+        roomServiceList.add(roomService);
         System.out.println("Room Service Added Successfully! ");
     }
 
     /**
+     * Update a room service.
      *
-     * @param index
-     * @param rst
+     * @param index       index of room service to be updated
+     * @param roomService the room service to be updated
      */
     @Override
-    public void updateRoomService(int index, RoomServiceType rst)
+    public void updateRoomService(int index, RoomService roomService)
     {
-        roomServiceList.get(index).setService(rst.getService());
-        roomServiceList.get(index).setPrice(rst.getPrice());
+        roomServiceList.get(index).setService(roomService.getService());
+        roomServiceList.get(index).setPrice(roomService.getPrice());
         System.out.println("Room Service updated successfully!");
     }
 
     /**
+     * Remove a room service.
      *
-     * @param rst
+     * @param roomService the room service to be removed
      */
     @Override
-    public void removeRoomService(RoomServiceType rst)
+    public void removeRoomService(RoomService roomService)
     {
-        roomServiceList.remove(rst);
+        roomServiceList.remove(roomService);
         System.out.println("Room service removed!");
     }
 
     /**
-     *
+     * Display all room service available.
      */
     @Override
     public void displayRoomService()
@@ -69,17 +72,18 @@ public class RoomServiceDaoImp implements RoomServiceDao
     }
 
     /**
+     * Returns the list of room services so that manager class can access it.
      *
-     * @return
+     * @return list of room services
      */
     @Override
-    public ArrayList<RoomServiceType> getAllRoomService()
+    public ArrayList<RoomService> getAllRoomService()
     {
         return roomServiceList;
     }
 
     /**
-     *
+     * Write the current list data to file.
      */
     @Override
     public void updateFile()

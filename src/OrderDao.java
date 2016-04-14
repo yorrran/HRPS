@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
+ * Interface for order data access object.
  */
 public interface OrderDao
 {
@@ -10,7 +10,7 @@ public interface OrderDao
 
     void addOrder(Order order);
 
-    void addRoomServicetoOrder(int roomNum, Date date, RoomServiceType newRoomService, String newRemark, OrderStatus newStatus);
+    void addRoomServicetoOrder(int roomNum, Date date, RoomService newRoomService, String newRemark, OrderStatus newStatus);
 
     void removeOrder(Order rst);
 

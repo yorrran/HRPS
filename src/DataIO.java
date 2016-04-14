@@ -2,13 +2,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- *
+ * Read and write objects to data files.
  */
 public class DataIO
 {
     /**
+     * Returns an ArrayList of the object data read from the data file.
      *
-     * @param fileName
+     * @param fileName an absolute path giving the location of the data file
      * @return
      */
     public static ArrayList Read(String fileName)
@@ -38,9 +39,10 @@ public class DataIO
     }
 
     /**
+     * Writes an ArrayList of object data read into the data file.
      *
-     * @param fileName
-     * @param oList
+     * @param fileName an absolute path giving the location of the data file
+     * @param oList    an ArrayList of object to be written into the data file
      */
     public static void Write(String fileName, ArrayList oList)
     {

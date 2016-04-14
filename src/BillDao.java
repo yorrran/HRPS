@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Interface for bill data access object.
+ */
 public interface BillDao
 {
     ArrayList<Bill> getAllBill();

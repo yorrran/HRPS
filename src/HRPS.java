@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- *
+ * Main interface of the hotel reservation system.
  */
 class HRPS
 {
@@ -27,6 +27,7 @@ class HRPS
     private static PaymentManager paymentManager;
 
     /**
+     * Main method of the console application.
      *
      * @param args
      */
@@ -45,7 +46,7 @@ class HRPS
     }
 
     /**
-     *
+     * Main menu interface.
      */
     private static void mainMenu()
     {
@@ -84,7 +85,7 @@ class HRPS
     }
 
     /**
-     *
+     * Booking system interface. Calls the necessary methods from BookingManager.
      */
     private static void bookingMenu()
     {
@@ -126,7 +127,7 @@ class HRPS
     }
 
     /**
-     *
+     * Reservation system interface. Calls the necessary methods from ReservationManager.
      */
     private static void reservationMenu()
     {
@@ -169,7 +170,7 @@ class HRPS
     }
 
     /**
-     *
+     * Room system interface. Calls the necessary methods from RoomManager.
      */
     private static void roomMenu()
     {
@@ -217,7 +218,7 @@ class HRPS
     }
 
     /**
-     *
+     * Guest system interface. Calls the necessary methods from GuestManager.
      */
     private static void guestMenu()
     {
@@ -259,7 +260,7 @@ class HRPS
     }
 
     /**
-     *
+     * Room service system interface. Calls the necessary methods from RoomServiceManager.
      */
     private static void roomServiceMenu()
     {
@@ -292,7 +293,7 @@ class HRPS
     }
 
     /**
-     *
+     * Order room service system interface. Calls the necessary methods from OrderManager.
      */
     private static void orderRoomServiceMenu()
     {
@@ -325,7 +326,7 @@ class HRPS
     }
 
     /**
-     *
+     * Write all data to the data file before exiting the console application.
      */
     private static void exitApp()
     {
@@ -339,7 +340,7 @@ class HRPS
         bookingManager.WritetoFile();
         displayOutput("Program is exiting...\n");
 
-        // Delay the app from shutting down for feedback purposes
+        // Delay the app from shutting down for illustration purposes
         try
         {
             Thread.sleep(500);
@@ -352,8 +353,9 @@ class HRPS
     }
 
     /**
+     * Show the system messages for each systems.
      *
-     * @param s
+     * @param s the message to be displayed
      */
     private static void displayOutput(String s)
     {

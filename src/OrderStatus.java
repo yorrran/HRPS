@@ -1,9 +1,12 @@
+/**
+ * Class that specifies the status of an room service
+ */
 public enum OrderStatus
 {
     Delivered, Delivering, Preparing, OrderReceived;
 
     /**
-     *
+     * Display all the order room service
      */
     public static void displayOrderStatus()
     {
@@ -16,9 +19,10 @@ public enum OrderStatus
     }
 
     /**
+     * Returns the room service status based on user input.
      *
-     * @param statusNumber
-     * @return
+     * @param statusNumber the input value by user
+     * @return the order status
      */
     public static OrderStatus returnStatus(int statusNumber)
     {
