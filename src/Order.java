@@ -16,7 +16,7 @@ public class Order implements Serializable
     /**
      * Class constructor specifying the room it is attached to based on room number.
      *
-     * @param roomNumber specify which room does this order belongs to
+     * @param roomNumber The room number of the room this order belongs to.
      */
     public Order(int roomNumber)
     {
@@ -24,9 +24,9 @@ public class Order implements Serializable
     }
 
     /**
-     * Getter.
+     * Gets the room number of this order list.
      *
-     * @return the room number of this order list
+     * @return the room number of this order list.
      */
     public int getRoomNumber()
     {
@@ -34,9 +34,9 @@ public class Order implements Serializable
     }
 
     /**
-     * Getter.
+     * Gets the list of date of each room service ordered.
      *
-     * @return the list of date of each room service ordered
+     * @return the list of date of each room service ordered.
      */
     public ArrayList<Date> getDateList()
     {
@@ -44,9 +44,9 @@ public class Order implements Serializable
     }
 
     /**
-     * Getter.
+     * Gets the list of room service ordered.
      *
-     * @return the list of room service ordered
+     * @return the list of room service ordered.
      */
     public ArrayList<RoomService> getRoomServiceList()
     {
@@ -54,9 +54,9 @@ public class Order implements Serializable
     }
 
     /**
-     * Getter.
+     * Gets the list of remarks of each room service ordered.
      *
-     * @return
+     * @return the list of remarks of each room service.
      */
     public ArrayList<String> getRemarkList()
     {
@@ -64,9 +64,9 @@ public class Order implements Serializable
     }
 
     /**
-     * Getter.
+     * Gets the list of status of each room service ordered.
      *
-     * @return
+     * @return the list of status for each room service.
      */
     public ArrayList<OrderStatus> getStatusList()
     {

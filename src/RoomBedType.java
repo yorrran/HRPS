@@ -1,7 +1,23 @@
 public enum RoomBedType
 {
-    Single, Double, Master;
-
+	/**
+	 * The single bed.
+	 */
+    Single, 
+    
+    /**
+     * The double bed.
+     */
+    Double, 
+    
+    /**
+     * The master bed.
+     */
+    Master;
+    
+    /**
+     * Prints the room bed type. 
+     */
     public static void printRoomBedType()
     {
         int i = 1;
@@ -12,6 +28,11 @@ public enum RoomBedType
         }
     }
 
+    /**
+     * Gets room bed type by bed type number.
+     * @param bedTypeNum The bed type number.
+     * @return the room bed type.
+     */
     public static RoomBedType returnRoomBedType(int bedTypeNum)
     {
         switch (bedTypeNum)

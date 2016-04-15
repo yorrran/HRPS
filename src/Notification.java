@@ -8,57 +8,64 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * Notification class to notify guests if today is their check-in day as a reminder.
+ * Notification class to notify guests if today is their check-in day as a
+ * reminder.
  */
-public class Notification
-{
-    private static final String user = "hrpsoodp@gmail.com";
-    private static final String password = "cz2002oodp";
+public class Notification {
+	/**
+	 * The email address of sender.
+	 */
+	private static final String user = "hrpsoodp@gmail.com";
 
-    /**
-     * Sends an email to the the recipient email if internet connection is available.
-     *
-     * @param recipient email of recipient
-     * @param subject   title of the email
-     * @param body      the body of the email
-     */
-    public static void Email(String recipient, String subject, String body)
-    {
-        Properties properties = System.getProperties();
-        String host = "smtp.gmail.com";
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.user", user);
-        properties.put("mail.smtp.password", password);
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
+	/**
+	 * The email account password of the sender.
+	 */
+	private static final String password = "cz2002oodp";
 
-        Session session = Session.getDefaultInstance(properties);
-        MimeMessage message = new MimeMessage(session);
+	/**
+	 * Sends an email to the the recipient email if Internet connection is
+	 * available.
+	 * 
+	 * @param recipient
+	 *            The email of recipient.
+	 * @param subject
+	 *            The title of the email.
+	 * @param body
+	 *            The body of the email.
+	 */
+	public static void Email(String recipient, String subject, String body) {
+		Properties properties = System.getProperties();
+		String host = "smtp.gmail.com";
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.user", user);
+		properties.put("mail.smtp.password", password);
+		properties.put("mail.smtp.port", "587");
+		properties.put("mail.smtp.auth", "true");
 
-        System.out.println("Sending email...");
+		Session session = Session.getDefaultInstance(properties);
+		MimeMessage message = new MimeMessage(session);
 
-        try
-        {
-            message.setFrom(new InternetAddress(user));
-            InternetAddress recipientEmail = new InternetAddress(recipient);
-            message.addRecipient(Message.RecipientType.TO, recipientEmail);
+		System.out.println("Sending email...");
 
-            message.setSubject(subject);
-            message.setText(body);
+		try {
+			message.setFrom(new InternetAddress(user));
+			InternetAddress recipientEmail = new InternetAddress(recipient);
+			message.addRecipient(Message.RecipientType.TO, recipientEmail);
 
-            Transport transport = session.getTransport("smtp");
-            transport.connect(host, user, password);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        } catch (AddressException ae)
-        {
-            ae.printStackTrace();
-        } catch (MessagingException me)
-        {
-            me.printStackTrace();
-        }
+			message.setSubject(subject);
+			message.setText(body);
 
-        System.out.println("Email sent!");
-    }
+			Transport transport = session.getTransport("smtp");
+			transport.connect(host, user, password);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		} catch (AddressException ae) {
+			ae.printStackTrace();
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		}
+
+		System.out.println("Email sent!");
+	}
 }

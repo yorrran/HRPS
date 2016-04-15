@@ -3,24 +3,24 @@ import java.io.Serializable;
 public class RoomFacing implements Serializable
 {	
 	/**
-	 * The id of this facing
+	 * The id of this facing.
 	 */
     private int facingId;
     /**
-     * The type of this facing
+     * The type of this facing.
      */
     private String facingType;
     /**
-     * The price of this facing
+     * The price of this facing.
      */
     private double price;
 
     /**
-     * Creates a new facing
+     * Creates a new facing.
      * 
-     * @param id
-     * @param type
-     * @param price
+     * @param id The id of facing.
+     * @param type The facing type.
+     * @param price The price of facing.
      */
     public RoomFacing(int id, String type, double price)
     {
@@ -30,8 +30,8 @@ public class RoomFacing implements Serializable
     }
     
     /**
-     * Gets the facing id
-     * @return the facing id
+     * Gets the facing id.
+     * @return the facing id.
      */
     public int getFacingId()
     {
@@ -39,8 +39,8 @@ public class RoomFacing implements Serializable
     }
 
     /**
-     * Gets the facing type
-     * @return the facing type
+     * Gets the facing type.
+     * @return the facing type.
      */
     public String getFacingType()
     {
@@ -48,8 +48,8 @@ public class RoomFacing implements Serializable
     }
     
     /**
-     * Gets the facing price
-     * @return the facing price
+     * Gets the facing price.
+     * @return the facing price.
      */
     public double getPrice()
     {
@@ -57,8 +57,8 @@ public class RoomFacing implements Serializable
     }
     
     /**
-     * Changes the facing price
-     * @param price The facing price
+     * Changes the facing price.
+     * @param price The facing price.
      */
     public void setPrice(double price)
     {

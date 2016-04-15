@@ -1,65 +1,76 @@
 import java.io.Serializable;
 
 /**
- * RoomService is a class that stores all the details of the room service provided.
+ * RoomService is a class that stores all the details of the room service
+ * provided.
  */
-public class RoomService implements Serializable
-{
-    private int id;
-    private String service;
-    private double price;
+public class RoomService implements Serializable {
+	/**
+	 * The id of room service.
+	 */
+	private int id;
 
-    /**
-     * Class constructor specifying the room service name and its price.
-     *
-     * @param id
-     * @param service
-     * @param price
-     */
-    public RoomService(int id, String service, double price)
-    {
-        this.id = id;
-        this.service = service;
-        this.price = price;
-    }
+	/**
+	 * The name of the service.
+	 */
+	private String service;
 
-    /**
-     * Getter.
-     *
-     * @return
-     */
-    public String getService()
-    {
-        return service;
-    }
+	/**
+	 * The price of room service.
+	 */
+	private double price;
 
-    /**
-     * Setter.
-     *
-     * @param service
-     */
-    public void setService(String service)
-    {
-        this.service = service;
-    }
+	/**
+	 * Class constructor specifying the room service name and its price.
+	 * 
+	 * @param id
+	 *            The id of the room service.
+	 * @param service
+	 *            The name of the room service.
+	 * @param price
+	 *            The price of the room service.
+	 */
+	public RoomService(int id, String service, double price) {
+		this.id = id;
+		this.service = service;
+		this.price = price;
+	}
 
-    /**
-     * Getter.
-     *
-     * @return
-     */
-    public double getPrice()
-    {
-        return price;
-    }
+	/**
+	 * Gets the name of the service.
+	 * 
+	 * @return the name of the room service.
+	 */
+	public String getService() {
+		return service;
+	}
 
-    /**
-     * Setter.
-     *
-     * @param price
-     */
-    public void setPrice(double price)
-    {
-        this.price = price;
-    }
+	/**
+	 * Change the name of the room service.
+	 * 
+	 * @param service
+	 *            The new name of the room service.
+	 */
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	/**
+	 * Gets the price of the room service.
+	 * 
+	 * @return the price of the room service.
+	 */
+	public double getPrice() {
+		return price;
+	}
+
+	/**
+	 * Change the price of the room service.
+	 * 
+	 * @param price
+	 *            The new price of the room service.
+	 */
+	public void setPrice(double price) {
+		this.price = price;
+	}
 }

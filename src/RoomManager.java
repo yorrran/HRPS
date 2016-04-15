@@ -3,10 +3,13 @@ import java.util.Scanner;
 
 public class RoomManager
 {
+	/**
+	 * The room DAO.
+	 */
     private RoomDao roomDao;
     
     /**
-     * Create need room manager
+     * Create need room manager.
      */
     public RoomManager()
     {
@@ -14,7 +17,7 @@ public class RoomManager
     }
     
     /**
-     * Prints all the room details
+     * Prints all the room details.
      */
     public void displayAllRoom()
     {
@@ -40,7 +43,7 @@ public class RoomManager
     }
     
     /**
-     * Update room details
+     * Update room details.
      */
     public void updateRoom()
     {
@@ -84,8 +87,8 @@ public class RoomManager
     }
     
     /**
-     * Update the bed type of room
-     * @param room The room object
+     * Update the bed type of room.
+     * @param room The room object.
      */
     public void updateRoomBedType(Room room)
     {
@@ -103,8 +106,8 @@ public class RoomManager
     }
     
     /**
-     * Update wifi status of room
-     * @param room The room object
+     * Update wifi status of room.
+     * @param room The room object.
      */
     public void updateRoomWifi(Room room)
     {
@@ -130,8 +133,8 @@ public class RoomManager
     }
     
     /**
-     * Update smoking status of room
-     * @param room The room object
+     * Update smoking status of room.
+     * @param room The room object.
      */
     public void updateRoomSmoking(Room room)
     {
@@ -155,8 +158,8 @@ public class RoomManager
     }
     
     /**
-     * Update room status by staff
-     * @param room The room object
+     * Update room status by staff.
+     * @param room The room object.
      */
     public void updateRoomStatusByStaff(Room room)
     {
@@ -191,9 +194,9 @@ public class RoomManager
     }
     
     /**
-     * Update room status by system
-     * @param room The room object
-     * @param roomStatus The room status
+     * Update room status by system.
+     * @param room The room object.
+     * @param roomStatus The room status.
      */
     public void updateStatusBySystem(Room room, RoomStatus roomStatus)
     {
@@ -201,7 +204,7 @@ public class RoomManager
     }
     
     /**
-     * Prints all vacant room
+     * Prints all vacant room.
      */
     public void displayVacantRoom()
     {
@@ -235,7 +238,7 @@ public class RoomManager
     }
     
     /**
-     * Prints room status
+     * Prints room status.
      */
     public void displayStatusByRoom()
     {
@@ -269,7 +272,7 @@ public class RoomManager
     }
     
     /**
-     * Prints room type
+     * Prints room type.
      */
     public void displayRoomType()
     {
@@ -280,7 +283,7 @@ public class RoomManager
     }
     
     /**
-     * Creats room type
+     * Creates room type.
      */
     public void addRoomType()
     {
@@ -294,7 +297,7 @@ public class RoomManager
     }
     
     /**
-     * Update room price
+     * Update room price.
      */
     public void updateRoomPrice()
     {
@@ -320,7 +323,7 @@ public class RoomManager
     }
     
     /**
-     * Remove room type
+     * Remove room type.
      */
     public void removeRoomType()
     {
@@ -346,7 +349,7 @@ public class RoomManager
     }
 
     /**
-     * Prints room facing
+     * Prints room facing.
      */
     public void displayRoomFacing()
     {
@@ -358,7 +361,7 @@ public class RoomManager
     }
     
     /**
-     * Creates room facing
+     * Creates room facing.
      */
     public void addRoomFacing()
     {
@@ -372,7 +375,7 @@ public class RoomManager
     }
     
     /**
-     * Update room facing price
+     * Update room facing price.
      */
     public void updateFacingPrice()
     {
@@ -396,8 +399,8 @@ public class RoomManager
     }
     
     /**
-     * Prints specific room details
-     * @param roomNum The number of room
+     * Prints specific room details.
+     * @param roomNum The number of room.
      */
     public void displayRoom(int roomNum)
     {
@@ -416,9 +419,9 @@ public class RoomManager
     }
     
     /**
-     * Gets the room object
-     * @param roomNum The number of room
-     * @return
+     * Gets the room object.
+     * @param roomNum The number of room.
+     * @return the room object.
      */
     public Room getRoomByRoomNum(int roomNum)
     {
@@ -427,8 +430,8 @@ public class RoomManager
     }
     
     /**
-     * Gets all room objects
-     * @return
+     * Gets all room objects.
+     * @return all room objects.
      */
     public ArrayList<Room> getAllRoom()
     {
@@ -436,7 +439,7 @@ public class RoomManager
     }
     
     /**
-     * Writes room data
+     * Writes room data.
      */
     public void WritetoFile()
     {
@@ -444,8 +447,8 @@ public class RoomManager
     }
     
     /**
-     * Gets room DAO
-     * @return
+     * Gets room DAO.
+     * @return this DAO.
      */
     public RoomDaoImpl getRoomDao()
     {

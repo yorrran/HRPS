@@ -3,45 +3,45 @@ import java.io.Serializable;
 public class Room implements Serializable
 {
 	/**
-	 * The room number of this room
+	 * The room number of this room.
 	 */
     private int roomNumber;
     /**
-     * The type of this room 
+     * The type of this room.
      */
     private RoomType roomType;
     /**
-     * The bed type of this room
+     * The bed type of this room.
      */
     private RoomBedType bedType;
     /**
-     * The wifi status of this room
+     * The wifi status of this room.
      */
     private boolean wifi;
     /**
-     * The facing type of this room
+     * The facing type of this room.
      */
     private RoomFacing facing;
     /**
-     * The smoking status of this room
+     * The smoking status of this room.
      */
     private boolean smoking;
     /**
-     * The room status of this room
+     * The room status of this room.
      */
     private RoomStatus roomStatus;
     
     
     /**
-     * Creates a new room
+     * Creates a new room.
      * 
-     * @param roomNumber is the room number of this room
-     * @param roomType is the type of this room 
-     * @param bedType is the bed type of this room
-     * @param facing is the facing type of this room
-     * @param wifi is the wifi status of this room
-     * @param smoking is the smoking status of this room
-     * @param roomStatus is The room status of this room
+     * @param roomNumber is the room number of this room.
+     * @param roomType is the type of this room. 
+     * @param bedType is the bed type of this room.
+     * @param facing is the facing type of this room.
+     * @param wifi is the wifi status of this room.
+     * @param smoking is the smoking status of this room.
+     * @param roomStatus is The room status of this room.
      */
     public Room(int roomNumber, RoomType roomType, RoomBedType bedType, RoomFacing facing, boolean wifi, boolean smoking, RoomStatus roomStatus)
     {
@@ -55,8 +55,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the room number
-     * @return the room number
+     * Gets the room number.
+     * @return the room number.
      */
     public int getRoomNumber()
     {
@@ -64,8 +64,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Changes the room number
-     * @param roomNumber The room number
+     * Changes the room number.
+     * @param roomNumber The room number.
      */
     public void setRoomNumber(int roomNumber)
     {
@@ -73,8 +73,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the room type
-     * @return the room type
+     * Gets the room type.
+     * @return the room type.
      */
     public RoomType getRoomType()
     {
@@ -82,8 +82,8 @@ public class Room implements Serializable
     }
 
     /**
-     * Changes the room type
-     * @param roomType The room type
+     * Changes the room type.
+     * @param roomType The room type.
      */
     public void setRoomType(RoomType roomType)
     {
@@ -91,8 +91,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the bed type
-     * @return the bed type
+     * Gets the bed type.
+     * @return the bed type.
      */
     public RoomBedType getBedType()
     {
@@ -100,8 +100,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Changes the bed type
-     * @param bedType The bed type
+     * Changes the bed type.
+     * @param bedType The bed type.
      */
     public void setBedType(RoomBedType bedType)
     {
@@ -109,8 +109,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the wifi status
-     * @return the wifi status
+     * Gets the wifi status.
+     * @return the wifi status.
      */
     public boolean getWifi()
     {
@@ -118,8 +118,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Changes the wifi status
-     * @param wifi The wifi status
+     * Changes the wifi status.
+     * @param wifi The wifi status.
      */
     public void setWifi(boolean wifi)
     {
@@ -127,8 +127,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the facing 
-     * @return the facing 
+     * Gets the facing.
+     * @return the facing. 
      */
     public RoomFacing getFacing()
     {
@@ -136,8 +136,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Changes the facing
-     * @param facing The facing
+     * Changes the facing.
+     * @param facing The facing.
      */
     public void setFacing(RoomFacing facing)
     {
@@ -145,8 +145,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the smoking status
-     * @return the smoking status
+     * Gets the smoking status.
+     * @return the smoking status.
      */
     public boolean getSmoking()
     {
@@ -154,8 +154,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Changes the smoking status
-     * @param smoking The smoking status
+     * Changes the smoking status.
+     * @param smoking The smoking status.
      */
     public void setSmoking(boolean smoking)
     {
@@ -163,8 +163,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Gets the room status
-     * @return the room status
+     * Gets the room status.
+     * @return the room status.
      */
     public RoomStatus getRoomStatus()
     {
@@ -172,8 +172,8 @@ public class Room implements Serializable
     }
     
     /**
-     * Changes the room status
-     * @param roomStatus The room status
+     * Changes the room status.
+     * @param roomStatus The room status.
      */
     public void setRoomStatus(RoomStatus roomStatus)
     {

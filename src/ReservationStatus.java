@@ -1,8 +1,28 @@
 
 public enum ReservationStatus
 {
-    Confirmed, WaitingList, CheckedIn, Expired;
+	/**
+	 * The confirmed status.
+	 */
+    Confirmed, 
+    /**
+     * The waiting list status.
+     */
+    WaitingList, 
+    /**
+     * The checked in status.
+     */
+    CheckedIn, 
+    /**
+     * The expired status.
+     */
+    Expired;
 
+    /**
+     * Gets the reservation status by status number.
+     * @param statusNumber The status number.
+     * @return the reservation status.
+     */
     public static ReservationStatus returnStatus(int statusNumber)
     {
         switch (statusNumber)

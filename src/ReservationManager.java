@@ -7,19 +7,40 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class ReservationManager
-{
+{	
+	/**
+	 * The reservation DAO.
+	 */
     private ReservationDao reservationDao;
+    /**
+     * The room manager.
+     */
     private RoomManager roomManager;
+    /**
+     * The guest manager.
+     */
     private GuestManager guestManager;
+    /**
+     * The decimal format.
+     */
     private DecimalFormat twoint = new DecimalFormat("00");
+    /**
+     * The date format.
+     */
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    /**
+     * The date format.
+     */
     private SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
+    /**
+     * The avaiavle room list.
+     */
     private ArrayList<Room> availableRoomList = null;
     
     /**
-     * Creates the reservation manager
-     * @param roomManager The room manager
-     * @param guestManager The gurst manager
+     * Creates the reservation manager.
+     * @param roomManager The room manager.
+     * @param guestManager The guest manager.
      */
     public ReservationManager(RoomManager roomManager, GuestManager guestManager)
     {
@@ -32,7 +53,7 @@ public class ReservationManager
     }
     
     /**
-     * Email to guest as reminder of check in
+     * Email to guest as reminder of check in.
      */
     public void emailGuest()
     {
@@ -62,7 +83,7 @@ public class ReservationManager
     }
     
     /**
-     * Creates reservation
+     * Creates reservation.
      */
     public void addReservation()
     {
@@ -233,9 +254,9 @@ public class ReservationManager
     }
     
     /**
-     * Gets specific reservation by reservation code
-     * @param reservationCode The reservation code
-     * @return Gets the reservation
+     * Gets specific reservation by reservation code.
+     * @param reservationCode The reservation code.
+     * @return Gets the reservation.
      */
     public Reservation searchReservationbyReservationCode(String reservationCode)
     {
@@ -243,7 +264,7 @@ public class ReservationManager
     }
 
     /**
-     * Updates reservation
+     * Updates reservation.
      */
     public void updateReservation()
     {
@@ -304,19 +325,17 @@ public class ReservationManager
                         System.out.print("Enter number of children: ");
                         int numberOfChildren = Input.GetInt();
                         reservation.setReservationDatetime(reservationDatetime);
-                        reservation.setNumOfAdult(numberOfChildren);
+                        reservation.setNumOfChildren(numberOfChildren);
                         break;
                     default:
                         System.out.println("Update canceled.");
-
-
                 }
             }
         }
     }
     
     /**
-     * Prints all reservation details
+     * Prints all reservation details.
      */
     public void displayAllReservation()
     {
@@ -344,7 +363,7 @@ public class ReservationManager
     }
     
     /**
-     * Prints specific reservation
+     * Prints specific reservation.
      */
     public void displayReservationByCode()
     {
@@ -379,7 +398,7 @@ public class ReservationManager
     }
 
     /**
-     * Remove the reservation
+     * Remove the reservation.
      */
     public void removeReservation()
     {
@@ -403,8 +422,8 @@ public class ReservationManager
     }
     
     /**
-     * Gets the current time in string
-     * @return The current time in string
+     * Gets the current time in string.
+     * @return The current time in string.
      */
     private String getCurrentDateTime()
     {
@@ -422,7 +441,7 @@ public class ReservationManager
     }
     
     /**
-     * Makes reservation expired if user not check in after 3pm of the check in date
+     * Makes reservation expired if user not check in after 3pm of the check in date.
      */
     @SuppressWarnings("deprecation")
     public void makeReservationExpired()
@@ -451,14 +470,12 @@ public class ReservationManager
             if (current.compareTo(tempCheckInDate) >= 0 && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(4)) && !reservationDao.getAllReservation().get(i).getReservationStatus().equals(ReservationStatus.returnStatus(3)))
             {
                 reservationDao.getAllReservation().get(i).setReservationStatus(ReservationStatus.returnStatus(4));
-                //Room room = this.getRoomByRoomNum(reservationDao.getAllReservation().get(i).getRoom().getRoomNumber());
-                //this.updateStatusBySystem(room, RoomStatus.returnStatus(1));
             }
         }
     }
     
     /**
-     * Updates room status based on reservation records
+     * Updates room status based on reservation records.
      */
     public void updateRoomStatusByReservationList()
     {
@@ -489,8 +506,8 @@ public class ReservationManager
     }
     
     /**
-     * Prints the available rooms
-     * @param availableRoomList The available room objects
+     * Prints the available rooms.
+     * @param availableRoomList The available room objects.
      */
     public void displayAvailableRoom(ArrayList<Room> availableRoomList)
     {
@@ -529,10 +546,10 @@ public class ReservationManager
     }
     
     /**
-     * Updates available rooms 
-     * @param availableRoomList The available room objects
-     * @param checkInDate The check in date
-     * @param checkOutDate The check out date
+     * Updates available rooms.
+     * @param availableRoomList The available room objects.
+     * @param checkInDate The check in date.
+     * @param checkOutDate The check out date.
      */
     public void updateAvailableRoomList(ArrayList<Room> availableRoomList, Date checkInDate, Date checkOutDate)
     {
@@ -561,7 +578,7 @@ public class ReservationManager
     }
     
     /**
-     * Updates wait list of reservation
+     * Updates wait list of reservation.
      */
     public void updateWaitList()
     {
@@ -607,7 +624,7 @@ public class ReservationManager
     }
     
     /**
-     * Writes reservation data
+     * Writes reservation data.
      */
     public void WritetoFile()
     {
@@ -615,8 +632,8 @@ public class ReservationManager
     }
     
     /**
-     * Gets reservation DAO
-     * @return
+     * Gets reservation DAO.
+     * @return this DAO.
      */
     public ReservationDaoImpl getReservationDao()
     {

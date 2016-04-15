@@ -3,24 +3,24 @@ import java.io.Serializable;
 public class RoomType implements Serializable
 {
 	/**
-	 * The id of this room type
+	 * The id of this room type.
 	 */
     private int typeId;
     /**
-     * The name of this room type
+     * The name of this room type.
      */
     private String type;
     /**
-     * The price of this room type
+     * The price of this room type.
      */
     private double price;
     
     /**
-     * Creates a new room type
+     * Creates a new room type.
      * 
-     * @param id
-     * @param type
-     * @param price
+     * @param id The id of the room type.
+     * @param type The type of the room.
+     * @param price The price of the room.
      */
     public RoomType(int id, String type, double price)
     {
@@ -30,8 +30,8 @@ public class RoomType implements Serializable
     }
 
     /**
-     * Gets the room type id
-     * @return the room type id
+     * Gets the room type id.
+     * @return the room type id.
      */
     public int getTypeId()
     {
@@ -39,8 +39,8 @@ public class RoomType implements Serializable
     }
     
     /**
-     * Changes the room type id
-     * @param typeId The room type id
+     * Changes the room type id.
+     * @param typeId The room type id.
      */
     public void setTypeId(int typeId)
     {
@@ -48,8 +48,8 @@ public class RoomType implements Serializable
     }
     
     /**
-     * Gets the room type name
-     * @return the room type name
+     * Gets the room type name.
+     * @return the room type name.
      */
     public String getType()
     {
@@ -57,8 +57,8 @@ public class RoomType implements Serializable
     }
     
     /**
-     * Changes the room type name
-     * @param type The room type name
+     * Changes the room type name.
+     * @param type The room type name.
      */
     public void setType(String type)
     {
@@ -66,8 +66,8 @@ public class RoomType implements Serializable
     }
     
     /**
-     * Gets the room type price
-     * @return the room type price
+     * Gets the room type price.
+     * @return the room type price.
      */
     public double getPrice()
     {
@@ -75,8 +75,8 @@ public class RoomType implements Serializable
     }
     
     /**
-     * Changes the room type price
-     * @param price The room type price
+     * Changes the room type price.
+     * @param price The room type price.
      */
     public void setPrice(double price)
     {

@@ -1,39 +1,40 @@
 import java.util.ArrayList;
 
+
 public class RoomDaoImpl implements RoomDao
 {	
 	/**
-	 * 
+	 * The array list of room.
 	 */
     private ArrayList<Room> roomList = null;
     
     /**
-     * 
+     * The array list of room type.
      */
     private ArrayList<RoomType> roomTypeList = null;
     
     /**
-     * 
+     * The array list of room facing.
      */
     private ArrayList<RoomFacing> roomFacingList = null;
     
     /**
-     * 
+     * The file name of room data.
      */
     private static final String filename = "File/Room.dat";
     
     /**
-     * 
+     * The file name of room type data.
      */
     private static final String filename2 = "File/RoomType.dat";
     
     /**
-     * 
+     * The file name of room facing data.
      */
     private static final String filename3 = "File/RoomFacing.dat";
     
     /**
-     * Creates room DAO
+     * Creates room DAO.
      */
     public RoomDaoImpl()
     {
@@ -72,7 +73,11 @@ public class RoomDaoImpl implements RoomDao
         return this.roomFacingList;
     }
     
-    
+    /**
+     * Gets room object by room number.
+     * @param roomNum The room number
+     * @return the room object.
+     */
     public Room getRoomByRoomNum(int roomNum)
     {
         Room temp = null;
@@ -98,7 +103,8 @@ public class RoomDaoImpl implements RoomDao
     }
 
     /**
-     * 
+     * Creates room type.
+     * @param roomType The room type.
      */
     public void addRoomType(RoomType roomType)
     {
@@ -106,7 +112,8 @@ public class RoomDaoImpl implements RoomDao
     }
     
     /**
-     * 
+     * Creates room facing.
+     * @param roomFacing The room facing.
      */
     public void addRoomFacing(RoomFacing roomFacing)
     {
@@ -114,7 +121,8 @@ public class RoomDaoImpl implements RoomDao
     }
     
     /**
-     * 
+     * Removes room type.
+     * @param roomType The room type.
      */
     public void removeRoomType(RoomType roomType)
     {
@@ -127,7 +135,7 @@ public class RoomDaoImpl implements RoomDao
     }
     
     /**
-     * 
+     * Writes room data.
      */
     public void updateFile()
     {
