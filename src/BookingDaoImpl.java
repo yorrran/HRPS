@@ -24,7 +24,7 @@ public class BookingDaoImpl implements BookingDao
 
         for (int i = 0; i < bookingList.size(); i++)
         {
-            if (roomNum == bookingList.get(i).getRoom().roomNumber)
+            if (roomNum == bookingList.get(i).getRoom().getRoomNumber())
             {
                 temp = bookingList.get(i);
                 break;

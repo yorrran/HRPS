@@ -1,14 +1,40 @@
 import java.util.ArrayList;
 
 public class RoomDaoImpl implements RoomDao
-{
+{	
+	/**
+	 * 
+	 */
     private ArrayList<Room> roomList = null;
+    
+    /**
+     * 
+     */
     private ArrayList<RoomType> roomTypeList = null;
+    
+    /**
+     * 
+     */
     private ArrayList<RoomFacing> roomFacingList = null;
+    
+    /**
+     * 
+     */
     private static final String filename = "File/Room.dat";
+    
+    /**
+     * 
+     */
     private static final String filename2 = "File/RoomType.dat";
+    
+    /**
+     * 
+     */
     private static final String filename3 = "File/RoomFacing.dat";
-
+    
+    /**
+     * Creates room DAO
+     */
     public RoomDaoImpl()
     {
         try
@@ -21,22 +47,32 @@ public class RoomDaoImpl implements RoomDao
             ex.printStackTrace();
         }
     }
-
+    
+    /**
+     * Gets all room objects
+     */
     public ArrayList<Room> getAllRoom()
     {
         return this.roomList;
     }
-
+    
+    /**
+     * Gets all room type objects
+     */
     public ArrayList<RoomType> getAllRoomType()
     {
         return this.roomTypeList;
     }
-
+    
+    /**
+     * Gets all room facing objects
+     */
     public ArrayList<RoomFacing> getAllRoomFacing()
     {
         return this.roomFacingList;
     }
-
+    
+    
     public Room getRoomByRoomNum(int roomNum)
     {
         Room temp = null;
@@ -61,17 +97,25 @@ public class RoomDaoImpl implements RoomDao
         return temp;
     }
 
-
+    /**
+     * 
+     */
     public void addRoomType(RoomType roomType)
     {
         this.roomTypeList.add(roomType);
     }
-
+    
+    /**
+     * 
+     */
     public void addRoomFacing(RoomFacing roomFacing)
     {
         this.roomFacingList.add(roomFacing);
     }
-
+    
+    /**
+     * 
+     */
     public void removeRoomType(RoomType roomType)
     {
         this.roomTypeList.remove(roomType);
@@ -81,7 +125,10 @@ public class RoomDaoImpl implements RoomDao
             roomTypeList.get(i).setTypeId(i + 1);
         }
     }
-
+    
+    /**
+     * 
+     */
     public void updateFile()
     {
         DataIO.Write(filename, roomList);

@@ -15,7 +15,12 @@ public class ReservationManager
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
     private ArrayList<Room> availableRoomList = null;
-
+    
+    /**
+     * Creates the reservation manager
+     * @param roomManager The room manager
+     * @param guestManager The gurst manager
+     */
     public ReservationManager(RoomManager roomManager, GuestManager guestManager)
     {
         reservationDao = new ReservationDaoImpl();
@@ -25,7 +30,10 @@ public class ReservationManager
         makeReservationExpired();
         updateWaitList();
     }
-
+    
+    /**
+     * Email to guest as reminder of check in
+     */
     public void emailGuest()
     {
         Calendar digiClock = Calendar.getInstance();
@@ -52,7 +60,10 @@ public class ReservationManager
             }
         }
     }
-
+    
+    /**
+     * Creates reservation
+     */
     public void addReservation()
     {
         makeReservationExpired();
@@ -152,7 +163,7 @@ public class ReservationManager
                     room = roomManager.getRoomByRoomNum(roomNum);
                     for (int i = 0; i < availableRoomList.size(); i++)
                     {
-                        if (room.roomNumber == availableRoomList.get(i).getRoomNumber())
+                        if (room.getRoomNumber() == availableRoomList.get(i).getRoomNumber())
                         {
                             foundAvailableRoom = true;
                             break;
@@ -220,13 +231,20 @@ public class ReservationManager
 
         updateRoomStatusByReservationList();
     }
-
+    
+    /**
+     * Gets specific reservation by reservation code
+     * @param reservationCode The reservation code
+     * @return Gets the reservation
+     */
     public Reservation searchReservationbyReservationCode(String reservationCode)
     {
         return reservationDao.searchReservationByReservationCode(reservationCode);
     }
 
-
+    /**
+     * Updates reservation
+     */
     public void updateReservation()
     {
         System.out.print("Enter the reservation code to update reservation: ");
@@ -296,7 +314,10 @@ public class ReservationManager
             }
         }
     }
-
+    
+    /**
+     * Prints all reservation details
+     */
     public void displayAllReservation()
     {
         makeReservationExpired();
@@ -321,7 +342,10 @@ public class ReservationManager
             System.out.println("---------------------------------------");
         }
     }
-
+    
+    /**
+     * Prints specific reservation
+     */
     public void displayReservationByCode()
     {
         makeReservationExpired();
@@ -354,7 +378,9 @@ public class ReservationManager
         }
     }
 
-
+    /**
+     * Remove the reservation
+     */
     public void removeReservation()
     {
         makeReservationExpired();
@@ -375,7 +401,11 @@ public class ReservationManager
             }
         }
     }
-
+    
+    /**
+     * Gets the current time in string
+     * @return The current time in string
+     */
     private String getCurrentDateTime()
     {
         Calendar digiClock = Calendar.getInstance();
@@ -390,8 +420,10 @@ public class ReservationManager
                 .append(twoint.format(min)).append(twoint.format(sec)).toString();
         return currentDateTime;
     }
-
-    //make reservation expired if user not check in after 3pm of the check in date
+    
+    /**
+     * Makes reservation expired if user not check in after 3pm of the check in date
+     */
     @SuppressWarnings("deprecation")
     public void makeReservationExpired()
     {
@@ -424,7 +456,10 @@ public class ReservationManager
             }
         }
     }
-
+    
+    /**
+     * Updates room status based on reservation records
+     */
     public void updateRoomStatusByReservationList()
     {
         Calendar digiClock = Calendar.getInstance();
@@ -452,7 +487,11 @@ public class ReservationManager
             }
         }
     }
-
+    
+    /**
+     * Prints the available rooms
+     * @param availableRoomList The available room objects
+     */
     public void displayAvailableRoom(ArrayList<Room> availableRoomList)
     {
         int noOfVacant = 0, total = 0;
@@ -488,7 +527,13 @@ public class ReservationManager
             total = 0;
         }
     }
-
+    
+    /**
+     * Updates available rooms 
+     * @param availableRoomList The available room objects
+     * @param checkInDate The check in date
+     * @param checkOutDate The check out date
+     */
     public void updateAvailableRoomList(ArrayList<Room> availableRoomList, Date checkInDate, Date checkOutDate)
     {
         // Remove the unavailable room within the checkin and checkout date
@@ -514,7 +559,10 @@ public class ReservationManager
             checkInDate.setTime(time);
         }
     }
-
+    
+    /**
+     * Updates wait list of reservation
+     */
     public void updateWaitList()
     {
         ArrayList<Reservation> waitList = new ArrayList<Reservation>();
@@ -557,12 +605,19 @@ public class ReservationManager
             }
         }
     }
-
+    
+    /**
+     * Writes reservation data
+     */
     public void WritetoFile()
     {
         reservationDao.updateFile();
     }
-
+    
+    /**
+     * Gets reservation DAO
+     * @return
+     */
     public ReservationDaoImpl getReservationDao()
     {
         return (ReservationDaoImpl) reservationDao;

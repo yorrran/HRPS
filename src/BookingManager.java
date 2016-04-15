@@ -19,6 +19,16 @@ public class BookingManager
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private ArrayList<Room> availableRoomList = null;
 
+    /**
+     * Creates booking manager
+     * 
+     * @param guestManager The guest manager
+     * @param reservationManager The reservation manager
+     * @param roomManager The room manager
+     * @param billManager The bill manager
+     * @param orderManager The order manager
+     * @param paymentManager The payment manager
+     */
     public BookingManager(GuestManager guestManager, ReservationManager reservationManager, RoomManager roomManager, BillManager billManager,
                           OrderManager orderManager, PaymentManager paymentManager)
     {
@@ -30,7 +40,10 @@ public class BookingManager
         this.orderManager = orderManager;
         this.paymentManager = paymentManager;
     }
-
+    
+    /**
+     * Creates booking
+     */
     public void addBooking()
     {
 
@@ -69,7 +82,11 @@ public class BookingManager
             reservedCustomer(reservation_code);
         }
     }
-
+    
+    /**
+     * Check in for walk in customer
+     * @param cus_id The customer identity
+     */
     private void walkinCustomer(String cus_id)
     {
         Calendar digiClock = Calendar.getInstance();
@@ -145,7 +162,7 @@ public class BookingManager
                     room = roomManager.getRoomByRoomNum(roomNum);
                     for (int i = 0; i < availableRoomList.size(); i++)
                     {
-                        if (room.roomNumber == availableRoomList.get(i).getRoomNumber())
+                        if (room.getRoomNumber() == availableRoomList.get(i).getRoomNumber())
                         {
                             foundAvailableRoom = true;
                             break;
@@ -168,10 +185,10 @@ public class BookingManager
 
                 double price = (room.getRoomType().getPrice() + room.getFacing().getPrice());//get price for room type and facing type
                 Booking booking = new Booking(cus_id, room, price, checkInDate, checkOutDate, numberOfAdults, numberOfChildren);
-                billManager.createBill(room.roomNumber);
-                orderManager.createOrder(room.roomNumber);
+                billManager.createBill(room.getRoomNumber());
+                orderManager.createOrder(room.getRoomNumber());
                 bookingDao.addBooking(booking);
-                roomManager.getRoomByRoomNum(room.roomNumber).setRoomStatus(RoomStatus.returnStatus(2));
+                roomManager.getRoomByRoomNum(room.getRoomNumber()).setRoomStatus(RoomStatus.returnStatus(2));
 
                 String reservationCode = new StringBuilder().append(getCurrentDateTime()).append(cus_id).toString();
                 Reservation reservation = new Reservation(reservationCode, cus_id, room, price, checkInDate, checkInDate, checkOutDate,
@@ -181,7 +198,11 @@ public class BookingManager
                 break;
         }
     }
-
+    
+    /**
+     * Check in for reservation customer
+     * @param reservation_code The customer identity
+     */
     private void reservedCustomer(String reservation_code)
     {
         Reservation reservation = reservationManager.searchReservationbyReservationCode(reservation_code);
@@ -225,14 +246,14 @@ public class BookingManager
                 }
                 else
                 {
-                    Booking booking = new Booking(reservation.getIdentity(), roomManager.getRoomByRoomNum(reservation.getRoom().roomNumber),
+                    Booking booking = new Booking(reservation.getIdentity(), roomManager.getRoomByRoomNum(reservation.getRoom().getRoomNumber()),
                             reservation.getPrice(), reservation.getCheckInDatetime(),
                             reservation.getCheckOutDatetime(), reservation.getNumOfAdult(),
                             reservation.getNumOfAdult());
-                    roomManager.getRoomByRoomNum(reservation.getRoom().roomNumber).setRoomStatus(RoomStatus.returnStatus(2));
+                    roomManager.getRoomByRoomNum(reservation.getRoom().getRoomNumber()).setRoomStatus(RoomStatus.returnStatus(2));
                     reservation.setReservationStatus(ReservationStatus.returnStatus(3));
-                    billManager.createBill(reservation.getRoom().roomNumber);
-                    orderManager.createOrder(reservation.getRoom().roomNumber);
+                    billManager.createBill(reservation.getRoom().getRoomNumber());
+                    orderManager.createOrder(reservation.getRoom().getRoomNumber());
                     bookingDao.addBooking(booking);
                 }
             }
@@ -243,7 +264,11 @@ public class BookingManager
         }
     }
 
-
+    /**
+     * Updates booking
+     * @param roomNum The room number
+     * @param cus_id The customer identity
+     */
     public void updateBooking(int roomNum, String cus_id)
     {
         Calendar digiClock = Calendar.getInstance();
@@ -280,7 +305,7 @@ public class BookingManager
                 case 1:
                     for (int i = 0; i < bookingDao.getAllBooking().size(); i++)
                     {
-                        if (bookingDao.getAllBooking().get(i).getRoom().roomNumber == roomNum)
+                        if (bookingDao.getAllBooking().get(i).getRoom().getRoomNumber() == roomNum)
                         {
                             if (bookingDao.getAllBooking().get(i).getIdentity().equals(cus_id))
                             {
@@ -299,7 +324,7 @@ public class BookingManager
                                 Date startExtention = temp.getTime();
                                 for (int j = 0; j < reservationManager.getReservationDao().getAllReservation().size(); j++)
                                 {
-                                    if (reservationManager.getReservationDao().getAllReservation().get(j).getRoom().roomNumber == roomNum && !reservationManager.getReservationDao().getAllReservation().get(j).getIdentity().equals(cus_id))
+                                    if (reservationManager.getReservationDao().getAllReservation().get(j).getRoom().getRoomNumber() == roomNum && !reservationManager.getReservationDao().getAllReservation().get(j).getIdentity().equals(cus_id))
                                     {
                                         if (newCheckOutDays.after(reservationManager.getReservationDao().getAllReservation().get(j).getCheckInDatetime()) && newCheckOutDays.before(reservationManager.getReservationDao().getAllReservation().get(j).getCheckOutDatetime()))
                                         {
@@ -353,7 +378,11 @@ public class BookingManager
             }
         }
     }
-
+    
+    /**
+     * Prints specific booking details by room number
+     * @param roomNum The room number
+     */
     public void displaybookingByRoomNum(int roomNum)
     {
         Booking booking = bookingDao.searchBookingByRoomNum(roomNum);
@@ -378,7 +407,10 @@ public class BookingManager
             System.out.println("Booking not found!");
         }
     }
-
+    
+    /**
+     * Check out for customer
+     */
     public void checkOut()
     {
         Calendar digiClock = Calendar.getInstance();
@@ -437,7 +469,10 @@ public class BookingManager
                 break;
         }
     }
-
+    
+    /**
+     * Auto check out for customer
+     */
     public void autoCheckOut()
     {
         Calendar digiClock = Calendar.getInstance();
@@ -464,17 +499,27 @@ public class BookingManager
             }
         }
     }
-
+    
+    /**
+     * Prints booking details
+     */
     public void displayBooking()
     {
         bookingDao.displayBooking();
     }
-
+    
+    /**
+     * Writes booking data
+     */
     public void WritetoFile()
     {
         bookingDao.updateFile();
     }
-
+    
+    /**
+     * Gets the current time in string
+     * @return The current time in string
+     */
     private String getCurrentDateTime()
     {
         Calendar digiClock = Calendar.getInstance();

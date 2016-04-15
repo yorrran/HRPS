@@ -4,12 +4,18 @@ import java.util.Scanner;
 public class RoomManager
 {
     private RoomDao roomDao;
-
+    
+    /**
+     * Create need room manager
+     */
     public RoomManager()
     {
         roomDao = new RoomDaoImpl();
     }
-
+    
+    /**
+     * Prints all the room details
+     */
     public void displayAllRoom()
     {
         for (int i = 0; i < roomDao.getAllRoom().size(); i++)
@@ -32,7 +38,10 @@ public class RoomManager
             System.out.println("---------------------------------------");
         }
     }
-
+    
+    /**
+     * Update room details
+     */
     public void updateRoom()
     {
         Room room = null;
@@ -73,7 +82,11 @@ public class RoomManager
                 System.out.println("Update canceled.");
         }
     }
-
+    
+    /**
+     * Update the bed type of room
+     * @param room The room object
+     */
     public void updateRoomBedType(Room room)
     {
         RoomBedType.printRoomBedType();
@@ -88,7 +101,11 @@ public class RoomManager
         }
         room.setBedType(RoomBedType.returnRoomBedType(choiceOfBedType));
     }
-
+    
+    /**
+     * Update wifi status of room
+     * @param room The room object
+     */
     public void updateRoomWifi(Room room)
     {
         System.out.println("1. Enable Wifi");
@@ -111,7 +128,11 @@ public class RoomManager
             room.setWifi(false);
 
     }
-
+    
+    /**
+     * Update smoking status of room
+     * @param room The room object
+     */
     public void updateRoomSmoking(Room room)
     {
         System.out.println("1. Smoking");
@@ -132,7 +153,11 @@ public class RoomManager
         else
             room.setSmoking(false);
     }
-
+    
+    /**
+     * Update room status by staff
+     * @param room The room object
+     */
     public void updateRoomStatusByStaff(Room room)
     {
         System.out.println("Room status:");
@@ -164,12 +189,20 @@ public class RoomManager
             System.out.println("Room status updated\n");
         }
     }
-
+    
+    /**
+     * Update room status by system
+     * @param room The room object
+     * @param roomStatus The room status
+     */
     public void updateStatusBySystem(Room room, RoomStatus roomStatus)
     {
         room.setRoomStatus(roomStatus);
     }
-
+    
+    /**
+     * Prints all vacant room
+     */
     public void displayVacantRoom()
     {
         int noOfVacant = 0, total = 0;
@@ -200,7 +233,10 @@ public class RoomManager
             total = 0;
         }
     }
-
+    
+    /**
+     * Prints room status
+     */
     public void displayStatusByRoom()
     {
         System.out.println("\nVacant: ");
@@ -231,7 +267,10 @@ public class RoomManager
                 System.out.print(roomDao.getAllRoom().get(i).getRoomNumber() + ", ");
         System.out.println("");
     }
-
+    
+    /**
+     * Prints room type
+     */
     public void displayRoomType()
     {
         for (int i = 0; i < roomDao.getAllRoomType().size(); i++)
@@ -239,7 +278,10 @@ public class RoomManager
             System.out.println(roomDao.getAllRoomType().get(i).getTypeId() + ". " + roomDao.getAllRoomType().get(i).getType() + " Price $" + roomDao.getAllRoomType().get(i).getPrice());
         }
     }
-
+    
+    /**
+     * Creats room type
+     */
     public void addRoomType()
     {
         Scanner sc = new Scanner(System.in);
@@ -250,7 +292,10 @@ public class RoomManager
         RoomType newtype = new RoomType(roomDao.getAllRoomType().size() + 1, typeName, price);
         roomDao.addRoomType(newtype);
     }
-
+    
+    /**
+     * Update room price
+     */
     public void updateRoomPrice()
     {
         displayRoomType();
@@ -273,7 +318,10 @@ public class RoomManager
         }
 
     }
-
+    
+    /**
+     * Remove room type
+     */
     public void removeRoomType()
     {
         displayRoomType();
@@ -297,7 +345,9 @@ public class RoomManager
 
     }
 
-
+    /**
+     * Prints room facing
+     */
     public void displayRoomFacing()
     {
         for (int i = 0; i < roomDao.getAllRoomFacing().size(); i++)
@@ -306,7 +356,10 @@ public class RoomManager
                     " Price $" + roomDao.getAllRoomFacing().get(i).getPrice());
         }
     }
-
+    
+    /**
+     * Creates room facing
+     */
     public void addRoomFacing()
     {
         Scanner sc = new Scanner(System.in);
@@ -317,7 +370,10 @@ public class RoomManager
         RoomFacing facingtype = new RoomFacing(roomDao.getAllRoomFacing().size() + 1, facingName, price);
         roomDao.addRoomFacing(facingtype);
     }
-
+    
+    /**
+     * Update room facing price
+     */
     public void updateFacingPrice()
     {
         System.out.print("Select the facing type to update price: ");
@@ -338,7 +394,11 @@ public class RoomManager
             }
         }
     }
-
+    
+    /**
+     * Prints specific room details
+     * @param roomNum The number of room
+     */
     public void displayRoom(int roomNum)
     {
         Room r = roomDao.getRoomByRoomNum(roomNum);
@@ -354,23 +414,39 @@ public class RoomManager
                 ", Facing: " + r.getFacing().getFacingType() +
                 ", WIFI: " + isWifi + ", Smoking: " + isSmoking);
     }
-
+    
+    /**
+     * Gets the room object
+     * @param roomNum The number of room
+     * @return
+     */
     public Room getRoomByRoomNum(int roomNum)
     {
         Room r = roomDao.getRoomByRoomNum(roomNum);
         return r;
     }
-
+    
+    /**
+     * Gets all room objects
+     * @return
+     */
     public ArrayList<Room> getAllRoom()
     {
         return roomDao.getAllRoom();
     }
-
+    
+    /**
+     * Writes room data
+     */
     public void WritetoFile()
     {
         roomDao.updateFile();
     }
-
+    
+    /**
+     * Gets room DAO
+     * @return
+     */
     public RoomDaoImpl getRoomDao()
     {
         return (RoomDaoImpl) roomDao;

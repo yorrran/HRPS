@@ -4,12 +4,18 @@ public class GuestManager
 {
     GuestDao guestDao;
     Scanner sc = new Scanner(System.in);
-
+    
+    /**
+     * Creates guest manager
+     */
     public GuestManager()
     {
         guestDao = new GuestDaoImpl();
     }
-
+    
+    /**
+     * Prints all guest details
+     */
     public void displayAllGuest()
     {
         for (int i = 0; i < guestDao.getAllGuest().size(); i++)
@@ -27,7 +33,10 @@ public class GuestManager
                     "--------------------------------------------------");
         }
     }
-
+    
+    /**
+     * Creates guest
+     */
     public void addGuest()
     {
         boolean flag = true;
@@ -68,7 +77,10 @@ public class GuestManager
             guestDao.addGuest(newGuest);
         }
     }
-
+    
+    /**
+     * Updates guest
+     */
     public void updateGuest()
     {
         Boolean flag = false;
@@ -178,22 +190,37 @@ public class GuestManager
             }
         }
     }
-
+    
+    /**
+     * Prints guest by identity
+     * @param Identity The guest identity
+     */
     public void searchGuestbyId(String Identity)
     {
         guestDao.searchGuestbyId(Identity);
     }
-
+    
+    /**
+     * Prints guest by name
+     * @param name The guest name
+     */
     public void searchGuestbyName(String name)
     {
         guestDao.searchGuestbyName(name);
     }
-
+    
+    /**
+     * Write guest data
+     */
     public void WritetoFile()
     {
         guestDao.updateFile();
     }
-
+    
+    /**
+     * Gets guest DAO
+     * @return
+     */
     public GuestDao getGuestDao()
     {
         return (GuestDaoImpl) guestDao;

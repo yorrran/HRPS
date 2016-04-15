@@ -1,7 +1,27 @@
 public enum RoomStatus
-{
-    Vacant, Occupied, Reserved, UnderMaintenance;
-
+{	
+	/**
+	 * The vacant status
+	 */
+    Vacant,
+    /**
+     * The occupied status
+     */
+    Occupied,
+    /**
+     * The reserved status
+     */
+    Reserved,
+    /**
+     * The under maintenance status
+     */
+    UnderMaintenance;
+    
+    /**
+     * 
+     * @param statusNumber the number of status
+     * @return the name of status
+     */
     public static RoomStatus returnStatus(int statusNumber)
     {
         switch (statusNumber)
